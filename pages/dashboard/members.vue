@@ -26,22 +26,16 @@
 
     <!-- Filters Section -->
     <div class="admin-card py-4 flex flex-col sm:flex-row gap-4 items-stretch sm:items-center sm:justify-between">
-      <div class="flex gap-3 items-center flex-wrap">
-        <select class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[11px] font-bold text-slate-700 outline-none transition-all focus:border-[#003366]">
-          <option>All roles</option>
-          <option>Regular member</option>
-          <option>Fellow</option>
-          <option>Student</option>
-        </select>
-        <select class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-[11px] font-bold text-slate-700 outline-none transition-all focus:border-[#003366]">
-          <option>Active status</option>
-          <option>Active only</option>
-          <option>Inactive</option>
-        </select>
+      <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center w-full sm:w-auto">
+        <div class="w-full sm:w-40">
+          <SelectInput v-model="roleFilter" label="Role" :options="['All roles', 'Regular member', 'Fellow', 'Student']" />
+        </div>
+        <div class="w-full sm:w-40">
+          <SelectInput v-model="statusFilter" label="Status" :options="['Active status', 'Active only', 'Inactive']" />
+        </div>
       </div>
-      <div class="flex items-center gap-3 bg-slate-50 border border-slate-100 rounded-xl px-4 py-2.5 text-slate-400 w-full sm:w-auto focus-within:border-[#003366] transition-all">
-        <LucideSearch :size="16" class="shrink-0" />
-        <input v-model="searchQuery" type="text" placeholder="Search directory..." class="bg-transparent border-none text-[11px] font-bold w-full sm:w-64 outline-none placeholder:text-slate-300 min-w-0" />
+      <div class="w-full sm:w-64">
+        <AnimatedInput v-model="searchQuery" label="Search directory..." />
       </div>
     </div>
 
@@ -100,9 +94,13 @@
                 </td>
                 <td>
                   <div class="flex items-center gap-3">
-                    <button class="text-[#003366] hover:underline text-[10px] font-bold">Details</button>
+                    <button @click="viewDetails(member)" class="text-[#003366] hover:text-[#004080] transition-colors p-1" title="View Details">
+                      <LucideEye :size="16" />
+                    </button>
                     <div class="h-4 w-[1px] bg-slate-100"></div>
-                    <button @click="confirmRemove(member)" class="text-rose-500 hover:text-rose-600 text-[10px] font-bold">Remove</button>
+                    <button @click="confirmRemove(member)" class="text-rose-500 hover:text-rose-600 transition-colors p-1" title="Remove Member">
+                      <LucideTrash2 :size="16" />
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -130,23 +128,44 @@
       variant="danger"
       @confirm="handleRemoveMember"
     />
+
+    <!-- Member Details Slide-Over -->
+    <MemberDetailsModal
+      v-model="showDetailsModal"
+      :member="selectedMemberForDetails"
+    />
   </div>
 </template>
 
 <script setup>
-import { LucideSearch, LucideLoader2, LucideDownload, LucideUpload, LucideFileSpreadsheet, LucideUsers } from 'lucide-vue-next'
+import { LucideSearch, LucideLoader2, LucideDownload, LucideUpload, LucideFileSpreadsheet, LucideUsers, LucideEye, LucideTrash2 } from 'lucide-vue-next'
 import EmptyState from '@/components/core/EmptyState.vue'
 import ConfirmModal from '@/components/core/ConfirmModal.vue'
+import MemberDetailsModal from '@/components/core/MemberDetailsModal.vue'
+import AnimatedInput from '@/components/AnimatedInput.vue'
+import SelectInput from '@/components/SelectInput.vue'
 import { useGetMembers } from '@/composables/modules/members/useGetMembers'
 import { computed, onMounted, ref } from 'vue'
+import { useCustomToast } from '@/composables/core/useCustomToast'
 
 const { loading, members, getMembers } = useGetMembers()
+const { showToast } = useCustomToast()
 const api = useApi()
 const searchQuery = ref('')
+const roleFilter = ref('All roles')
+const statusFilter = ref('Active status')
 const fileInput = ref(null)
 const importing = ref(false)
 const showRemoveModal = ref(false)
 const selectedMember = ref(null)
+
+const showDetailsModal = ref(false)
+const selectedMemberForDetails = ref(null)
+
+const viewDetails = (member) => {
+  selectedMemberForDetails.value = member
+  showDetailsModal.value = true
+}
 
 const confirmRemove = (member) => {
   selectedMember.value = member
@@ -184,10 +203,10 @@ const handleFileUpload = async (event) => {
 
     if (error) throw new Error(error.message || 'Import failed')
 
-    alert(`Success: ${data.imported} members imported. ${data.skipped} skipped.`)
+    showToast({ title: 'Import Successful', message: `${data.imported} members imported. ${data.skipped} skipped.`, toastType: 'success' })
     getMembers()
   } catch (err) {
-    alert(err.message || 'An error occurred during import')
+    showToast({ title: 'Import Error', message: err.message || 'An error occurred during import', toastType: 'error' })
   } finally {
     importing.value = false
     if (fileInput.value) fileInput.value.value = ''

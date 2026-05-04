@@ -40,9 +40,7 @@
     </div>
 
     <!-- Loading State -->
-    <div v-if="loading" class="flex justify-center py-24">
-      <div class="animate-spin rounded-xl h-10 w-10 border-t-2 border-[#003366]"></div>
-    </div>
+    <Loader v-if="loading" message="Loading abstracts..." />
 
     <!-- Abstracts Table -->
     <div v-else class="admin-table-container overflow-x-auto">
@@ -77,14 +75,20 @@
             </td>
             <td>
               <div class="flex items-center gap-2 sm:gap-3">
-                <button class="text-[#003366] font-bold hover:underline text-xs">Review</button>
+                <button class="text-[#003366] font-bold hover:text-[#004080] transition-colors p-1" title="Review">
+                  <LucideEye :size="16" />
+                </button>
                 <div class="w-[1px] h-3 bg-slate-200"></div>
-                <button class="text-slate-400 font-bold hover:text-slate-600 text-xs hidden sm:block">Download</button>
+                <button class="text-slate-400 font-bold hover:text-slate-600 transition-colors p-1 hidden sm:block" title="Download">
+                  <LucideDownloadCloud :size="16" />
+                </button>
               </div>
             </td>
           </tr>
           <tr v-if="abstracts.length === 0">
-            <td colspan="5" class="py-20 text-center text-slate-400 font-medium italic text-sm">No research abstracts have been submitted yet.</td>
+            <td colspan="5" class="py-12">
+              <EmptyState title="No abstracts" message="No research abstracts have been submitted yet." :icon="LucideFileText" />
+            </td>
           </tr>
         </tbody>
       </table>
@@ -93,12 +97,17 @@
 </template>
 
 <script setup>
-import { LucideFilter, LucideDownload, LucideUpload, LucideLoader2, LucideFileSpreadsheet } from 'lucide-vue-next'
+import { LucideFilter, LucideDownload, LucideUpload, LucideLoader2, LucideFileSpreadsheet, LucideEye, LucideDownloadCloud } from 'lucide-vue-next'
 
 import { useGetAbstracts } from '@/composables/modules/abstracts/useGetAbstracts'
 import { onMounted, computed, ref } from 'vue'
+import { useCustomToast } from '@/composables/core/useCustomToast'
+import Loader from '@/components/core/Loader.vue'
+import EmptyState from '@/components/core/EmptyState.vue'
+import { LucideFileText } from 'lucide-vue-next'
 
 const { loading, abstracts, getAbstracts } = useGetAbstracts()
+const { showToast } = useCustomToast()
 const api = useApi()
 const importing = ref(false)
 const fileInput = ref(null)
@@ -127,10 +136,10 @@ const handleFileUpload = async (event) => {
     const { data, error } = await api.abstracts.import(formData)
     if (error) throw new Error(error.message || 'Import failed')
 
-    alert(`Success: Abstracts imported successfully.`)
+    showToast({ title: 'Import Successful', message: 'Abstracts imported successfully.', toastType: 'success' })
     getAbstracts()
   } catch (err) {
-    alert(err.message || 'An error occurred during import')
+    showToast({ title: 'Import Error', message: err.message || 'An error occurred during import', toastType: 'error' })
   } finally {
     importing.value = false
     if (fileInput.value) fileInput.value.value = ''

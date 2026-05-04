@@ -24,13 +24,7 @@
       <!-- Sidebar Header -->
       <div class="p-6 lg:p-8 flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 bg-[#003366] rounded-xl flex items-center justify-center text-white font-black shrink-0">
-            SC
-          </div>
-          <div class="truncate">
-            <h1 class="font-bold text-slate-800 text-[14px] leading-none">SCPSN Admin</h1>
-            <p class="text-[10px] text-slate-400 font-bold mt-1.5 opacity-60">Nexus portal</p>
-          </div>
+          <img src="@/assets/images/logo.jpeg" alt="Logo" class="w-10 h-10 object-contain" />
         </div>
         <button @click="sidebarOpen = false" class="lg:hidden p-2 -mr-2 text-slate-400 hover:text-slate-600 hover:bg-slate-50 rounded-lg transition-all">
           <LucideX :size="18" />
@@ -67,6 +61,18 @@
 
     <!-- Main Content Wrapper -->
     <div class="flex-1 flex flex-col h-full min-w-0 overflow-hidden relative">
+      <!-- Confirm Modal -->
+      <ConfirmModal
+        v-model="showLogoutModal"
+        title="End Admin Session"
+        message="Are you sure you want to securely log out of the admin panel? Your current session will be terminated."
+        confirmText="Logout"
+        variant="danger"
+        @confirm="handleLogout"
+      />
+      <!-- Global Search Modal -->
+      <GlobalSearchModal v-model="showGlobalSearch" />
+      
       <!-- Header -->
       <header class="h-16 lg:h-20 bg-white px-4 lg:px-8 flex justify-between items-center border-b border-slate-200 shrink-0 z-[90]">
         <!-- Left: Hamburger + Search -->
@@ -74,27 +80,28 @@
           <button @click="sidebarOpen = true" class="lg:hidden p-2 -ml-1 text-slate-500 hover:bg-slate-50 rounded-lg transition-colors shrink-0">
             <LucideMenu :size="20" />
           </button>
-          <div class="hidden sm:flex items-center gap-3 group max-w-md w-full ml-4">
-            <div class="text-slate-300 group-focus-within:text-[#003366] transition-colors shrink-0">
-              <LucideSearch :size="16" />
+          <button @click="showGlobalSearch = true" class="hidden sm:flex items-center justify-between gap-3 group max-w-md w-full ml-4 px-4 py-2 bg-slate-50 hover:bg-slate-100 rounded-xl transition-all border border-slate-100 focus:outline-none focus:ring-2 focus:ring-[#003366]/20">
+            <div class="flex items-center gap-3 w-full">
+              <LucideSearch :size="16" class="text-slate-400 group-hover:text-[#003366] transition-colors shrink-0" />
+              <span class="text-[12px] font-bold text-slate-400 group-hover:text-slate-600 transition-colors">Search system...</span>
             </div>
-            <input type="text" placeholder="Search system..." class="bg-transparent border-none focus:ring-0 text-[12px] font-bold text-slate-600 w-full placeholder:text-slate-300 min-w-0" />
-          </div>
+            <span class="text-[9px] font-bold text-slate-300 border border-slate-200 px-1.5 py-0.5 rounded shadow-sm bg-white shrink-0">⌘K</span>
+          </button>
         </div>
 
         <!-- Right: Actions -->
         <div class="flex items-center gap-3 lg:gap-6 shrink-0">
-          <button class="sm:hidden p-2 text-slate-500 hover:bg-slate-50 rounded-lg transition-colors">
+          <button @click="showGlobalSearch = true" class="sm:hidden p-2 text-slate-500 hover:bg-slate-50 rounded-lg transition-colors">
             <LucideSearch :size="18" />
           </button>
-          <button class="relative text-slate-400 p-2 hover:bg-slate-50 rounded-lg transition-colors">
+          <NuxtLink to="/dashboard/notifications" class="relative text-slate-400 p-2 hover:bg-slate-50 rounded-lg transition-colors">
             <LucideBell :size="18" />
-            <span class="absolute top-2.5 right-2.5 w-1.5 h-1.5 bg-[#003366] rounded-full border border-white"></span>
-          </button>
+            <span v-if="unreadCount > 0" class="absolute top-1.5 right-1.5 min-w-[16px] h-4 px-1 bg-rose-500 rounded-full border-2 border-white flex items-center justify-center text-[9px] text-white font-black">{{ unreadCount }}</span>
+          </NuxtLink>
 
           <div class="hidden sm:block h-6 w-px bg-slate-100"></div>
 
-          <div class="flex items-center gap-3 cursor-pointer group">
+          <NuxtLink to="/dashboard/settings" class="flex items-center gap-3 cursor-pointer group">
             <div class="text-right hidden md:block">
               <p class="text-[11px] font-bold text-slate-800">{{ user?.name || 'Admin user' }}</p>
               <p class="text-[10px] text-[#003366] font-bold opacity-60">Master admin</p>
@@ -102,7 +109,7 @@
             <div class="w-9 h-9 lg:w-10 lg:h-10 bg-slate-50 rounded-xl flex items-center justify-center text-[#003366] font-bold border border-slate-100 group-hover:bg-[#003366] group-hover:text-white transition-all text-sm">
               {{ user?.name ? user.name.charAt(0).toUpperCase() : 'A' }}
             </div>
-          </div>
+          </NuxtLink>
         </div>
       </header>
 
@@ -139,17 +146,37 @@ import {
   LucideMessagesSquare,
   LucideMenu,
   LucideShieldCheck,
+  LucideGlobe,
   LucideX
 } from 'lucide-vue-next'
 import ConfirmModal from '@/components/core/ConfirmModal.vue'
-import { ref, computed } from 'vue'
+import GlobalSearchModal from '@/components/core/GlobalSearchModal.vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useNotifications } from '@/composables/core/useNotifications'
 
 const { user, logout } = useAuth()
 const route = useRoute()
+const { unreadCount } = useNotifications()
 
 const sidebarOpen = ref(false)
 const showLogoutModal = ref(false)
+const showGlobalSearch = ref(false)
+
+const handleKeydown = (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault()
+    showGlobalSearch.value = true
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown)
+})
 
 const isChatRoute = computed(() => route.path === '/dashboard/chat')
 
@@ -165,6 +192,9 @@ const menuItems = [
   { label: 'Live Chat', to: '/dashboard/chat', icon: LucideMessagesSquare },
   { label: 'Forms Management', to: '/dashboard/forms', icon: LucideClipboardList },
   { label: 'Payments', to: '/dashboard/payments', icon: LucideCreditCard },
+  { label: 'Website Management', to: '/dashboard/cms-website', icon: LucideGlobe },
+  { label: 'Member Portal CMS', to: '/dashboard/cms-members', icon: LucideLayoutDashboard },
+  { label: 'Notifications', to: '/dashboard/notifications', icon: LucideBell },
   { label: 'Settings', to: '/dashboard/settings', icon: LucideSettings },
 ]
 

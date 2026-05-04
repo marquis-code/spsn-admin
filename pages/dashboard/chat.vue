@@ -15,13 +15,16 @@
             </button>
           </div>
         </div>
-        <div class="relative group mt-4">
-          <input 
+        <div class="mt-4">
+          <AnimatedInput 
             v-model="searchQuery" 
             placeholder="Search records..." 
-            class="w-full bg-slate-50 border border-slate-100 py-3.5 pl-12 pr-4 rounded-xl text-[11px] font-bold text-slate-600 focus:ring-0 focus:border-[#003366] outline-none transition-all placeholder:text-slate-300"
-          />
-          <LucideSearch :size="16" class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-[#003366] transition-colors" />
+            type="search"
+          >
+            <template #right>
+              <LucideSearch :size="16" class="text-slate-300" />
+            </template>
+          </AnimatedInput>
         </div>
       </div>
 
@@ -185,7 +188,7 @@
               >
                 <span class="block text-[9px] font-bold text-slate-400 leading-none">{{ res.category }}</span>
                 <span class="block text-[12px] font-bold text-slate-800">{{ res.label }}</span>
-                <span class="block text-[11px] text-slate-400 font-medium line-clamp-2 leading-relaxed italic opacity-70">"{{ res.text }}"</span>
+                <span class="block text-[11px] text-slate-400 font-medium line-clamp-2 leading-relaxed opacity-70">"{{ res.text }}"</span>
               </button>
             </div>
           </div>
@@ -217,20 +220,21 @@
               <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload" accept="image/*,.pdf,.doc,.docx" multiple />
             </div>
           
-          <div class="flex-1 relative group">
-            <textarea
-              v-model="replyText"
-              @keydown.enter.prevent="sendReply"
-              rows="1"
-              ref="inputRef"
-              placeholder="Type transmission..."
-              class="w-full bg-slate-50 border border-slate-100 py-3.5 px-6 pr-12 rounded-2xl text-[11px] font-bold text-slate-800 focus:ring-0 focus:border-[#003366] outline-none max-h-40 resize-none transition-all placeholder:text-slate-300"
-              @input="adjustTextareaHeight"
-            ></textarea>
+          <div class="flex-1 relative group flex items-center">
+            <div class="w-full">
+              <AnimatedInput
+                v-model="replyText"
+                @keydown.enter.prevent="sendReply"
+                type="textarea"
+                :rows="1"
+                placeholder="Type transmission..."
+                class="w-full !mb-0"
+              />
+            </div>
             
             <button 
               @click="showPredefined = !showPredefined"
-              :class="['absolute right-3 top-2.5 p-1.5 rounded-lg transition-all', showPredefined ? 'bg-[#003366] text-white' : 'text-[#003366] hover:bg-slate-100']"
+              :class="['absolute right-3 top-3 p-1.5 rounded-lg transition-all z-10', showPredefined ? 'bg-[#003366] text-white' : 'text-[#003366] hover:bg-slate-100']"
             >
               <LucideZap :size="16" />
             </button>
@@ -319,14 +323,17 @@ import {
   LucideVideoOff,
   LucideX as LucideClose 
 } from 'lucide-vue-next'
+import AnimatedInput from '@/components/AnimatedInput.vue'
 import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue'
 import { io } from 'socket.io-client'
+import { useCustomToast } from '@/composables/core/useCustomToast'
 
 definePageMeta({
   layout: false
 })
 
 const config = useRuntimeConfig()
+const { showToast } = useCustomToast()
 const apiBase = config.public.apiBase || 'http://localhost:3000/api'
 
 const socket = ref(null)
@@ -399,9 +406,7 @@ const scrollToBottom = () => {
 }
 
 const adjustTextareaHeight = () => {
-  if (!inputRef.value) return
-  inputRef.value.style.height = 'auto'
-  inputRef.value.style.height = inputRef.value.scrollHeight + 'px'
+  // AnimatedInput handles resizing internally or we don't need it if we fixed the height
 }
 
 const formatTime = (timestamp) => {
@@ -458,7 +463,7 @@ const handleFileUpload = (e) => {
 
   Array.from(files).forEach((file) => {
     if (file.size > 5 * 1024 * 1024) {
-      alert('File too large. Max 5MB allowed.')
+      showToast({ title: 'File Too Large', message: 'Maximum 5MB file size allowed.', toastType: 'warning' })
       return
     }
     const reader = new FileReader()
@@ -562,11 +567,4 @@ watch(selectedRoom, () => {
   background: rgba(0, 0, 0, 0.1);
 }
 
-textarea::-webkit-scrollbar {
-  width: 2px;
-}
-textarea::-webkit-scrollbar-thumb {
-  background: #003366;
-  border-radius: 10px;
-}
 </style>

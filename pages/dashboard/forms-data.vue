@@ -27,9 +27,7 @@
     </div>
 
     <!-- Loading State -->
-    <div v-if="loading" class="flex justify-center py-24">
-      <div class="animate-spin rounded-xl h-10 w-10 border-t-2 border-[#003366]"></div>
-    </div>
+    <Loader v-if="loading" message="Loading submissions..." />
 
     <!-- Submission Results Table -->
     <div v-else class="admin-table-container">
@@ -62,7 +60,9 @@
                 </td>
              </tr>
              <tr v-if="responses.length === 0">
-                <td colspan="3" class="py-20 text-center text-slate-400 font-medium italic text-sm">No submissions have been recorded for this form yet.</td>
+                <td colspan="3" class="py-12">
+                  <EmptyState title="No submissions" message="No submissions have been recorded for this form yet." :icon="LucideHistory" />
+                </td>
              </tr>
           </tbody>
        </table>
@@ -80,6 +80,8 @@ import {
 import { useGetFormResponses } from '@/composables/modules/forms/useGetFormResponses'
 import { onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import Loader from '@/components/core/Loader.vue'
+import EmptyState from '@/components/core/EmptyState.vue'
 
 const { loading, responses, getResponses } = useGetFormResponses()
 const route = useRoute()

@@ -212,7 +212,7 @@
               <AnimatedInput v-model="config.contactInfo.address" label="Global headquarters address" type="textarea" />
            </div>
            <div class="space-y-6 bg-slate-50/50 p-8 rounded-3xl border border-slate-100">
-              <h4 class="text-[11px] font-bold text-slate-400 mb-2 italic">Social infrastructure</h4>
+              <h4 class="text-[11px] font-bold text-slate-400 mb-2">Social infrastructure</h4>
               <AnimatedInput v-model="config.socialLinks.facebook" label="Corporate Facebook" />
               <AnimatedInput v-model="config.socialLinks.twitter" label="Enterprise X (Twitter)" />
               <AnimatedInput v-model="config.socialLinks.linkedin" label="LinkedIn professional network" />
@@ -279,7 +279,7 @@
           </div>
           <div class="space-y-2">
              <p class="font-bold text-slate-800">No content templates available</p>
-             <p class="text-xs text-slate-400 font-medium italic">Initialize a new template to streamline communications</p>
+             <p class="text-xs text-slate-400 font-medium">Initialize a new template to streamline communications</p>
           </div>
         </div>
       </div>
@@ -303,7 +303,7 @@
               <div class="space-y-6">
                  <div class="flex justify-between items-center">
                     <h4 class="text-sm font-bold text-slate-800 border-l-4 border-l-[#003366] pl-4">Historical leadership</h4>
-                    <button @click="addLeader" class="text-[11px] font-bold text-[#003366] hover:underline italic">Append leader</button>
+                    <button @click="addLeader" class="text-[11px] font-bold text-[#003366] hover:underline">Append leader</button>
                  </div>
                  <div class="grid grid-cols-1 gap-4">
                     <div v-for="(leader, i) in config.membershipSettings.leadership" :key="i" class="flex gap-4 items-center bg-slate-50 p-4 rounded-2xl border border-slate-100 group">
@@ -338,7 +338,7 @@
                     <AnimatedInput v-model="cp.phone" label="Mobile vector" />
                     <button @click="removeContactPerson(i)" class="text-slate-300 hover:text-rose-500 transition-colors"><LucideTrash2 :size="16" /></button>
                  </div>
-                 <button @click="addContactPerson" class="text-[11px] font-bold text-[#003366] hover:underline italic w-full text-center">Add protocol contact</button>
+                 <button @click="addContactPerson" class="text-[11px] font-bold text-[#003366] hover:underline w-full text-center">Add protocol contact</button>
               </div>
               <AnimatedInput v-model="config.membershipSettings.telegramLink" label="Telegram community URI" />
            </div>
@@ -352,7 +352,7 @@
            </div>
            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div v-for="(benefit, i) in config.membershipSettings.benefits" :key="i" class="flex gap-4 items-center bg-slate-50 p-4 rounded-2xl border border-slate-100 group transition-all hover:bg-white hover:shadow-md">
-                 <div class="w-8 h-8 rounded-lg bg-[#003366]/10 flex items-center justify-center text-[#003366] font-bold italic">{{ i + 1 }}</div>
+                 <div class="w-8 h-8 rounded-lg bg-[#003366]/10 flex items-center justify-center text-[#003366] font-bold">{{ i + 1 }}</div>
                  <AnimatedInput v-model="config.membershipSettings.benefits[i]" label="Strategic benefit" class="flex-1" />
                  <button @click="removeBenefit(i)" class="text-slate-300 hover:text-rose-500 transition-colors p-2"><LucideTrash2 :size="18" /></button>
               </div>
@@ -396,11 +396,11 @@
                   </div>
                 </td>
                 <td>
-                  <input 
+                  <AnimatedInput 
                     v-model="member.designation" 
                     placeholder="e.g. Board Chairman" 
-                    class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-xs font-bold w-full outline-none focus:border-[#003366] transition-all"
                     :disabled="!member.isBoardMember"
+                    position="middle"
                   />
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
@@ -415,8 +415,9 @@
                    <button 
                     @click="updateMemberBoardStatus(member)"
                     class="text-[11px] font-bold px-4 py-2 bg-[#003366]/5 text-[#003366] rounded-lg hover:bg-[#003366] hover:text-white transition-all"
+                    title="Apply changes"
                    >
-                     Apply
+                     <LucideCheck :size="16" />
                    </button>
                 </td>
               </tr>
@@ -449,11 +450,15 @@ import {
   LucideUserPlus,
   LucideAward,
   LucideCheckCircle,
-  LucideSend 
+  LucideSend,
+  LucideCheck
 } from 'lucide-vue-next'
+import AnimatedInput from '@/components/AnimatedInput.vue'
 import { ref, reactive, onMounted } from 'vue'
+import { useCustomToast } from '@/composables/core/useCustomToast'
 
 const api = useApi()
+const { showToast } = useCustomToast()
 const saving = ref(false)
 const activeTab = ref('general')
 
@@ -545,9 +550,9 @@ const updateMemberBoardStatus = async (member) => {
       isBoardMember: member.isBoardMember, 
       designation: member.designation 
     })
-    alert(`Board appointment updated for ${member.fullName}`)
+    showToast({ title: 'Update Successful', message: `Board appointment updated for ${member.fullName}`, toastType: 'success' })
   } catch (err) {
-    alert('Failed to update board appointment.')
+    showToast({ title: 'Update Failed', message: 'Failed to update board appointment.', toastType: 'error' })
   }
 }
 
@@ -555,9 +560,9 @@ const saveAllChanges = async () => {
   saving.value = true
   try {
     await api.cms.updateConfig({ ...config })
-    alert('Synchronization complete: Global configuration updated.')
+    showToast({ title: 'Synchronization Complete', message: 'Global configuration updated.', toastType: 'success' })
   } catch (err) {
-    alert('Synchronization failure: Unable to commit changes to the platform registry.')
+    showToast({ title: 'Synchronization Failure', message: 'Unable to commit changes to the platform registry.', toastType: 'error' })
   } finally {
     saving.value = false
   }

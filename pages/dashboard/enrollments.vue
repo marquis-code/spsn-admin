@@ -28,8 +28,11 @@
        </div>
     </div>
 
+    <!-- Loading State -->
+    <Loader v-if="loading" message="Loading enrollments..." />
+
     <!-- Queue Table -->
-    <div class="admin-table-container">
+    <div v-else class="admin-table-container">
        <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-white rounded-t-3xl">
           <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
             <LucideShieldCheck :size="18" class="text-brand-cyan" />
@@ -91,11 +94,22 @@
                 </td>
              </tr>
              <tr v-if="pendingEnrollments.length === 0">
-                <td colspan="6" class="py-24 text-center text-slate-400 font-bold italic text-sm">The verification queue is currently empty.</td>
+                <td colspan="6" class="py-12">
+                  <EmptyState title="No pending enrollments" message="The verification queue is currently empty." :icon="LucideClipboardList" />
+                </td>
              </tr>
           </tbody>
        </table>
     </div>
+
+    <ConfirmModal
+      v-model="showVerifyModal"
+      :title="selectedStatus === 'Verified' ? 'Approve Protocol' : 'Reject Protocol'"
+      :message="selectedStatus === 'Verified' ? `Approve ${selectedMember?.fullName}'s enrollment protocol?` : `Reject ${selectedMember?.fullName}'s submission?`"
+      :confirm-text="selectedStatus === 'Verified' ? 'Approve' : 'Reject'"
+      :variant="selectedStatus === 'Verified' ? 'default' : 'danger'"
+      @confirm="handleVerify"
+    />
   </div>
 </template>
 
@@ -107,11 +121,21 @@ import {
   LucideCheck, 
   LucideX 
 } from 'lucide-vue-next'
+import ConfirmModal from '@/components/core/ConfirmModal.vue'
 import { useGetMembers } from '@/composables/modules/members/useGetMembers'
 import { computed, onMounted } from 'vue'
+import { useCustomToast } from '@/composables/core/useCustomToast'
+import Loader from '@/components/core/Loader.vue'
+import EmptyState from '@/components/core/EmptyState.vue'
+import { LucideClipboardList } from 'lucide-vue-next'
 
 const { loading, members, getMembers } = useGetMembers()
+const { showToast } = useCustomToast()
 const api = useApi()
+
+const showVerifyModal = ref(false)
+const selectedMember = ref(null)
+const selectedStatus = ref('')
 
 const pendingEnrollments = computed(() => {
   return members.value.filter(m => m.enrollmentInfo?.paymentStatus === 'Pending')
@@ -120,22 +144,30 @@ const pendingEnrollments = computed(() => {
 const newRegistrantsCount = computed(() => pendingEnrollments.value.filter(m => m.enrollmentInfo?.membershipType === 'New').length)
 const renewalsCount = computed(() => pendingEnrollments.value.filter(m => m.enrollmentInfo?.membershipType === 'Renewal').length)
 
-const verifyEnrollment = async (member, status) => {
-  const confirmMsg = status === 'Verified' 
-    ? `Approve ${member.fullName}'s enrollment protocol?` 
-    : `Reject ${member.fullName}'s submission?`
-  
-  if (!confirm(confirmMsg)) return
+const verifyEnrollment = (member, status) => {
+  selectedMember.value = member
+  selectedStatus.value = status
+  showVerifyModal.value = true
+}
+
+const handleVerify = async () => {
+  if (!selectedMember.value) return
+
+  const member = selectedMember.value
+  const status = selectedStatus.value
 
   try {
     await api.members.update(member._id, {
       'enrollmentInfo.paymentStatus': status,
       isActive: status === 'Verified'
     })
-    alert(`Protocol ${status === 'Verified' ? 'Authenticated' : 'Rejected'}.`)
+    showToast({ title: 'Protocol Executed', message: `Protocol ${status === 'Verified' ? 'Authenticated' : 'Rejected'}.`, toastType: 'success' })
     getMembers()
   } catch (e) {
-    alert('Verification protocol failure.')
+    showToast({ title: 'Protocol Failure', message: 'Verification protocol failure.', toastType: 'error' })
+  } finally {
+    showVerifyModal.value = false
+    selectedMember.value = null
   }
 }
 

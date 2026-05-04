@@ -1,25 +1,25 @@
 <template>
   <div class="space-y-6">
     <!-- Page Header -->
-    <div class="flex justify-between items-center px-1">
+    <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 px-1">
       <div>
-        <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Financial Audit & Payments</h2>
-        <p class="text-sm text-slate-500 font-medium">Monitor and manage institutional financial transactions and membership dues.</p>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">Financial Audit & Payments</h2>
+        <p class="text-[11px] sm:text-sm text-slate-500 font-medium">Monitor and manage institutional financial transactions and membership dues.</p>
       </div>
-      <div class="flex gap-3">
-         <button @click="getPayments" class="btn-outline-admin px-5">
+      <div class="flex gap-2 sm:gap-3 flex-wrap">
+         <button @click="getPayments" class="btn-outline-admin px-4 sm:px-5">
            <LucideRefreshCw :size="14" :class="['mr-2', loading ? 'animate-spin' : '']" />
-           Sync records
+           Sync
          </button>
-         <button @click="triggerExport" class="btn-outline-admin px-5">
+         <button @click="triggerExport" class="btn-outline-admin px-4 sm:px-5">
            <LucideDownload :size="14" class="mr-2" />
            Export
          </button>
-         <button @click="triggerDownloadTemplate" class="text-slate-600 hover:text-[#003366] hover:bg-slate-50 border border-slate-200 rounded-xl px-4 sm:px-5 flex items-center gap-1.5 transition-all text-[11px] font-bold">
+         <button @click="triggerDownloadTemplate" class="text-slate-600 hover:text-[#003366] hover:bg-slate-50 border border-slate-200 rounded-xl px-3 sm:px-5 flex items-center gap-1.5 transition-all text-[11px] font-bold">
            <LucideFileSpreadsheet :size="14" />
            Template
          </button>
-         <button @click="triggerFileInput" class="btn-premium px-5" :disabled="importing">
+         <button @click="triggerFileInput" class="btn-premium px-4 sm:px-5" :disabled="importing">
            <LucideLoader2 v-if="importing" class="w-4 h-4 animate-spin mr-2" />
            <LucideUpload v-else :size="14" class="mr-2" />
            Import
@@ -30,28 +30,27 @@
     </div>
 
     <!-- Financial Performance Summary -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-       <div v-for="stat in financialStats" :key="stat.label" class="admin-card flex flex-col items-center py-10 group hover:border-[#003366] transition-all duration-300">
-          <span class="text-[11px] font-bold text-slate-400 mb-3">{{ stat.label }}</span>
-          <span class="text-3xl font-bold text-slate-800 group-hover:text-[#003366] transition-colors">{{ stat.value }}</span>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+       <div v-for="stat in financialStats" :key="stat.label" class="admin-card flex flex-col items-center py-8 sm:py-10 group hover:border-[#003366] transition-all duration-300">
+          <span class="text-[10px] sm:text-[11px] font-bold text-slate-400 mb-3">{{ stat.label }}</span>
+          <span class="text-2xl sm:text-3xl font-bold text-slate-800 group-hover:text-[#003366] transition-colors">{{ stat.value }}</span>
           <div class="w-8 h-[2px] bg-slate-100 mt-4 group-hover:w-12 group-hover:bg-[#003366] transition-all"></div>
        </div>
     </div>
 
     <!-- Loading State -->
-    <div v-if="loading" class="flex justify-center py-24">
-      <div class="animate-spin rounded-xl h-10 w-10 border-t-2 border-[#003366]"></div>
-    </div>
+    <Loader v-if="loading" message="Loading transactions..." />
 
     <!-- Transaction Ledger Table -->
-    <div v-else class="admin-table-container">
-       <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-white rounded-t-3xl">
-          <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
+    <div v-else class="admin-card !p-0 overflow-hidden">
+       <div class="px-6 sm:px-8 py-5 sm:py-6 border-b border-slate-100 flex flex-col sm:flex-row justify-between sm:items-center gap-3 bg-white rounded-t-3xl">
+          <h3 class="font-bold text-slate-800 text-sm sm:text-base flex items-center gap-2">
             <LucideCreditCard :size="18" class="text-[#003366]" />
             Recent transaction history
           </h3>
-          <span class="text-[11px] text-slate-400 font-bold">{{ payments.length }} Transactions Found</span>
+          <span class="text-[10px] sm:text-[11px] text-slate-400 font-bold">{{ payments.length }} Transactions Found</span>
        </div>
+       <div class="overflow-x-auto">
        <table class="admin-table">
           <thead>
              <tr>
@@ -91,10 +90,13 @@
                 </td>
              </tr>
              <tr v-if="payments.length === 0">
-                <td colspan="7" class="py-20 text-center text-slate-400 font-medium italic text-sm">No recorded transactions found in the financial ledger.</td>
+                <td colspan="7" class="py-12">
+                  <EmptyState title="No transactions" message="No recorded transactions found in the financial ledger." :icon="LucideCreditCard" />
+                </td>
              </tr>
           </tbody>
-       </table>
+        </table>
+       </div>
     </div>
   </div>
 </template>
@@ -112,8 +114,12 @@ import {
 
 import { useGetPayments } from '@/composables/modules/payments/useGetPayments'
 import { onMounted, computed, ref } from 'vue'
+import { useCustomToast } from '@/composables/core/useCustomToast'
+import Loader from '@/components/core/Loader.vue'
+import EmptyState from '@/components/core/EmptyState.vue'
 
 const { loading, payments, getPayments } = useGetPayments()
+const { showToast } = useCustomToast()
 const api = useApi()
 const importing = ref(false)
 const fileInput = ref(null)
@@ -142,10 +148,10 @@ const handleFileUpload = async (event) => {
     const { error } = await api.payments.import(formData)
     if (error) throw new Error(error.message || 'Import failed')
 
-    alert(`Success: Payments imported successfully.`)
+    showToast({ title: 'Import Successful', message: 'Payments imported successfully.', toastType: 'success' })
     getPayments()
   } catch (err) {
-    alert(err.message || 'An error occurred during import')
+    showToast({ title: 'Import Error', message: err.message || 'An error occurred during import', toastType: 'error' })
   } finally {
     importing.value = false
     if (fileInput.value) fileInput.value.value = ''

@@ -20,7 +20,7 @@
           <LucideUpload v-else :size="14" class="mr-2" />
           Import
         </button>
-        <button class="bg-[#003366] hover:bg-[#004080] text-white px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-sm">
+        <button @click="openSlideOver()" class="bg-[#003366] hover:bg-[#004080] text-white px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-sm">
           <LucidePlus :size="14" />
           New conference
         </button>
@@ -30,9 +30,7 @@
     </div>
 
     <!-- Loading State -->
-    <div v-if="loading" class="flex justify-center py-24">
-      <div class="animate-spin rounded-xl h-10 w-10 border-t-2 border-[#003366]"></div>
-    </div>
+    <Loader v-if="loading" message="Loading conferences..." />
 
     <!-- Conferences Grid -->
     <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -62,32 +60,133 @@
           </div>
           
           <div class="pt-5 border-t border-slate-100 flex justify-between items-center">
-             <div class="flex gap-4">
-                <button class="text-xs font-bold text-[#003366] hover:underline">Edit</button>
-                <div class="w-[1px] h-3 bg-slate-200"></div>
-                <button class="text-xs font-bold text-slate-400 hover:text-slate-600 transition-colors">Abstracts</button>
+              <div class="flex gap-4">
+                <button @click="openSlideOver(conf)" class="text-xs font-bold text-[#003366] hover:text-[#004080] transition-colors p-1" title="Edit Conference">
+                   <LucideEdit :size="16" />
+                </button>
+                <div class="w-[1px] h-3 bg-slate-200 mt-1.5"></div>
+                <button class="text-xs font-bold text-slate-400 hover:text-slate-600 transition-colors p-1" title="Manage Abstracts">
+                   <LucideFileText :size="16" />
+                </button>
              </div>
-             <button class="text-xs font-bold text-rose-500 hover:underline">Archive</button>
+             <button class="text-xs font-bold text-rose-500 hover:text-rose-600 transition-colors p-1" title="Archive">
+                <LucideArchive :size="16" />
+             </button>
           </div>
         </div>
       </div>
       
       <!-- Empty State -->
-      <div v-if="conferences.length === 0" class="col-span-full py-20 bg-white border border-slate-200 border-dashed rounded-3xl text-center text-slate-400 font-medium italic text-sm">No scheduled conferences were found in the database.</div>
+      <div class="col-span-full" v-if="conferences.length === 0">
+        <EmptyState title="No conferences" message="No scheduled conferences were found in the database." :icon="LucideCalendar" />
+      </div>
     </div>
+
+    <!-- Slide Over for Create/Edit -->
+    <SlideOver
+      v-model="showSlideOver"
+      :title="isEditing ? 'Edit Conference' : 'New Conference'"
+      :subtitle="isEditing ? 'Update existing conference details' : 'Create a new scheduled conference'"
+      size="lg"
+    >
+      <div class="space-y-6">
+        <AnimatedInput v-model="formData.title" label="Conference Title" />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+           <AnimatedInput v-model="formData.date" label="Date" type="date" />
+           <SelectInput v-model="formData.status" label="Status" :options="['Active', 'Upcoming', 'Completed', 'Cancelled']" />
+        </div>
+        <AnimatedInput v-model="formData.location" label="Location / Venue" />
+        <ImageUpload v-model="formData.image" label="Cover Image" />
+        <AnimatedInput v-model="formData.description" label="Conference Description" type="textarea" :rows="4" />
+      </div>
+
+      <template #footer>
+        <div class="flex gap-3 justify-end w-full">
+          <button @click="showSlideOver = false" class="px-5 py-2.5 text-sm font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-all">Cancel</button>
+          <button @click="saveConference" :disabled="saving" class="px-5 py-2.5 text-sm font-bold text-white bg-[#003366] hover:bg-[#002855] rounded-xl transition-all flex items-center gap-2">
+            <LucideLoader2 v-if="saving" class="w-4 h-4 animate-spin" />
+            <LucideSave v-else class="w-4 h-4" />
+            Save Conference
+          </button>
+        </div>
+      </template>
+    </SlideOver>
   </div>
 </template>
 
 <script setup>
-import { LucidePlus, LucideCalendar, LucideMapPin, LucideUsers, LucideDownload, LucideUpload, LucideLoader2, LucideFileSpreadsheet } from 'lucide-vue-next'
+import { LucidePlus, LucideCalendar, LucideMapPin, LucideUsers, LucideDownload, LucideUpload, LucideLoader2, LucideFileSpreadsheet, LucideEdit, LucideFileText, LucideArchive, LucideSave } from 'lucide-vue-next'
 
+import SlideOver from '@/components/core/SlideOver.vue'
+import Loader from '@/components/core/Loader.vue'
+import EmptyState from '@/components/core/EmptyState.vue'
+import AnimatedInput from '@/components/AnimatedInput.vue'
+import SelectInput from '@/components/SelectInput.vue'
+import ImageUpload from '@/components/core/ImageUpload.vue'
 import { useGetConferences } from '@/composables/modules/conferences/useGetConferences'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, reactive } from 'vue'
+import { useCustomToast } from '@/composables/core/useCustomToast'
 
 const { loading, conferences, getConferences } = useGetConferences()
+const { showToast } = useCustomToast()
 const api = useApi()
 const importing = ref(false)
 const fileInput = ref(null)
+
+const showSlideOver = ref(false)
+const isEditing = ref(false)
+const saving = ref(false)
+const selectedConference = ref(null)
+const formData = reactive({
+  title: '',
+  date: '',
+  location: '',
+  status: 'Active',
+  image: '',
+  description: ''
+})
+
+const openSlideOver = (conf = null) => {
+  if (conf && conf._id) {
+    isEditing.value = true
+    selectedConference.value = conf
+    formData.title = conf.title || ''
+    formData.date = conf.date || ''
+    formData.location = conf.location || ''
+    formData.status = conf.status || 'Active'
+    formData.image = conf.image || ''
+    formData.description = conf.description || ''
+  } else {
+    isEditing.value = false
+    selectedConference.value = null
+    formData.title = ''
+    formData.date = ''
+    formData.location = ''
+    formData.status = 'Active'
+    formData.image = ''
+    formData.description = ''
+  }
+  showSlideOver.value = true
+}
+
+const saveConference = async () => {
+  saving.value = true
+  try {
+    if (isEditing.value) {
+      await api.conferences.update(selectedConference.value._id, formData)
+      showToast({ title: 'Success', message: 'Conference updated successfully.', toastType: 'success' })
+    } else {
+      await api.conferences.create(formData)
+      showToast({ title: 'Success', message: 'Conference scheduled successfully.', toastType: 'success' })
+    }
+    showSlideOver.value = false
+    getConferences()
+  } catch (err) {
+    showToast({ title: 'Error', message: err.message || 'Failed to save conference.', toastType: 'error' })
+  } finally {
+    saving.value = false
+  }
+}
 
 const triggerFileInput = () => {
   fileInput.value?.click()
@@ -113,10 +212,10 @@ const handleFileUpload = async (event) => {
     const { data, error } = await api.conferences.import(formData)
     if (error) throw new Error(error.message || 'Import failed')
     
-    alert(`Success: Conferences imported successfully.`)
+    showToast({ title: 'Import Successful', message: 'Conferences imported successfully.', toastType: 'success' })
     getConferences() // Refresh list
   } catch (err) {
-    alert(err.message || 'An error occurred during import')
+    showToast({ title: 'Import Error', message: err.message || 'An error occurred during import', toastType: 'error' })
   } finally {
     importing.value = false
     if (fileInput.value) fileInput.value.value = ''

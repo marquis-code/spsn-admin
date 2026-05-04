@@ -1,8 +1,8 @@
 import { computed } from 'vue'
 
 export const useAuth = () => {
-  const user = useCookie('admin_user', { maxAge: 60 * 60 * 24 * 7, path: '/' })
-  const token = useCookie('admin_token', { maxAge: 60 * 60 * 24 * 7, path: '/' })
+  const user = useCookie('admin_user', { path: '/' })
+  const token = useCookie('admin_token', { path: '/' })
 
   const setUser = (userData: any, userToken: string) => {
     user.value = userData

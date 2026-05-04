@@ -105,5 +105,8 @@ export const useApi = () => {
       getConfig: () => call('/cms'),
       updateConfig: (data: any) => call('/cms', { method: 'PATCH', body: data }),
     },
+    upload: {
+      image: (formData: FormData) => call('/media/upload', { method: 'POST', body: formData }),
+    },
   }
 }

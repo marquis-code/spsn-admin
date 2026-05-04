@@ -25,10 +25,7 @@
     </div>
 
     <!-- Data Display Area -->
-    <div v-if="loading" class="flex flex-col items-center justify-center py-32 gap-4">
-      <div class="animate-spin rounded-full h-10 w-10 border-2 border-slate-100 border-t-[#003366]"></div>
-      <p class="text-[11px] font-bold text-slate-400">Synchronizing communications...</p>
-    </div>
+    <Loader v-if="loading" message="Synchronizing communications..." class="py-32" />
 
     <div v-else class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
       <!-- Enquiry List -->
@@ -55,18 +52,16 @@
                 <LucideInbox :size="14" class="text-[#003366] shrink-0" />
                 <span class="truncate">Subject: {{ enquiry.subject }}</span>
               </h5>
-              <p class="text-[11px] text-slate-500 font-medium leading-relaxed italic line-clamp-3 opacity-70">"{{ enquiry.message }}"</p>
+              <p class="text-[11px] text-slate-500 font-medium leading-relaxed line-clamp-3 opacity-70">"{{ enquiry.message }}"</p>
             </div>
 
             <div class="flex items-center gap-5 pt-4 border-t border-slate-50">
-              <button class="text-[10px] font-bold text-[#003366] flex items-center gap-2 hover:underline transition-all">
-                <LucideReply :size="14" />
-                Respond
+              <button class="text-[10px] font-bold text-[#003366] hover:text-[#004080] transition-colors p-1" title="Respond">
+                <LucideReply :size="16" />
               </button>
               <div class="w-[1px] h-3 bg-slate-100"></div>
-              <button @click="confirmArchive(enquiry)" class="text-[10px] font-bold text-slate-400 flex items-center gap-2 hover:text-slate-600 transition-all">
-                <LucideArchive :size="14" />
-                Archive
+              <button @click="confirmArchive(enquiry)" class="text-[10px] font-bold text-slate-400 hover:text-slate-600 transition-colors p-1" title="Archive">
+                <LucideArchive :size="16" />
               </button>
             </div>
           </div>
@@ -129,11 +124,14 @@ import {
   LucideFileSpreadsheet
 } from 'lucide-vue-next'
 import EmptyState from '@/components/core/EmptyState.vue'
+import Loader from '@/components/core/Loader.vue'
 import ConfirmModal from '@/components/core/ConfirmModal.vue'
 import { useGetEnquiries } from '@/composables/modules/enquiries/useGetEnquiries'
 import { onMounted, ref } from 'vue'
+import { useCustomToast } from '@/composables/core/useCustomToast'
 
 const { loading, enquiries, getEnquiries } = useGetEnquiries()
+const { showToast } = useCustomToast()
 const api = useApi()
 const importing = ref(false)
 const fileInput = ref(null)
@@ -175,10 +173,10 @@ const handleFileUpload = async (event) => {
     const { data, error } = await api.enquiries.import(formData)
     if (error) throw new Error(error.message || 'Import failed')
 
-    alert(`Success: Enquiries imported successfully.`)
+    showToast({ title: 'Import Successful', message: 'Enquiries imported successfully.', toastType: 'success' })
     getEnquiries()
   } catch (err) {
-    alert(err.message || 'An error occurred during import')
+    showToast({ title: 'Import Error', message: err.message || 'An error occurred during import', toastType: 'error' })
   } finally {
     importing.value = false
     if (fileInput.value) fileInput.value.value = ''

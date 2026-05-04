@@ -25,9 +25,7 @@
     </div>
 
     <!-- Loading State -->
-    <div v-if="loading" class="flex justify-center py-24">
-      <div class="animate-spin rounded-xl h-10 w-10 border-t-2 border-[#003366]"></div>
-    </div>
+    <Loader v-if="loading" message="Loading appointments..." />
 
     <div v-else class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
       <!-- Stats Summary -->
@@ -87,14 +85,20 @@
                 </td>
                 <td>
                   <div class="flex items-center gap-2 sm:gap-3">
-                    <button @click="confirmApprove(appointment)" class="text-[#003366] font-bold hover:underline text-xs">Approve</button>
+                    <button @click="confirmApprove(appointment)" class="text-[#003366] font-bold hover:text-[#004080] transition-colors p-1" title="Approve">
+                      <LucideCheck :size="16" />
+                    </button>
                     <div class="w-[1px] h-3 bg-slate-200"></div>
-                    <button @click="confirmDecline(appointment)" class="text-rose-500 font-bold hover:text-rose-600 text-xs">Decline</button>
+                    <button @click="confirmDecline(appointment)" class="text-rose-500 font-bold hover:text-rose-600 transition-colors p-1" title="Decline">
+                      <LucideX :size="16" />
+                    </button>
                   </div>
                 </td>
               </tr>
               <tr v-if="appointments.length === 0">
-                <td colspan="5" class="py-20 text-center text-slate-400 font-medium italic text-sm">No appointment requests were found for the selected period.</td>
+                <td colspan="5" class="py-12">
+                  <EmptyState title="No appointments" message="No appointment requests were found for the selected period." :icon="LucideCalendar" />
+                </td>
               </tr>
             </tbody>
           </table>
@@ -125,13 +129,17 @@
 </template>
 
 <script setup>
-import { LucideDownload, LucideUpload, LucideLoader2, LucideFileSpreadsheet } from 'lucide-vue-next'
+import { LucideDownload, LucideUpload, LucideLoader2, LucideFileSpreadsheet, LucideCheck, LucideX, LucideCalendar } from 'lucide-vue-next'
 
 import ConfirmModal from '@/components/core/ConfirmModal.vue'
+import Loader from '@/components/core/Loader.vue'
+import EmptyState from '@/components/core/EmptyState.vue'
 import { useGetAppointments } from '@/composables/modules/appointments/useGetAppointments'
 import { onMounted, ref } from 'vue'
+import { useCustomToast } from '@/composables/core/useCustomToast'
 
 const { loading, appointments, getAppointments } = useGetAppointments()
+const { showToast } = useCustomToast()
 const api = useApi()
 const importing = ref(false)
 const fileInput = ref(null)
@@ -185,10 +193,10 @@ const handleFileUpload = async (event) => {
     const { data, error } = await api.appointments.import(formData)
     if (error) throw new Error(error.message || 'Import failed')
 
-    alert(`Success: Appointments imported successfully.`)
+    showToast({ title: 'Import Successful', message: 'Appointments imported successfully.', toastType: 'success' })
     getAppointments()
   } catch (err) {
-    alert(err.message || 'An error occurred during import')
+    showToast({ title: 'Import Error', message: err.message || 'An error occurred during import', toastType: 'error' })
   } finally {
     importing.value = false
     if (fileInput.value) fileInput.value.value = ''

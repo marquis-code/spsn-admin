@@ -20,7 +20,7 @@
           <LucideUpload v-else :size="14" class="mr-2" />
           Import
         </button>
-        <button class="bg-[#003366] hover:bg-[#004080] text-white px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 shadow-sm">
+        <button @click="openSlideOver" class="bg-[#003366] hover:bg-[#004080] text-white px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 shadow-sm">
           <LucidePlus :size="14" />
           <span class="hidden xs:inline">New post</span>
         </button>
@@ -29,9 +29,7 @@
     </div>
 
     <!-- Loading State -->
-    <div v-if="loading" class="flex justify-center py-24">
-      <div class="animate-spin rounded-xl h-10 w-10 border-t-2 border-[#003366]"></div>
-    </div>
+    <Loader v-if="loading" message="Loading publications..." />
 
     <!-- Main Content Grid -->
     <div v-else class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
@@ -50,13 +48,18 @@
             <p class="text-xs text-slate-500 font-medium line-clamp-2 mb-4 sm:mb-5 leading-relaxed overflow-hidden">{{ blog.excerpt || blog.content?.substring(0, 140) }}...</p>
 
             <div class="flex flex-wrap items-center gap-3 sm:gap-5 text-[10px] font-bold">
-              <button class="text-[#003366] flex items-center gap-1.5 hover:underline"><LucideEdit :size="14" /> Edit</button>
-              <button class="text-slate-400 flex items-center gap-1.5 hover:text-slate-600 transition-colors"><LucideEye :size="14" /> Preview</button>
-              <button @click="confirmDelete(blog)" class="text-rose-500 flex items-center gap-1.5 hover:text-rose-600 transition-colors sm:ml-auto"><LucideTrash :size="14" /> Delete</button>
+              <button @click="openSlideOver(blog)" class="text-[#003366] hover:text-[#004080] p-1 transition-colors" title="Edit"><LucideEdit :size="16" /></button>
+              <button class="text-slate-400 hover:text-slate-600 p-1 transition-colors" title="Preview"><LucideEye :size="16" /></button>
+              <button @click="confirmDelete(blog)" class="text-rose-500 hover:text-rose-600 p-1 transition-colors sm:ml-auto" title="Delete"><LucideTrash :size="16" /></button>
             </div>
           </div>
         </div>
-        <div v-if="blogs.length === 0" class="py-20 bg-white border border-slate-200 border-dashed rounded-3xl text-center text-slate-400 font-medium italic text-sm">No news articles or publications were found.</div>
+        <EmptyState 
+          v-if="blogs.length === 0"
+          title="No publications"
+          message="No news articles or publications were found."
+          :icon="LucideFileText"
+        />
       </div>
 
       <!-- Sidebar Content -->
@@ -93,32 +96,129 @@
       variant="danger"
       @confirm="handleDelete"
     />
+
+    <!-- Slide Over for Create/Edit -->
+    <SlideOver
+      v-model="showSlideOver"
+      :title="isEditing ? 'Edit Publication' : 'New Publication'"
+      :subtitle="isEditing ? 'Update existing publication details' : 'Create a new journal article or news post'"
+      size="xl"
+    >
+      <div class="space-y-6">
+        <AnimatedInput v-model="formData.title" label="Publication Title" />
+        <SelectInput v-model="formData.category" label="Category" :options="['Journal article', 'News', 'Paper', 'Research']" />
+        <AnimatedInput v-model="formData.excerpt" label="Short Excerpt" type="textarea" :rows="2" />
+        <AnimatedInput v-model="formData.content" label="Full Content" type="textarea" :rows="6" />
+        <ImageUpload v-model="formData.image" label="Cover Image" />
+        <AnimatedInput v-model="formData.author" label="Author Name" />
+      </div>
+
+      <template #footer>
+        <div class="flex gap-3 justify-end w-full">
+          <button @click="showSlideOver = false" class="px-5 py-2.5 text-sm font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-all">Cancel</button>
+          <button @click="savePost" :disabled="saving" class="px-5 py-2.5 text-sm font-bold text-white bg-[#003366] hover:bg-[#002855] rounded-xl transition-all flex items-center gap-2">
+            <LucideLoader2 v-if="saving" class="w-4 h-4 animate-spin" />
+            <LucideSave v-else class="w-4 h-4" />
+            Save Publication
+          </button>
+        </div>
+      </template>
+    </SlideOver>
   </div>
 </template>
 
 <script setup>
-import { LucidePlus, LucideEdit, LucideEye, LucideTrash, LucideDownload, LucideUpload, LucideLoader2, LucideActivity, LucideFileSpreadsheet } from 'lucide-vue-next'
+import { LucidePlus, LucideEdit, LucideEye, LucideTrash, LucideDownload, LucideUpload, LucideLoader2, LucideActivity, LucideFileSpreadsheet, LucideSave, LucideFileText } from 'lucide-vue-next'
 
 import ConfirmModal from '@/components/core/ConfirmModal.vue'
+import Loader from '@/components/core/Loader.vue'
+import EmptyState from '@/components/core/EmptyState.vue'
+import SlideOver from '@/components/core/SlideOver.vue'
+import AnimatedInput from '@/components/AnimatedInput.vue'
+import SelectInput from '@/components/SelectInput.vue'
+import ImageUpload from '@/components/core/ImageUpload.vue'
 import { useGetBlogs } from '@/composables/modules/blogs/useGetBlogs'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, reactive } from 'vue'
+import { useCustomToast } from '@/composables/core/useCustomToast'
 
 const { loading, blogs, getBlogs } = useGetBlogs()
+const { showToast } = useCustomToast()
 const api = useApi()
 const importing = ref(false)
 const fileInput = ref(null)
 const showDeleteModal = ref(false)
 const selectedBlog = ref(null)
 
+const showSlideOver = ref(false)
+const isEditing = ref(false)
+const saving = ref(false)
+const formData = reactive({
+  title: '',
+  category: 'Journal article',
+  excerpt: '',
+  content: '',
+  image: '',
+  author: ''
+})
+
+const openSlideOver = (blog = null) => {
+  if (blog && blog._id) {
+    isEditing.value = true
+    selectedBlog.value = blog
+    formData.title = blog.title || ''
+    formData.category = blog.category || 'Journal article'
+    formData.excerpt = blog.excerpt || ''
+    formData.content = blog.content || ''
+    formData.image = blog.image || ''
+    formData.author = blog.author || ''
+  } else {
+    isEditing.value = false
+    selectedBlog.value = null
+    formData.title = ''
+    formData.category = 'Journal article'
+    formData.excerpt = ''
+    formData.content = ''
+    formData.image = ''
+    formData.author = ''
+  }
+  showSlideOver.value = true
+}
+
+const savePost = async () => {
+  saving.value = true
+  try {
+    if (isEditing.value) {
+      await api.blogs.update(selectedBlog.value._id, formData)
+      showToast({ title: 'Success', message: 'Publication updated successfully.', toastType: 'success' })
+    } else {
+      await api.blogs.create(formData)
+      showToast({ title: 'Success', message: 'Publication created successfully.', toastType: 'success' })
+    }
+    showSlideOver.value = false
+    getBlogs()
+  } catch (err) {
+    showToast({ title: 'Error', message: err.message || 'Failed to save publication.', toastType: 'error' })
+  } finally {
+    saving.value = false
+  }
+}
+
 const confirmDelete = (blog) => {
   selectedBlog.value = blog
   showDeleteModal.value = true
 }
 
-const handleDelete = () => {
-  // TODO: Call API to delete blog
-  showDeleteModal.value = false
-  selectedBlog.value = null
+const handleDelete = async () => {
+  try {
+    await api.blogs.delete(selectedBlog.value._id)
+    showToast({ title: 'Deleted', message: 'Publication deleted successfully.', toastType: 'success' })
+    getBlogs()
+  } catch (err) {
+    showToast({ title: 'Error', message: err.message || 'Failed to delete publication.', toastType: 'error' })
+  } finally {
+    showDeleteModal.value = false
+    selectedBlog.value = null
+  }
 }
 
 const triggerFileInput = () => {
@@ -145,10 +245,10 @@ const handleFileUpload = async (event) => {
     const { data, error } = await api.blogs.import(formData)
     if (error) throw new Error(error.message || 'Import failed')
 
-    alert(`Success: Blog posts imported successfully.`)
+    showToast({ title: 'Import Successful', message: 'Blog posts imported successfully.', toastType: 'success' })
     getBlogs()
   } catch (err) {
-    alert(err.message || 'An error occurred during import')
+    showToast({ title: 'Import Error', message: err.message || 'An error occurred during import', toastType: 'error' })
   } finally {
     importing.value = false
     if (fileInput.value) fileInput.value.value = ''
