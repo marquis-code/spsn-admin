@@ -1,13 +1,8 @@
 import axios, { type AxiosResponse } from "axios";
-import { useUser } from "@/composables/modules/auth/user";
 import { useCustomToast } from '@/composables/core/useCustomToast'
-import { useTokenManager } from '@/composables/core/useTokenManager'
 
-const { showToast } = useCustomToast();
-const { token, logOut } = useUser();
-const tokenManager = useTokenManager();
 
-const $GATEWAY_ENDPOINT = process.env.VITE_BASE_URL || "http://localhost:3000/api";
+const $GATEWAY_ENDPOINT = import.meta.env.VITE_BASE_URL || "http://localhost:3000/api";
 
 export const GATEWAY_ENDPOINT = axios.create({
   baseURL: $GATEWAY_ENDPOINT,
@@ -18,9 +13,23 @@ export interface CustomAxiosResponse extends AxiosResponse {
   type?: string;
 }
 
+const getAdminToken = () => {
+  if (typeof document === 'undefined') return null;
+  const match = document.cookie.match(new RegExp('(^| )admin_token=([^;]+)'));
+  return match && match[2] ? decodeURIComponent(match[2]) : null;
+};
+
+const clearAdminToken = () => {
+  if (typeof document !== 'undefined') {
+    document.cookie = 'admin_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    document.cookie = 'admin_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  }
+};
+
 GATEWAY_ENDPOINT.interceptors.request.use((config: any) => {
-  if (token.value) {
-    config.headers.Authorization = `Bearer ${token.value}`;
+  const token = getAdminToken();
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
@@ -29,9 +38,12 @@ GATEWAY_ENDPOINT.interceptors.response.use(
   (response: CustomAxiosResponse) => response,
   (err: any) => {
     if (err.response?.status === 401) {
-      logOut();
+      clearAdminToken();
+      const { showToast } = useCustomToast();
       showToast({ title: "Session Expired", message: "Please login again", toastType: "error" });
-      if (typeof window !== 'undefined') window.location.href = '/login';
+      if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+         window.location.href = '/login';
+      }
     }
     return Promise.reject(err);
   }

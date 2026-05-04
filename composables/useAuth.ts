@@ -1,26 +1,31 @@
-export const useAuth = () => {
-  const user = useState('user', () => null)
-  const token = useState('token', () => null)
+import { computed } from 'vue'
 
-  const login = async (credentials: any) => {
-    // In a real app, this would call Firebase or your custom Auth endpoint
-    // For now, we mock success
-    user.value = { name: 'Admin User', role: 'SUPER_ADMIN' }
-    token.value = 'mock-jwt-token'
-    return { success: true }
+export const useAuth = () => {
+  const user = useCookie('admin_user', { maxAge: 60 * 60 * 24 * 7, path: '/' })
+  const token = useCookie('admin_token', { maxAge: 60 * 60 * 24 * 7, path: '/' })
+
+  const setUser = (userData: any, userToken: string) => {
+    user.value = userData
+    token.value = userToken
   }
 
   const logout = () => {
     user.value = null
     token.value = null
-    navigateTo('/login')
+    // Add a small delay to ensure cookies are cleared before navigation
+    return navigateTo('/login')
   }
+
+  const isAuthenticated = computed(() => {
+    // Check both the reactive token and the cookie directly if possible
+    return !!token.value
+  })
 
   return {
     user,
     token,
-    login,
+    setUser,
     logout,
-    isAuthenticated: computed(() => !!token.value)
+    isAuthenticated
   }
 }

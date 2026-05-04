@@ -28,6 +28,9 @@ export default {
         },
          brand: {
           blue: '#1A365D',
+          dark: '#033958',
+          cyan: '#00A8B5',
+          accent: '#00D1FF',
         }
       },
       fontFamily: {

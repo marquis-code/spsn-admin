@@ -1,12 +1,12 @@
 import { ref } from "vue"
 import { auth_api } from "@/api_factory/modules/auth"
 import { useCustomToast } from "@/composables/core/useCustomToast"
-import { useUser } from "./user"
+import { useAuth } from "@/composables/useAuth"
 
 export const useLogin = () => {
     const loading = ref(false)
     const { showToast } = useCustomToast()
-    const { setUser } = useUser()
+    const { setUser } = useAuth()
 
     const login = async (payload: any) => {
         loading.value = true
@@ -26,3 +26,4 @@ export const useLogin = () => {
 
     return { loading, login }
 }
+

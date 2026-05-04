@@ -5,7 +5,23 @@ export default defineNuxtConfig({
   devServer: {
     port: 3001
   },
-  modules: ['@nuxtjs/tailwindcss', 'lucide-nuxt', '@vueuse/nuxt'],
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.VITE_BASE_URL || 'http://localhost:3000/api'
+    }
+  },
+  nitro: {
+    devProxy: {
+      '/socket.io': {
+        target: 'http://localhost:3000/socket.io',
+        ws: true
+      }
+    }
+  },
+  modules: ['@nuxtjs/tailwindcss', '@vueuse/nuxt', '@nuxt/icon'],
+  build: {
+    transpile: ['lucide-vue-next']
+  },
   css: ['~/assets/font/stylesheet.css', '~/assets/css/main.css'],
   tailwindcss: {
     viewer: true,

@@ -4,7 +4,7 @@ import { useCustomToast } from '../../core/useCustomToast'
 
 export const useGetFormResponses = () => {
   const loading = ref(false)
-  const responses = ref([])
+  const responses = ref<any[]>([])
   const { showToast } = useCustomToast()
 
   const getResponses = async (formId: string) => {
