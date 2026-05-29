@@ -1,7 +1,7 @@
 // @ts-ignore
 export const useApi = () => {
   const config = useRuntimeConfig()
-  const baseUrl = config.public.apiBase || 'http://localhost:3000/api'
+  const baseUrl = config.public.apiBase || 'https://spsn-backend.onrender.com'
 
   const call = async (endpoint: string, options: any = {}) => {
     try {
@@ -107,6 +107,9 @@ export const useApi = () => {
     },
     upload: {
       image: (formData: FormData) => call('/media/upload', { method: 'POST', body: formData }),
+    },
+    campaigns: {
+      broadcast: (payload: { type: string; data: any }) => call('/campaigns/broadcast', { method: 'POST', body: payload })
     },
   }
 }

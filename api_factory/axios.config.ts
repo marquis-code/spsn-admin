@@ -2,7 +2,7 @@ import axios, { type AxiosResponse } from "axios";
 import { useCustomToast } from '@/composables/core/useCustomToast'
 
 
-const $GATEWAY_ENDPOINT = import.meta.env.VITE_BASE_URL || "http://localhost:3000/api";
+const $GATEWAY_ENDPOINT = import.meta.env.VITE_BASE_URL || "https://spsn-backend.onrender.com";
 
 export const GATEWAY_ENDPOINT = axios.create({
   baseURL: $GATEWAY_ENDPOINT,
@@ -42,7 +42,7 @@ GATEWAY_ENDPOINT.interceptors.response.use(
       const { showToast } = useCustomToast();
       showToast({ title: "Session Expired", message: "Please login again", toastType: "error" });
       if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
-         window.location.href = '/login';
+        window.location.href = '/login';
       }
     }
     return Promise.reject(err);

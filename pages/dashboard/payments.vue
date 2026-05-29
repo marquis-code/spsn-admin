@@ -64,7 +64,7 @@
              </tr>
           </thead>
           <tbody>
-             <tr v-for="payment in payments" :key="payment._id" class="group hover:bg-slate-50 transition-colors">
+             <tr v-for="payment in paginatedPayments" :key="payment._id" class="group hover:bg-slate-50 transition-colors">
                 <td class="py-5 !pl-8">
                   <span class="text-[10px] font-mono font-bold text-slate-400">{{ payment.reference?.substring(0, 12) || 'N/A' }}</span>
                 </td>
@@ -97,6 +97,7 @@
           </tbody>
         </table>
        </div>
+       <Pagination v-if="payments.length > 0" v-model:currentPage="currentPage" :totalItems="payments.length" :pageSize="pageSize" />
     </div>
   </div>
 </template>
@@ -117,12 +118,22 @@ import { onMounted, computed, ref } from 'vue'
 import { useCustomToast } from '@/composables/core/useCustomToast'
 import Loader from '@/components/core/Loader.vue'
 import EmptyState from '@/components/core/EmptyState.vue'
+import Pagination from '@/components/core/Pagination.vue'
 
 const { loading, payments, getPayments } = useGetPayments()
 const { showToast } = useCustomToast()
 const api = useApi()
 const importing = ref(false)
 const fileInput = ref(null)
+
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const paginatedPayments = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return payments.value.slice(start, end)
+})
 
 const triggerFileInput = () => {
   fileInput.value?.click()

@@ -62,7 +62,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="appointment in appointments" :key="appointment._id" class="group hover:bg-slate-50 transition-colors">
+              <tr v-for="appointment in paginatedAppointments" :key="appointment._id" class="group hover:bg-slate-50 transition-colors">
                 <td class="py-5">
                   <div class="flex flex-col gap-0.5">
                     <span class="font-bold text-slate-800 text-sm group-hover:text-[#003366] transition-colors">{{ appointment.name }}</span>
@@ -103,6 +103,7 @@
             </tbody>
           </table>
         </div>
+        <Pagination v-if="appointments.length > 0" v-model:currentPage="currentPage" :totalItems="appointments.length" :pageSize="pageSize" />
       </div>
     </div>
 
@@ -134,8 +135,9 @@ import { LucideDownload, LucideUpload, LucideLoader2, LucideFileSpreadsheet, Luc
 import ConfirmModal from '@/components/core/ConfirmModal.vue'
 import Loader from '@/components/core/Loader.vue'
 import EmptyState from '@/components/core/EmptyState.vue'
+import Pagination from '@/components/core/Pagination.vue'
 import { useGetAppointments } from '@/composables/modules/appointments/useGetAppointments'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useCustomToast } from '@/composables/core/useCustomToast'
 
 const { loading, appointments, getAppointments } = useGetAppointments()
@@ -146,6 +148,15 @@ const fileInput = ref(null)
 const showApproveModal = ref(false)
 const showDeclineModal = ref(false)
 const selectedAppointment = ref(null)
+
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const paginatedAppointments = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return appointments.value.slice(start, end)
+})
 
 const confirmApprove = (appointment) => {
   selectedAppointment.value = appointment

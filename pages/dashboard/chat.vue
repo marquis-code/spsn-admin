@@ -275,25 +275,27 @@
       </template>
 
       <!-- Call UI -->
-      <div v-if="showCallModal || showVideoModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[100] flex items-center justify-center">
-        <div class="bg-slate-900 w-full max-w-sm rounded-[3rem] p-10 flex flex-col items-center justify-between min-h-[500px] border border-white/5 relative overflow-hidden animate-in zoom-in-95 duration-300">
-           <div class="relative z-10 flex flex-col items-center text-center space-y-6 mt-10">
-             <div class="w-24 h-24 rounded-3xl overflow-hidden border border-white/10 relative">
-               <div class="absolute inset-0 bg-slate-800 flex items-center justify-center text-3xl font-black text-white">{{ selectedRoomData?.senderName?.charAt(0).toUpperCase() || 'G' }}</div>
+      <Teleport to="body">
+        <div v-if="showCallModal || showVideoModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[9999] flex items-center justify-center">
+          <div class="bg-slate-900 w-full max-w-sm rounded-[3rem] p-10 flex flex-col items-center justify-between min-h-[500px] border border-white/5 relative overflow-hidden animate-in zoom-in-95 duration-300">
+             <div class="relative z-10 flex flex-col items-center text-center space-y-6 mt-10">
+               <div class="w-24 h-24 rounded-3xl overflow-hidden border border-white/10 relative">
+                 <div class="absolute inset-0 bg-slate-800 flex items-center justify-center text-3xl font-black text-white">{{ selectedRoomData?.senderName?.charAt(0).toUpperCase() || 'G' }}</div>
+               </div>
+               <div>
+                 <h3 class="text-xl font-bold text-white">{{ selectedRoomData?.senderName || 'Anonymous guest' }}</h3>
+                 <p class="text-[11px] font-bold text-[#003366] mt-3">{{ showVideoModal ? 'Video protocol...' : 'Audio protocol...' }}</p>
+               </div>
              </div>
-             <div>
-               <h3 class="text-xl font-bold text-white">{{ selectedRoomData?.senderName || 'Anonymous guest' }}</h3>
-               <p class="text-[11px] font-bold text-[#003366] mt-3">{{ showVideoModal ? 'Video protocol...' : 'Audio protocol...' }}</p>
+             
+             <div class="relative z-10 flex items-center gap-6 mb-10">
+                <button class="w-12 h-12 bg-white/5 hover:bg-white/10 text-white rounded-xl flex items-center justify-center transition-all"><LucideMic :size="18" /></button>
+                <button @click="showCallModal = false; showVideoModal = false" class="w-16 h-16 bg-rose-500 hover:bg-rose-600 text-white rounded-2xl flex items-center justify-center transition-all active:scale-95"><LucidePhoneOff :size="24" /></button>
+                <button class="w-12 h-12 bg-white/5 hover:bg-white/10 text-white rounded-xl flex items-center justify-center transition-all"><LucideVideo v-if="showVideoModal" :size="18" /><LucideVideoOff v-else :size="18" /></button>
              </div>
-           </div>
-           
-           <div class="relative z-10 flex items-center gap-6 mb-10">
-              <button class="w-12 h-12 bg-white/5 hover:bg-white/10 text-white rounded-xl flex items-center justify-center transition-all"><LucideMic :size="18" /></button>
-              <button @click="showCallModal = false; showVideoModal = false" class="w-16 h-16 bg-rose-500 hover:bg-rose-600 text-white rounded-2xl flex items-center justify-center transition-all active:scale-95"><LucidePhoneOff :size="24" /></button>
-              <button class="w-12 h-12 bg-white/5 hover:bg-white/10 text-white rounded-xl flex items-center justify-center transition-all"><LucideVideo v-if="showVideoModal" :size="18" /><LucideVideoOff v-else :size="18" /></button>
-           </div>
+          </div>
         </div>
-      </div>
+      </Teleport>
     </div>
   </div>
 </template>
@@ -334,7 +336,7 @@ definePageMeta({
 
 const config = useRuntimeConfig()
 const { showToast } = useCustomToast()
-const apiBase = config.public.apiBase || 'http://localhost:3000/api'
+const apiBase = config.public.apiBase || 'https://spsn-backend.onrender.com'
 
 const socket = ref(null)
 const rooms = ref([])

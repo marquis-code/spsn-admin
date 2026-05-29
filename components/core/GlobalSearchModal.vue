@@ -1,13 +1,15 @@
 <template>
-  <Transition
-    enter-active-class="transition duration-200 ease-out"
-    enter-from-class="opacity-0 scale-95"
-    enter-to-class="opacity-100 scale-100"
-    leave-active-class="transition duration-150 ease-in"
-    leave-from-class="opacity-100 scale-100"
-    leave-to-class="opacity-0 scale-95"
-  >
-    <div v-if="modelValue" class="fixed inset-0 z-[200] flex items-start justify-center pt-16 sm:pt-24 px-4">
+  <ClientOnly>
+    <Teleport to="body">
+      <Transition
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="opacity-0 scale-95"
+        enter-to-class="opacity-100 scale-100"
+        leave-active-class="transition duration-150 ease-in"
+        leave-from-class="opacity-100 scale-100"
+        leave-to-class="opacity-0 scale-95"
+      >
+        <div v-if="modelValue" class="fixed inset-0 z-[9999] flex items-start justify-center pt-16 sm:pt-24 px-4">
       <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm" @click="close"></div>
       
       <div class="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100 flex flex-col max-h-[80vh]">
@@ -81,6 +83,8 @@
       </div>
     </div>
   </Transition>
+</Teleport>
+</ClientOnly>
 </template>
 
 <script setup>

@@ -10,11 +10,11 @@
         </div>
 
         <header class="form-header">
-          <h1>Welcome back</h1>
-          <p>Sign in to your administrative account to manage the platform.</p>
+          <h1>Recover password</h1>
+          <p>Enter your administrative email to receive reset instructions.</p>
         </header>
 
-        <form @submit.prevent="handleLogin" class="login-form">
+        <form v-if="!success" @submit.prevent="handleForgot" class="login-form">
 
           <div class="field-stack">
             <div class="field-item">
@@ -26,49 +26,38 @@
                   v-model="email"
                   type="email"
                   placeholder="admin@scpsn.org.ng"
+                  required
                   @focus="emailFocused = true"
                   @blur="emailFocused = false"
                 />
               </div>
             </div>
-
-            <div class="field-item">
-              <label for="password">Password</label>
-              <div class="input-wrap" :class="{ focused: passwordFocused }">
-                <LucideLock :size="15" class="input-icon" />
-                <input
-                  id="password"
-                  v-model="password"
-                  :type="showPassword ? 'text' : 'password'"
-                  placeholder="Enter your password"
-                  @focus="passwordFocused = true"
-                  @blur="passwordFocused = false"
-                />
-                <button type="button" class="toggle-pw" @click="showPassword = !showPassword" :aria-label="showPassword ? 'Hide password' : 'Show password'">
-                  <LucideEye v-if="!showPassword" :size="14" />
-                  <LucideEyeOff v-else :size="14" />
-                </button>
-              </div>
-            </div>
           </div>
 
           <div class="form-meta">
-            <label class="remember-label">
-              <input type="checkbox" v-model="remember" />
-              <span>Remember me</span>
-            </label>
-            <button type="button" class="forgot-btn" @click.prevent="navigateTo('/forgot-password')">Forgot password?</button>
+            <NuxtLink to="/login" class="forgot-btn" style="color: #64748b; text-decoration: none;">Back to sign in</NuxtLink>
           </div>
 
           <button type="submit" class="submit-btn" :disabled="loading">
             <span v-if="loading" class="spinner"></span>
             <template v-else>
-              <span>Sign in to dashboard</span>
+              <span>Send Instructions</span>
               <LucideArrowRight :size="16" />
             </template>
           </button>
 
+          <p v-if="errorMsg" class="error-msg" style="color: #f87171; font-size: 13px; text-align: center; margin-top: 15px;">{{ errorMsg }}</p>
         </form>
+
+        <div v-else class="success-box" style="margin-top: 40px; text-align: center;">
+           <h3 style="color: #2dd4a0; font-size: 20px; font-weight: 700; margin-bottom: 15px;">Check your inbox</h3>
+           <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 30px;">
+              We have sent a password reset link to <strong>{{ email }}</strong>. Please check your email and follow the instructions to set a new password.
+           </p>
+           <NuxtLink to="/login" class="submit-btn px-6" style="text-decoration: none; display: inline-flex;">
+              <span>Return to sign in</span>
+           </NuxtLink>
+        </div>
 
         <footer class="form-footer">
           <span class="status-row">
@@ -136,27 +125,31 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { LucideUser, LucideLock, LucideArrowRight, LucideEye, LucideEyeOff } from 'lucide-vue-next'
-import { useLogin } from '@/composables/modules/auth/useLogin'
+import { LucideUser, LucideArrowRight } from 'lucide-vue-next'
+import { useRuntimeConfig } from '#app'
+import axios from 'axios'
 
 definePageMeta({ layout: 'auth' })
 
+const config = useRuntimeConfig()
 const email = ref('')
-const password = ref('')
-const remember = ref(false)
-const showPassword = ref(false)
 const emailFocused = ref(false)
-const passwordFocused = ref(false)
-const router = useRouter()
-const { loading, login } = useLogin()
+const loading = ref(false)
+const success = ref(false)
+const errorMsg = ref('')
 
-const handleLogin = async () => {
-  const res = await login({ email: email.value, password: password.value })
-  if (res?.requires2FA) {
-    router.push({ path: '/verify-2fa', query: { email: email.value } })
-  } else if (res) {
-    router.push('/dashboard')
+const handleForgot = async () => {
+  if (!email.value) return
+  loading.value = true
+  errorMsg.value = ''
+  
+  try {
+    await axios.post(`${config.public.apiBase}/auth/forgot-password`, { email: email.value })
+    success.value = true
+  } catch (err) {
+    errorMsg.value = err.response?.data?.message || 'Failed to request password reset. Please try again.'
+  } finally {
+    loading.value = false
   }
 }
 </script>

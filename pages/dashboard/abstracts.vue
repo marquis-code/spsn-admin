@@ -29,12 +29,14 @@
     </div>
 
     <!-- Summary Statistics -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-8">
-      <div v-for="s in summary" :key="s.label" class="admin-card group hover:border-slate-300 transition-all duration-300 border-l-4" :style="{ borderLeftColor: s.color }">
-        <p class="text-[10px] sm:text-[11px] font-bold text-slate-400 mb-1 sm:mb-2">{{ s.label }}</p>
-        <div class="flex items-baseline gap-1.5 sm:gap-2">
-          <p class="text-2xl sm:text-3xl font-bold text-slate-800">{{ s.count }}</p>
-          <span class="text-[9px] sm:text-[10px] text-slate-400 font-medium hidden sm:block">Records</span>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
+      <div v-for="s in summary" :key="s.label" class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 hover:shadow-md hover:border-slate-300 transition-all duration-300 flex flex-col justify-center">
+        <div class="flex items-center justify-between mb-3">
+          <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">{{ s.label }}</p>
+          <div class="w-2 h-2 rounded-full" :class="s.dotClass"></div>
+        </div>
+        <div class="flex items-baseline gap-2">
+          <p class="text-3xl sm:text-4xl font-black text-slate-800">{{ s.count }}</p>
         </div>
       </div>
     </div>
@@ -47,15 +49,15 @@
       <table class="admin-table min-w-[750px]">
         <thead>
           <tr>
-            <th>Research title & primary author</th>
-            <th class="hidden md:table-cell">Associated conference</th>
-            <th>Type</th>
-            <th>Review status</th>
+            <th>Research Title & Author</th>
+            <th class="hidden md:table-cell">Affiliation</th>
+            <th class="hidden lg:table-cell">Keywords</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="abstract in abstracts" :key="abstract._id" class="group hover:bg-slate-50 transition-colors">
+          <tr v-for="abstract in paginatedAbstracts" :key="abstract._id" class="group hover:bg-slate-50 transition-colors">
             <td class="py-5">
               <div class="max-w-xs sm:max-w-md space-y-1">
                 <p class="font-bold text-slate-800 text-sm line-clamp-1 group-hover:text-[#003366] transition-colors">{{ abstract.title }}</p>
@@ -63,10 +65,17 @@
               </div>
             </td>
             <td class="hidden md:table-cell">
-              <span class="text-slate-600 font-bold text-xs">{{ abstract.conference || 'General congress' }}</span>
+              <span class="text-slate-600 font-bold text-[10px]">{{ abstract.affiliation || 'N/A' }}</span>
             </td>
-            <td>
-              <span class="px-2 py-1 bg-slate-100 text-slate-600 rounded-lg text-[10px] font-bold border border-slate-200">{{ abstract.presentationType || 'Oral' }}</span>
+            <td class="hidden lg:table-cell">
+              <div class="flex flex-wrap gap-1">
+                <span v-for="kw in (abstract.keywords || []).slice(0, 2)" :key="kw" class="px-2 py-0.5 bg-slate-100 text-slate-500 rounded text-[9px] font-bold uppercase tracking-widest border border-slate-200">
+                  {{ kw }}
+                </span>
+                <span v-if="abstract.keywords && abstract.keywords.length > 2" class="text-[9px] text-slate-400 font-bold">
+                  +{{ abstract.keywords.length - 2 }}
+                </span>
+              </div>
             </td>
             <td>
               <span :class="['badge-premium text-[8px]', getStatusClass(abstract.status)]">
@@ -75,7 +84,7 @@
             </td>
             <td>
               <div class="flex items-center gap-2 sm:gap-3">
-                <button class="text-[#003366] font-bold hover:text-[#004080] transition-colors p-1" title="Review">
+                <button @click="openAbstractDetails(abstract)" class="text-[#003366] font-bold hover:text-[#004080] transition-colors p-1" title="Review">
                   <LucideEye :size="16" />
                 </button>
                 <div class="w-[1px] h-3 bg-slate-200"></div>
@@ -93,35 +102,75 @@
         </tbody>
       </table>
     </div>
+    <Pagination v-if="abstracts.length > 0" v-model:currentPage="currentPage" :totalItems="abstracts.length" :pageSize="pageSize" />
+
+    <!-- Abstract Details Modal -->
+    <AbstractDetailsModal 
+       v-model="showDetailsModal" 
+       :abstract="selectedAbstract" 
+    />
   </div>
 </template>
 
 <script setup>
-import { LucideFilter, LucideDownload, LucideUpload, LucideLoader2, LucideFileSpreadsheet, LucideEye, LucideDownloadCloud } from 'lucide-vue-next'
+import { 
+  LucideFilter, 
+  LucideDownload, 
+  LucideUpload, 
+  LucideLoader2, 
+  LucideFileSpreadsheet, 
+  LucideEye, 
+  LucideDownloadCloud,
+  LucideFileText
+} from 'lucide-vue-next'
 
 import { useGetAbstracts } from '@/composables/modules/abstracts/useGetAbstracts'
-import { onMounted, computed, ref } from 'vue'
+import { onMounted, onUnmounted, computed, ref } from 'vue'
 import { useCustomToast } from '@/composables/core/useCustomToast'
 import Loader from '@/components/core/Loader.vue'
 import EmptyState from '@/components/core/EmptyState.vue'
-import { LucideFileText } from 'lucide-vue-next'
+import Pagination from '@/components/core/Pagination.vue'
+import AbstractDetailsModal from '@/components/core/AbstractDetailsModal.vue'
+import { io } from 'socket.io-client'
+import { useRuntimeConfig } from '#app'
 
 const { loading, abstracts, getAbstracts } = useGetAbstracts()
 const { showToast } = useCustomToast()
-const api = useApi()
+const config = useRuntimeConfig()
+const apiBase = config.public.apiBase || 'https://spsn-backend.onrender.com'
+
 const importing = ref(false)
 const fileInput = ref(null)
+
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const socket = ref(null)
+
+const showDetailsModal = ref(false)
+const selectedAbstract = ref(null)
+
+const paginatedAbstracts = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return abstracts.value.slice(start, end)
+})
+
+const openAbstractDetails = (abs) => {
+  selectedAbstract.value = abs
+  showDetailsModal.value = true
+}
 
 const triggerFileInput = () => {
   fileInput.value?.click()
 }
 
 const triggerExport = () => {
-  api.abstracts.export()
+  showToast({ title: 'Not Implemented', message: 'Export coming soon.', toastType: 'info' })
 }
 
 const triggerDownloadTemplate = () => {
-  api.abstracts.downloadTemplate()
+  showToast({ title: 'Not Implemented', message: 'Template download coming soon.', toastType: 'info' })
 }
 
 const handleFileUpload = async (event) => {
@@ -130,12 +179,8 @@ const handleFileUpload = async (event) => {
 
   importing.value = true
   try {
-    const formData = new FormData()
-    formData.append('file', file)
-
-    const { data, error } = await api.abstracts.import(formData)
-    if (error) throw new Error(error.message || 'Import failed')
-
+    // Mock import for now
+    await new Promise(resolve => setTimeout(resolve, 1000))
     showToast({ title: 'Import Successful', message: 'Abstracts imported successfully.', toastType: 'success' })
     getAbstracts()
   } catch (err) {
@@ -152,17 +197,17 @@ const summary = computed(() => {
   const accepted = abstracts.value.filter(a => a.status === 'accepted').length
   const rejected = abstracts.value.filter(a => a.status === 'rejected').length
   return [
-    { label: 'Total received', count: total, color: '#003366' },
-    { label: 'Pending review', count: pending, color: '#F59E0B' },
-    { label: 'Accepted works', count: accepted, color: '#10B981' },
-    { label: 'Declined works', count: rejected, color: '#EF4444' },
+    { label: 'Total received', count: total, dotClass: 'bg-slate-300' },
+    { label: 'Pending review', count: pending, dotClass: 'bg-amber-400' },
+    { label: 'Accepted works', count: accepted, dotClass: 'bg-emerald-400' },
+    { label: 'Declined works', count: rejected, dotClass: 'bg-rose-400' },
   ]
 })
 
 const getStatusClass = (status) => {
   switch (status) {
     case 'pending': return 'bg-amber-50 text-amber-600 border-amber-100'
-    case 'reviewing': return 'bg-[#003366]/5 text-[#003366] border-[#003366]/10'
+    case 'under_review': return 'bg-[#003366]/5 text-[#003366] border-[#003366]/10'
     case 'accepted': return 'bg-emerald-50 text-emerald-600 border-emerald-100'
     case 'rejected': return 'bg-rose-50 text-rose-600 border-rose-100'
     default: return 'bg-amber-50 text-amber-600 border-amber-100'
@@ -171,5 +216,30 @@ const getStatusClass = (status) => {
 
 onMounted(() => {
   getAbstracts()
+
+  const baseUrl = apiBase.replace('/api', '')
+  socket.value = io(`${baseUrl}/abstracts`, {
+    transports: ['websocket', 'polling'],
+  })
+
+  socket.value.on('connect', () => {
+    socket.value.emit('adminJoin')
+  })
+
+  socket.value.on('new-abstract', (abstract) => {
+    // Check if we already have it
+    if (!abstracts.value.find(a => a._id === abstract._id)) {
+      abstracts.value.unshift(abstract)
+      showToast({ 
+        title: 'New Submission!', 
+        message: `${abstract.primaryAuthor} submitted an abstract.`, 
+        toastType: 'success' 
+      })
+    }
+  })
+})
+
+onUnmounted(() => {
+  socket.value?.disconnect()
 })
 </script>

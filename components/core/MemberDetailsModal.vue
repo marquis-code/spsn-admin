@@ -35,10 +35,10 @@
               <!-- Profile Header -->
               <div class="flex items-center gap-5">
                 <div class="w-16 h-16 rounded-2xl bg-slate-50 flex items-center justify-center text-[#003366] font-black border border-slate-100 text-xl shadow-sm">
-                  {{ getInitials(member.name) }}
+                  {{ getInitials(member.fullName || member.name || member.email) }}
                 </div>
                 <div>
-                  <h4 class="text-xl font-bold text-slate-800">{{ member.name }}</h4>
+                  <h4 class="text-xl font-bold text-slate-800">{{ member.fullName || member.name || member.email?.split('@')[0] }}</h4>
                   <p class="text-xs font-bold text-slate-400 mt-1">{{ member.email }}</p>
                   <span :class="['inline-block mt-2 badge-premium text-[9px]', member.isActive !== false ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100']">
                     {{ member.isActive !== false ? 'Active Account' : 'Inactive Account' }}
@@ -60,8 +60,8 @@
                       <p class="text-xs font-bold text-slate-800">{{ member.role || 'Member' }}</p>
                     </div>
                     <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 col-span-2">
-                      <p class="text-[10px] font-bold text-slate-400 mb-1">Specialization</p>
-                      <p class="text-xs font-bold text-slate-800">{{ member.specialization || 'General Clinical Pharmacy' }}</p>
+                      <p class="text-[10px] font-bold text-slate-400 mb-1">Organization / Category</p>
+                      <p class="text-xs font-bold text-slate-800">{{ member.organization || member.category || 'General Clinical Pharmacy' }}</p>
                     </div>
                   </div>
                 </div>
@@ -75,7 +75,7 @@
                       </div>
                       <div>
                         <p class="text-[10px] font-bold text-slate-400">Phone Number</p>
-                        <p class="text-xs font-bold text-slate-800">{{ member.phone || 'Not provided' }}</p>
+                        <p class="text-xs font-bold text-slate-800">{{ member.phoneNumber || member.phone || 'Not provided' }}</p>
                       </div>
                     </div>
                     <div class="flex items-center gap-3">
@@ -84,7 +84,7 @@
                       </div>
                       <div>
                         <p class="text-[10px] font-bold text-slate-400">Enrollment Date</p>
-                        <p class="text-xs font-bold text-slate-800">{{ formatDate(member.createdAt) }}</p>
+                        <p class="text-xs font-bold text-slate-800">{{ formatDate(member.enrollmentInfo?.enrollmentDate || member.createdAt) }}</p>
                       </div>
                     </div>
                   </div>

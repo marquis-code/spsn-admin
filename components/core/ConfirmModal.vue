@@ -15,7 +15,7 @@
 
         <!-- Modal Card -->
         <Transition
-          enter-active-class="transition duration-250 ease-out"
+          enter-active-class="transition duration-300 ease-out"
           enter-from-class="opacity-0 scale-95 translate-y-4"
           enter-to-class="opacity-100 scale-100 translate-y-0"
           leave-active-class="transition duration-150 ease-in"

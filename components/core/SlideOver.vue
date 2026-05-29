@@ -20,7 +20,7 @@
           leave-from-class="translate-x-0"
           leave-to-class="translate-x-full"
         >
-          <div v-if="modelValue" :class="['relative h-full bg-white shadow-2xl flex flex-col border-l border-slate-200 w-full sm:max-w-md', sizeClass]">
+          <div v-if="modelValue" :class="['relative h-full bg-white shadow-2xl flex flex-col border-l border-slate-200 w-full', sizeClass]">
             <!-- Header -->
             <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50 shrink-0">
               <div>
@@ -73,8 +73,9 @@ const sizeClass = computed(() => {
     case 'lg': return 'sm:max-w-lg'
     case 'xl': return 'sm:max-w-2xl'
     case 'full': return 'sm:max-w-full'
+    case 'half': return 'sm:max-w-[50vw]'
     case 'md':
-    default: return 'sm:max-w-md'
+    default: return 'sm:max-w-[50vw]'
   }
 })
 </script>

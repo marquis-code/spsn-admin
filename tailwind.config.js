@@ -36,6 +36,12 @@ export default {
       fontFamily: {
         sans: ['Inter', 'Roboto', 'sans-serif'],
       },
+      boxShadow: {
+        sm: 'none', DEFAULT: 'none', md: 'none', lg: 'none', xl: 'none', '2xl': 'none', inner: 'none'
+      },
+      dropShadow: {
+        sm: 'none', DEFAULT: 'none', md: 'none', lg: 'none', xl: 'none', '2xl': 'none'
+      }
     },
   },
   plugins: [],

@@ -38,23 +38,23 @@
           :key="item.to"
           :to="item.to"
           @click="sidebarOpen = false"
-          class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-bold transition-all duration-200 group hover:bg-slate-50 hover:text-[#003366]"
+          class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-500 font-medium transition-all duration-200 group hover:bg-slate-50 hover:text-[#003366]"
           active-class="!bg-slate-50 !text-[#003366] border border-slate-100"
         >
-          <component :is="item.icon" :size="16" class="opacity-70 group-hover:opacity-100 shrink-0" />
-          <span class="text-[12px] truncate">{{ item.label }}</span>
+          <component :is="item.icon" :size="18" class="opacity-70 group-hover:opacity-100 shrink-0" />
+          <span class="text-sm truncate">{{ item.label }}</span>
         </NuxtLink>
       </nav>
 
       <!-- Sidebar Footer -->
       <div class="p-5 lg:p-6 border-t border-slate-100 bg-slate-50/50 mt-auto">
         <div class="flex flex-col gap-1 mb-4">
-          <p class="text-[10px] font-bold text-slate-400">Active session</p>
-          <p class="text-[12px] font-bold text-slate-800 truncate">{{ user?.name || 'Administrator' }}</p>
+          <p class="text-xs font-medium text-slate-400">Signed in as</p>
+          <p class="text-sm font-medium text-slate-800 truncate">{{ user?.name || 'Administrator' }}</p>
         </div>
-        <button @click="showLogoutModal = true" class="w-full flex items-center justify-center gap-2 py-3 bg-white border border-slate-200 rounded-xl text-[11px] text-red-500 font-bold hover:bg-red-50 hover:border-red-100 transition-all">
+        <button @click="showLogoutModal = true" class="w-full flex items-center justify-center gap-2 py-3 bg-white border border-slate-200 rounded-xl text-sm text-red-500 font-medium hover:bg-red-50 hover:border-red-100 transition-all">
           <LucidePower :size="12" />
-          End session
+          Logout
         </button>
       </div>
     </aside>
@@ -83,9 +83,9 @@
           <button @click="showGlobalSearch = true" class="hidden sm:flex items-center justify-between gap-3 group max-w-md w-full ml-4 px-4 py-2 bg-slate-50 hover:bg-slate-100 rounded-xl transition-all border border-slate-100 focus:outline-none focus:ring-2 focus:ring-[#003366]/20">
             <div class="flex items-center gap-3 w-full">
               <LucideSearch :size="16" class="text-slate-400 group-hover:text-[#003366] transition-colors shrink-0" />
-              <span class="text-[12px] font-bold text-slate-400 group-hover:text-slate-600 transition-colors">Search system...</span>
+              <span class="text-sm font-medium text-slate-400 group-hover:text-slate-600 transition-colors">Search anything...</span>
             </div>
-            <span class="text-[9px] font-bold text-slate-300 border border-slate-200 px-1.5 py-0.5 rounded shadow-sm bg-white shrink-0">⌘K</span>
+            <span class="text-xs font-medium text-slate-300 border border-slate-200 px-2 py-0.5 rounded bg-white shrink-0">⌘K</span>
           </button>
         </div>
 
@@ -103,10 +103,10 @@
 
           <NuxtLink to="/dashboard/settings" class="flex items-center gap-3 cursor-pointer group">
             <div class="text-right hidden md:block">
-              <p class="text-[11px] font-bold text-slate-800">{{ user?.name || 'Admin user' }}</p>
-              <p class="text-[10px] text-[#003366] font-bold opacity-60">Master admin</p>
+              <p class="text-sm font-medium text-slate-800">{{ user?.name || 'Admin user' }}</p>
+              <p class="text-xs text-[#003366] font-medium">Administrator</p>
             </div>
-            <div class="w-9 h-9 lg:w-10 lg:h-10 bg-slate-50 rounded-xl flex items-center justify-center text-[#003366] font-bold border border-slate-100 group-hover:bg-[#003366] group-hover:text-white transition-all text-sm">
+            <div class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-[#003366] font-bold border border-slate-100 group-hover:bg-[#003366] group-hover:text-white transition-all text-sm">
               {{ user?.name ? user.name.charAt(0).toUpperCase() : 'A' }}
             </div>
           </NuxtLink>
@@ -143,6 +143,7 @@ import {
   LucideBell,
   LucidePower,
   LucideSettings,
+  LucideSend,
   LucideMessagesSquare,
   LucideMenu,
   LucideShieldCheck,
@@ -184,17 +185,18 @@ const menuItems = [
   { label: 'Dashboard', to: '/dashboard', icon: LucideLayoutDashboard },
   { label: 'Members', to: '/dashboard/members', icon: LucideUsers },
   { label: 'Enrollments', to: '/dashboard/enrollments', icon: LucideShieldCheck },
-  { label: 'Events & Conferences', to: '/dashboard/conferences', icon: LucideCalendar },
-  { label: 'Scientific Abstracts', to: '/dashboard/abstracts', icon: LucideFileText },
-  { label: 'News & Publications', to: '/dashboard/blogs', icon: LucideNewspaper },
+  { label: 'Events', to: '/dashboard/conferences', icon: LucideCalendar },
+  { label: 'Abstracts', to: '/dashboard/abstracts', icon: LucideFileText },
+  { label: 'News', to: '/dashboard/blogs', icon: LucideNewspaper },
   { label: 'Appointments', to: '/dashboard/appointments', icon: LucideCheckSquare },
   { label: 'Enquiries', to: '/dashboard/enquiries', icon: LucideMessageCircle },
-  { label: 'Live Chat', to: '/dashboard/chat', icon: LucideMessagesSquare },
-  { label: 'Forms Management', to: '/dashboard/forms', icon: LucideClipboardList },
+  { label: 'Chat', to: '/dashboard/chat', icon: LucideMessagesSquare },
+  { label: 'Forms', to: '/dashboard/forms', icon: LucideClipboardList },
   { label: 'Payments', to: '/dashboard/payments', icon: LucideCreditCard },
-  { label: 'Website Management', to: '/dashboard/cms-website', icon: LucideGlobe },
-  { label: 'Member Portal CMS', to: '/dashboard/cms-members', icon: LucideLayoutDashboard },
+  { label: 'Website CMS', to: '/dashboard/cms-website', icon: LucideGlobe },
+  { label: 'Member CMS', to: '/dashboard/cms-members', icon: LucideLayoutDashboard },
   { label: 'Notifications', to: '/dashboard/notifications', icon: LucideBell },
+  { label: 'Campaigns', to: '/dashboard/campaigns', icon: LucideSend },
   { label: 'Settings', to: '/dashboard/settings', icon: LucideSettings },
 ]
 

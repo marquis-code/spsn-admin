@@ -52,7 +52,7 @@
              </tr>
           </thead>
           <tbody>
-             <tr v-for="member in pendingEnrollments" :key="member._id" class="group hover:bg-slate-50 transition-colors">
+             <tr v-for="member in paginatedEnrollments" :key="member._id" class="group hover:bg-slate-50 transition-colors">
                 <td class="py-5 !pl-8">
                    <div class="flex items-center gap-4">
                       <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-[#003366] font-bold">
@@ -100,6 +100,7 @@
              </tr>
           </tbody>
        </table>
+       <Pagination v-if="pendingEnrollments.length > 0" v-model:currentPage="currentPage" :totalItems="pendingEnrollments.length" :pageSize="pageSize" />
     </div>
 
     <ConfirmModal
@@ -127,6 +128,7 @@ import { computed, onMounted } from 'vue'
 import { useCustomToast } from '@/composables/core/useCustomToast'
 import Loader from '@/components/core/Loader.vue'
 import EmptyState from '@/components/core/EmptyState.vue'
+import Pagination from '@/components/core/Pagination.vue'
 import { LucideClipboardList } from 'lucide-vue-next'
 
 const { loading, members, getMembers } = useGetMembers()
@@ -139,6 +141,15 @@ const selectedStatus = ref('')
 
 const pendingEnrollments = computed(() => {
   return members.value.filter(m => m.enrollmentInfo?.paymentStatus === 'Pending')
+})
+
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const paginatedEnrollments = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return pendingEnrollments.value.slice(start, end)
 })
 
 const newRegistrantsCount = computed(() => pendingEnrollments.value.filter(m => m.enrollmentInfo?.membershipType === 'New').length)

@@ -11,9 +11,9 @@ export const useCMS = () => {
       logoUrl: 'https://scpsn.org.ng/wp-content/uploads/2021/10/logo.png',
       socialLinks: {
         facebook: 'https://facebook.com/scpsn',
-        twitter: 'https://twitter.com/scpsn',
-        linkedin: 'https://linkedin.com/company/scpsn',
-        instagram: 'https://instagram.com/scpsn'
+        twitter: 'https://x.com/thescpsn?t=b82RnKCDUjkS1Ljx4cfuOA&s=09',
+        linkedin: 'https://www.linkedin.com/groups/15128005',
+        instagram: 'https://www.instagram.com/thescpsn'
       },
       navigation: {
         main: [

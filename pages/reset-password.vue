@@ -10,65 +10,70 @@
         </div>
 
         <header class="form-header">
-          <h1>Welcome back</h1>
-          <p>Sign in to your administrative account to manage the platform.</p>
+          <h1>Set new password</h1>
+          <p>Please enter your new administrative password.</p>
         </header>
 
-        <form @submit.prevent="handleLogin" class="login-form">
+        <form v-if="!success" @submit.prevent="handleReset" class="login-form">
 
           <div class="field-stack">
             <div class="field-item">
-              <label for="email">Email address</label>
-              <div class="input-wrap" :class="{ focused: emailFocused }">
-                <LucideUser :size="15" class="input-icon" />
-                <input
-                  id="email"
-                  v-model="email"
-                  type="email"
-                  placeholder="admin@scpsn.org.ng"
-                  @focus="emailFocused = true"
-                  @blur="emailFocused = false"
-                />
-              </div>
-            </div>
-
-            <div class="field-item">
-              <label for="password">Password</label>
+              <label for="password">New Password</label>
               <div class="input-wrap" :class="{ focused: passwordFocused }">
                 <LucideLock :size="15" class="input-icon" />
                 <input
                   id="password"
                   v-model="password"
                   :type="showPassword ? 'text' : 'password'"
-                  placeholder="Enter your password"
+                  placeholder="Enter new password"
+                  required
                   @focus="passwordFocused = true"
                   @blur="passwordFocused = false"
                 />
-                <button type="button" class="toggle-pw" @click="showPassword = !showPassword" :aria-label="showPassword ? 'Hide password' : 'Show password'">
+                <button type="button" class="toggle-pw" @click="showPassword = !showPassword" aria-label="Toggle password">
                   <LucideEye v-if="!showPassword" :size="14" />
                   <LucideEyeOff v-else :size="14" />
                 </button>
               </div>
             </div>
+            
+            <div class="field-item">
+              <label for="confirmPassword">Confirm Password</label>
+              <div class="input-wrap" :class="{ focused: confirmFocused }">
+                <LucideLock :size="15" class="input-icon" />
+                <input
+                  id="confirmPassword"
+                  v-model="confirmPassword"
+                  :type="showPassword ? 'text' : 'password'"
+                  placeholder="Confirm new password"
+                  required
+                  @focus="confirmFocused = true"
+                  @blur="confirmFocused = false"
+                />
+              </div>
+            </div>
           </div>
 
-          <div class="form-meta">
-            <label class="remember-label">
-              <input type="checkbox" v-model="remember" />
-              <span>Remember me</span>
-            </label>
-            <button type="button" class="forgot-btn" @click.prevent="navigateTo('/forgot-password')">Forgot password?</button>
-          </div>
-
-          <button type="submit" class="submit-btn" :disabled="loading">
+          <button type="submit" class="submit-btn" :disabled="loading" style="margin-top: 24px;">
             <span v-if="loading" class="spinner"></span>
             <template v-else>
-              <span>Sign in to dashboard</span>
+              <span>Reset password</span>
               <LucideArrowRight :size="16" />
             </template>
           </button>
 
+          <p v-if="errorMsg" class="error-msg" style="color: #f87171; font-size: 13px; text-align: center; margin-top: 15px;">{{ errorMsg }}</p>
         </form>
+
+        <div v-else class="success-box" style="margin-top: 40px; text-align: center;">
+           <h3 style="color: #2dd4a0; font-size: 20px; font-weight: 700; margin-bottom: 15px;">Password updated</h3>
+           <p style="color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 30px;">
+              Your password has been successfully reset. You can now use your new password to sign in.
+           </p>
+           <NuxtLink to="/login" class="submit-btn px-6" style="text-decoration: none; display: inline-flex;">
+              <span>Sign in</span>
+           </NuxtLink>
+        </div>
 
         <footer class="form-footer">
           <span class="status-row">
@@ -135,28 +140,59 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { LucideUser, LucideLock, LucideArrowRight, LucideEye, LucideEyeOff } from 'lucide-vue-next'
-import { useLogin } from '@/composables/modules/auth/useLogin'
+import { ref, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { LucideLock, LucideArrowRight, LucideEye, LucideEyeOff } from 'lucide-vue-next'
+import { useRuntimeConfig } from '#app'
+import axios from 'axios'
 
 definePageMeta({ layout: 'auth' })
 
-const email = ref('')
-const password = ref('')
-const remember = ref(false)
-const showPassword = ref(false)
-const emailFocused = ref(false)
-const passwordFocused = ref(false)
+const config = useRuntimeConfig()
+const route = useRoute()
 const router = useRouter()
-const { loading, login } = useLogin()
 
-const handleLogin = async () => {
-  const res = await login({ email: email.value, password: password.value })
-  if (res?.requires2FA) {
-    router.push({ path: '/verify-2fa', query: { email: email.value } })
-  } else if (res) {
-    router.push('/dashboard')
+const password = ref('')
+const confirmPassword = ref('')
+const passwordFocused = ref(false)
+const confirmFocused = ref(false)
+const showPassword = ref(false)
+const loading = ref(false)
+const success = ref(false)
+const errorMsg = ref('')
+const token = ref('')
+
+onMounted(() => {
+  if (route.query.token) {
+    token.value = route.query.token
+  } else {
+    errorMsg.value = 'Invalid or missing reset token.'
+  }
+})
+
+const handleReset = async () => {
+  if (!token.value) {
+    errorMsg.value = 'Invalid or missing reset token.'
+    return
+  }
+  if (password.value !== confirmPassword.value) {
+    errorMsg.value = 'Passwords do not match.'
+    return
+  }
+
+  loading.value = true
+  errorMsg.value = ''
+  
+  try {
+    await axios.post(`${config.public.apiBase}/auth/reset-password`, { 
+      token: token.value,
+      password: password.value 
+    })
+    success.value = true
+  } catch (err) {
+    errorMsg.value = err.response?.data?.message || 'Failed to reset password. The token may be expired.'
+  } finally {
+    loading.value = false
   }
 }
 </script>

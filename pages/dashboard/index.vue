@@ -1,39 +1,39 @@
 <template>
-  <div class="space-y-6 sm:space-y-10 pb-12 pt-2">
+  <div class="space-y-8 pb-12 pt-2">
     <!-- Header Section -->
     <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 sm:gap-6 px-1">
-      <div class="space-y-2">
-        <h1 class="text-2xl sm:text-3xl font-black text-slate-800">
+      <div class="space-y-1">
+        <h1 class="page-title">
           Dashboard <span class="text-[#003366]">Overview</span>
         </h1>
-        <p class="text-slate-400 text-[10px] sm:text-[11px] font-bold flex items-center gap-2">
-          <LucideActivity :size="14" class="text-[#003366] shrink-0" />
+        <p class="page-subtitle flex items-center gap-2">
+          <LucideActivity :size="16" class="text-[#003366] shrink-0" />
           Real-time platform analytics
         </p>
       </div>
       
-      <div class="flex gap-2 sm:gap-3">
-        <button class="btn-outline-admin px-4 sm:px-6">
-           Direct Export
-           <LucideDownload :size="14" class="ml-2" />
+      <div class="flex gap-3">
+        <button class="btn-outline-admin px-5">
+           Export Data
+           <LucideDownload :size="15" class="ml-2" />
         </button>
       </div>
     </div>
 
-    <!-- Metrics Grid -->
+    <!-- Stats Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div v-for="stat in computedStats" :key="stat.label" class="admin-card p-6 group border-slate-100 hover:border-[#003366]">
-        <div class="flex justify-between items-start mb-6">
-          <div class="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-[#003366] group-hover:bg-[#003366] group-hover:text-white transition-all duration-300">
-            <component :size="20" :is="stat.icon" />
+      <div v-for="stat in computedStats" :key="stat.label" class="stat-card group">
+        <div class="flex justify-between items-start mb-5">
+          <div class="stat-icon">
+            <component :size="22" :is="stat.icon" />
           </div>
-          <span class="text-[9px] font-black text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-lg">+12.5%</span>
+          <span class="stat-trend">{{ stat.trend }}</span>
         </div>
         
         <div class="space-y-1">
-          <p class="text-[10px] font-bold text-slate-400">{{ stat.label }}</p>
-          <div v-if="anyLoading" class="h-8 w-24 bg-slate-50 animate-pulse rounded-lg"></div>
-          <p v-else class="text-3xl font-black text-slate-800">{{ stat.value }}</p>
+          <p class="stat-label">{{ stat.label }}</p>
+          <div v-if="anyLoading" class="h-9 w-24 bg-slate-50 animate-pulse rounded-lg"></div>
+          <p v-else class="stat-value">{{ stat.value }}</p>
         </div>
       </div>
     </div>
@@ -43,21 +43,21 @@
       <!-- Recent Appointments Table -->
       <div class="lg:col-span-8 space-y-4">
         <div class="admin-card !p-0 overflow-hidden">
-          <div class="p-6 pb-4 flex justify-between items-center border-b border-slate-50">
-            <h3 class="font-bold text-slate-800 text-xs sm:text-sm">Recent Appointments</h3>
-            <NuxtLink to="/dashboard/appointments" class="text-[10px] font-bold text-[#003366] hover:underline">View Ledger</NuxtLink>
+          <div class="p-6 pb-4 flex justify-between items-center border-b border-slate-100">
+            <h3 class="section-title">Recent Appointments</h3>
+            <NuxtLink to="/dashboard/appointments" class="section-link">View all →</NuxtLink>
           </div>
           
           <div class="overflow-x-auto">
             <div v-if="appointmentsLoading" class="p-12 flex flex-col items-center justify-center gap-4">
               <div class="w-10 h-10 border-2 border-slate-100 border-t-[#003366] rounded-full animate-spin"></div>
-              <p class="text-[11px] font-bold text-slate-400">Syncing records...</p>
+              <p class="text-sm font-medium text-slate-400">Loading appointments...</p>
             </div>
             
             <table v-else-if="recentAppointments.length > 0" class="admin-table">
               <thead>
                 <tr>
-                  <th>Practitioner</th>
+                  <th>Name</th>
                   <th>Category</th>
                   <th>Date</th>
                   <th>Status</th>
@@ -67,21 +67,21 @@
                 <tr v-for="appointment in recentAppointments" :key="appointment._id" class="group hover:bg-slate-50/50 transition-all cursor-pointer">
                   <td>
                     <div class="flex items-center gap-3">
-                      <div class="w-8 h-8 rounded-lg bg-slate-50 text-[#003366] flex items-center justify-center font-bold text-[10px] border border-slate-100">
+                      <div class="member-avatar-sm bg-slate-50 text-[#003366]">
                         {{ getInitials(appointment.name) }}
                       </div>
-                      <span class="font-bold text-slate-700 text-xs">{{ appointment.name }}</span>
+                      <span class="font-semibold text-slate-700 text-sm">{{ appointment.name }}</span>
                     </div>
                   </td>
                   <td>
-                    <span class="text-[11px] font-medium text-slate-500">{{ appointment.category || 'General' }}</span>
+                    <span class="text-sm font-medium text-slate-500">{{ appointment.category || 'General' }}</span>
                   </td>
                   <td>
-                    <span class="text-[11px] font-medium text-slate-600">{{ formatDate(appointment.date) }}</span>
+                    <span class="text-sm font-medium text-slate-600">{{ formatDate(appointment.date) }}</span>
                   </td>
                   <td>
-                    <span :class="['badge-premium text-[8px]', getStatusClass(appointment.status)]">
-                      {{ appointment.status || 'Verified' }}
+                    <span :class="['badge-premium', getStatusClass(appointment.status)]">
+                      {{ appointment.status || 'Pending' }}
                     </span>
                   </td>
                 </tr>
@@ -91,7 +91,7 @@
             <EmptyState 
               v-else 
               title="No Appointments" 
-              message="No recent engagement protocols have been initialized in the system."
+              message="No appointments found in the system."
               :icon="LucideCalendar"
             />
           </div>
@@ -101,9 +101,9 @@
       <!-- Recent Enquiries Sidebar -->
       <div class="lg:col-span-4 space-y-6">
          <div class="admin-card !p-0 overflow-hidden">
-            <div class="p-6 pb-4 flex justify-between items-center border-b border-slate-50">
-               <h3 class="font-bold text-slate-800 text-xs sm:text-sm">New Enquiries</h3>
-               <NuxtLink to="/dashboard/enquiries" class="text-[10px] font-bold text-[#003366] hover:underline">Inbox</NuxtLink>
+            <div class="p-6 pb-4 flex justify-between items-center border-b border-slate-100">
+               <h3 class="section-title">New Enquiries</h3>
+               <NuxtLink to="/dashboard/enquiries" class="section-link">View all →</NuxtLink>
             </div>
             
             <div class="p-4 space-y-3">
@@ -115,13 +115,13 @@
                   <div v-for="enquiry in recentEnquiries" :key="enquiry._id" class="p-4 bg-white border border-slate-100 rounded-xl hover:border-[#003366] transition-all cursor-pointer group">
                      <div class="space-y-3">
                         <div class="flex justify-between items-start">
-                           <p class="text-[11px] font-bold text-slate-800 truncate">{{ enquiry.subject }}</p>
-                           <LucideMessageCircle :size="12" class="text-slate-300 group-hover:text-[#003366]" />
+                           <p class="text-sm font-semibold text-slate-800 truncate">{{ enquiry.subject }}</p>
+                           <LucideMessageCircle :size="14" class="text-slate-300 group-hover:text-[#003366] shrink-0" />
                         </div>
-                        <p class="text-[10px] text-slate-400 font-medium line-clamp-2 leading-relaxed opacity-70">{{ enquiry.message }}</p>
+                        <p class="text-sm text-slate-400 font-normal line-clamp-2 leading-relaxed">{{ enquiry.message }}</p>
                         <div class="flex justify-between items-center pt-2 border-t border-slate-50">
-                           <span class="text-[9px] font-bold text-[#003366]">{{ enquiry.status || 'New' }}</span>
-                           <span class="text-[9px] font-medium text-slate-300">Received</span>
+                           <span class="text-xs font-semibold text-[#003366]">{{ enquiry.status || 'New' }}</span>
+                           <span class="text-xs font-medium text-slate-300">Received</span>
                         </div>
                      </div>
                   </div>
@@ -129,8 +129,8 @@
 
                <EmptyState 
                   v-else 
-                  title="Inbox Empty" 
-                  message="All communication channels are currently clear."
+                  title="No Enquiries" 
+                  message="No enquiries at the moment."
                   :icon="LucideInbox"
                   class="py-10"
                />
@@ -167,10 +167,10 @@ const { enquiries, getEnquiries, loading: enquiriesLoading } = useGetEnquiries()
 const anyLoading = computed(() => membersLoading.value || abstractsLoading.value || enquiriesLoading.value || appointmentsLoading.value)
 
 const computedStats = computed(() => [
-  { label: 'Total Practitioners', value: members.value?.length || 0, icon: LucideUsers },
-  { label: 'Pending Abstracts', value: abstracts.value?.filter(a => a.status === 'pending').length || 0, icon: LucideFileText },
-  { label: 'Registry Inquiries', value: enquiries.value?.length || 0, icon: LucideInbox },
-  { label: 'Scheduled Engagements', value: appointments.value?.length || 0, icon: LucideCalendar },
+  { label: 'Total Members', value: members.value?.length || 0, icon: LucideUsers, trend: '+12%' },
+  { label: 'Pending Abstracts', value: abstracts.value?.filter(a => a.status === 'pending').length || 0, icon: LucideFileText, trend: '+3' },
+  { label: 'Enquiries', value: enquiries.value?.length || 0, icon: LucideInbox, trend: '+8' },
+  { label: 'Appointments', value: appointments.value?.length || 0, icon: LucideCalendar, trend: '+5' },
 ])
 
 const recentAppointments = computed(() => appointments.value?.slice(0, 5) || [])

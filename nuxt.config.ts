@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBase: process.env.VITE_BASE_URL || 'http://localhost:3000/api'
+      apiBase: process.env.VITE_BASE_URL || 'https://spsn-backend.onrender.com'
     }
   },
   nitro: {

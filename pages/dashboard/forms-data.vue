@@ -47,7 +47,7 @@
              </tr>
           </thead>
           <tbody>
-             <tr v-for="response in responses" :key="response._id" class="group hover:bg-slate-50 transition-colors">
+             <tr v-for="response in paginatedResponses" :key="response._id" class="group hover:bg-slate-50 transition-colors">
                 <td class="py-5 !pl-8">
                    <span class="font-bold text-slate-800 text-sm group-hover:text-[#003366] transition-colors">{{ response.userEmail || response.name || 'Anonymous submission' }}</span>
                 </td>
@@ -66,6 +66,7 @@
              </tr>
           </tbody>
        </table>
+       <Pagination v-if="responses.length > 0" v-model:currentPage="currentPage" :totalItems="responses.length" :pageSize="pageSize" />
     </div>
   </div>
 </template>
@@ -82,10 +83,21 @@ import { onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import Loader from '@/components/core/Loader.vue'
 import EmptyState from '@/components/core/EmptyState.vue'
+import Pagination from '@/components/core/Pagination.vue'
+import { ref } from 'vue'
 
 const { loading, responses, getResponses } = useGetFormResponses()
 const route = useRoute()
 const api = useApi()
+
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const paginatedResponses = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return responses.value.slice(start, end)
+})
 
 const triggerExport = () => {
   if (route.query.id) {

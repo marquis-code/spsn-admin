@@ -3,19 +3,19 @@
     <!-- Page Header -->
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 px-1">
       <div>
-        <h2 class="text-xl sm:text-2xl font-black text-slate-800">Member Directory</h2>
-        <p class="text-[11px] text-slate-400 font-bold mt-1">Registry database: {{ members.length }} practitioners</p>
+        <h2 class="page-title">Members</h2>
+        <p class="page-subtitle">{{ members.length }} registered members</p>
       </div>
       <div class="flex gap-2 sm:gap-3 flex-wrap">
-        <button @click="triggerExport" class="btn-outline-admin px-4 sm:px-5">
-          <LucideDownload :size="14" class="mr-2" />
+        <button @click="triggerExport" class="btn-outline-admin px-5">
+          <LucideDownload :size="15" class="mr-2" />
           Export
         </button>
-        <button @click="triggerDownloadTemplate" class="text-slate-600 hover:text-[#003366] hover:bg-slate-50 border border-slate-200 rounded-xl px-4 sm:px-5 flex items-center gap-2 transition-all text-[11px] font-bold">
-          <LucideFileSpreadsheet :size="14" />
+        <button @click="triggerDownloadTemplate" class="text-slate-600 hover:text-[#003366] hover:bg-slate-50 border border-slate-200 rounded-xl px-5 flex items-center gap-2 transition-all text-sm font-semibold">
+          <LucideFileSpreadsheet :size="15" />
           Template
         </button>
-        <button @click="triggerFileInput" class="btn-premium px-4 sm:px-5" :disabled="importing">
+        <button @click="triggerFileInput" class="btn-premium px-5" :disabled="importing">
           <LucideLoader2 v-if="importing" class="w-4 h-4 animate-spin mr-2" />
           <LucideUpload v-else :size="14" class="mr-2" />
           Import
@@ -44,7 +44,7 @@
       <!-- Loading State -->
       <div v-if="loading" class="flex-1 flex flex-col items-center justify-center py-24 gap-4">
         <div class="animate-spin rounded-full h-10 w-10 border-2 border-slate-100 border-t-[#003366]"></div>
-        <p class="text-[11px] font-bold text-slate-400">Synchronizing registry...</p>
+        <p class="text-sm font-medium text-slate-400">Loading members...</p>
       </div>
 
       <!-- Members Table -->
@@ -53,42 +53,42 @@
           <table class="admin-table min-w-[1000px]">
             <thead>
               <tr>
-                <th>Practitioner info</th>
-                <th>Membership ID</th>
-                <th>Designation</th>
-                <th class="hidden lg:table-cell">Specialization</th>
-                <th class="hidden md:table-cell">Enrollment date</th>
+                <th>Member</th>
+                <th>ID</th>
+                <th>Role</th>
+                <th class="hidden lg:table-cell">Organization/Category</th>
+                <th class="hidden md:table-cell">Joined</th>
                 <th>Status</th>
-                <th>Operations</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="member in filteredMembers" :key="member._id" class="group hover:bg-slate-50/50 transition-colors">
+              <tr v-for="member in paginatedMembers" :key="member._id" class="group hover:bg-slate-50/50 transition-colors">
                 <td>
-                  <div class="flex items-center gap-4">
-                    <div class="w-9 h-9 rounded-xl bg-slate-50 flex items-center justify-center text-[#003366] font-bold border border-slate-100 text-[10px]">
-                      {{ getInitials(member.name) }}
+                  <div class="flex items-center gap-3">
+                    <div class="member-avatar" :style="{ background: getAvatarColor(getMemberName(member)), color: '#fff' }">
+                      {{ getInitials(getMemberName(member)) }}
                     </div>
                     <div class="min-w-0">
-                      <p class="font-bold text-slate-800 text-xs">{{ member.name }}</p>
-                      <p class="text-[10px] text-slate-400 font-bold opacity-60">{{ member.email }}</p>
+                      <p class="font-semibold text-slate-800 text-sm">{{ getMemberName(member) }}</p>
+                      <p class="text-xs text-slate-400 font-normal">{{ member.email }}</p>
                     </div>
                   </div>
                 </td>
                 <td>
-                  <span class="font-mono text-[10px] font-bold text-slate-500 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-100">{{ member.membershipId || 'Pending' }}</span>
+                  <span class="font-mono text-xs font-semibold text-slate-500 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-100">{{ member.membershipId || 'Pending' }}</span>
                 </td>
                 <td>
-                  <span class="font-bold text-slate-700 text-[11px]">{{ member.role || 'Member' }}</span>
+                  <span class="font-semibold text-slate-700 text-sm">{{ member.role || 'Member' }}</span>
                 </td>
                 <td class="hidden lg:table-cell">
-                  <span class="text-[11px] text-slate-400 font-bold">{{ member.specialization || 'General' }}</span>
+                  <span class="text-sm text-slate-400 font-medium">{{ member.organization || member.category || 'General' }}</span>
                 </td>
                 <td class="hidden md:table-cell">
-                  <span class="text-[11px] text-slate-400 font-bold">{{ formatDate(member.createdAt) }}</span>
+                  <span class="text-sm text-slate-400 font-medium">{{ formatDate(member.enrollmentInfo?.enrollmentDate || member.createdAt) }}</span>
                 </td>
                 <td>
-                  <span :class="['badge-premium text-[8px]', member.isActive !== false ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100']">
+                  <span :class="['badge-premium', member.isActive !== false ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100']">
                     {{ member.isActive !== false ? 'Active' : 'Inactive' }}
                   </span>
                 </td>
@@ -107,6 +107,7 @@
             </tbody>
           </table>
         </div>
+        <Pagination v-model:currentPage="currentPage" :totalItems="filteredMembers.length" :pageSize="pageSize" />
       </template>
 
       <!-- Empty State -->
@@ -142,6 +143,7 @@ import { LucideSearch, LucideLoader2, LucideDownload, LucideUpload, LucideFileSp
 import EmptyState from '@/components/core/EmptyState.vue'
 import ConfirmModal from '@/components/core/ConfirmModal.vue'
 import MemberDetailsModal from '@/components/core/MemberDetailsModal.vue'
+import Pagination from '@/components/core/Pagination.vue'
 import AnimatedInput from '@/components/AnimatedInput.vue'
 import SelectInput from '@/components/SelectInput.vue'
 import { useGetMembers } from '@/composables/modules/members/useGetMembers'
@@ -161,6 +163,9 @@ const selectedMember = ref(null)
 
 const showDetailsModal = ref(false)
 const selectedMemberForDetails = ref(null)
+
+const currentPage = ref(1)
+const pageSize = ref(10)
 
 const viewDetails = (member) => {
   selectedMemberForDetails.value = member
@@ -217,13 +222,42 @@ const filteredMembers = computed(() => {
   if (!searchQuery.value) return members.value
   const q = searchQuery.value.toLowerCase()
   return members.value.filter((m) =>
-    m.name?.toLowerCase().includes(q) || m.email?.toLowerCase().includes(q)
+    m.fullName?.toLowerCase().includes(q) || m.name?.toLowerCase().includes(q) || m.email?.toLowerCase().includes(q)
   )
 })
 
+const paginatedMembers = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return filteredMembers.value.slice(start, end)
+})
+
+const getMemberName = (member) => {
+  if (member.fullName) return member.fullName;
+  if (member.name) return member.name;
+  if (member.firstName || member.lastName) return `${member.firstName || ''} ${member.lastName || ''}`.trim();
+  if (member.email) return member.email.split('@')[0];
+  return 'Unknown';
+}
+
 const getInitials = (name) => {
-  if (!name) return '?'
-  return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
+  if (!name || name === 'Unknown') return '?'
+  const parts = name.split(/[\s._-]+/)
+  if (parts.length >= 2 && parts[0] && parts[1]) {
+    return (parts[0][0] + parts[1][0]).toUpperCase()
+  }
+  return name.slice(0, 2).toUpperCase()
+}
+
+const avatarColors = [
+  '#003366', '#0f4c35', '#6366f1', '#0891b2', '#7c3aed',
+  '#c026d3', '#0d9488', '#2563eb', '#d97706', '#dc2626'
+]
+
+const getAvatarColor = (name) => {
+  if (!name) return avatarColors[0]
+  const hash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)
+  return avatarColors[hash % avatarColors.length]
 }
 
 const formatDate = (dateStr) => {
