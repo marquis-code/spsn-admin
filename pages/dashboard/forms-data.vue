@@ -4,7 +4,7 @@
     <div class="flex justify-between items-center px-1">
       <div>
         <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Form Submission Analytics</h2>
-        <p class="text-sm text-slate-500 font-medium">Real-time submission tracking and data management for selected forms.</p>
+        <p class="text-base text-slate-500 font-medium">Real-time submission  and data management for selected forms.</p>
       </div>
       <div class="flex gap-3">
          <button @click="triggerExport" class="btn-outline-admin px-5">
@@ -49,7 +49,7 @@
           <tbody>
              <tr v-for="response in paginatedResponses" :key="response._id" class="group hover:bg-slate-50 transition-colors">
                 <td class="py-5 !pl-8">
-                   <span class="font-bold text-slate-800 text-sm group-hover:text-[#003366] transition-colors">{{ response.userEmail || response.name || 'Anonymous submission' }}</span>
+                   <span class="font-bold text-slate-800 text-base group-hover:text-[#003366] transition-colors">{{ response.userEmail || response.name || 'Anonymous submission' }}</span>
                 </td>
                 <td class="text-slate-500 font-bold text-[11px]">{{ formatDate(response.createdAt) }}</td>
                 <td class="text-right !pr-8">

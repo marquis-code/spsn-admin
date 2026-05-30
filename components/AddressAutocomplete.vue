@@ -9,7 +9,7 @@
         @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
         :placeholder="placeholder" 
         :required="required"
-        class="w-full pl-12 pr-5 py-4 bg-white border border-gray-200 rounded-2xl text-sm font-bold text-gray-900 focus:ring-2 focus:ring-[#033958] outline-none transition-all" 
+        class="w-full pl-12 pr-5 py-4 bg-white border border-gray-200 rounded-2xl text-base font-bold text-gray-900 focus:ring-2 focus:ring-[#033958] outline-none transition-all" 
       />
     </div>
   </div>

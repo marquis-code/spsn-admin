@@ -56,12 +56,12 @@ const validatePhone = () => {
 
 <template>
   <div class="relative mb-2">
-    <label class="block text-sm font-medium text-gray-700 mb-1.5">Phone Number</label>
+    <label class="block text-base font-medium text-gray-700 mb-1.5">Phone Number</label>
     <div class="flex gap-2">
       <select 
         v-model="selectedCountry"
         @change="updateValue"
-        class="w-32 py-3.5 px-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#033958] focus:border-[#033958]"
+        class="w-32 py-3.5 px-3 bg-gray-50 border border-gray-200 rounded-xl text-base focus:outline-none focus:ring-1 focus:ring-[#033958] focus:border-[#033958]"
       >
         <option 
           v-for="country in countries" 

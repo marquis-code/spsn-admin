@@ -4,7 +4,7 @@
     <div class="flex justify-between items-center px-1">
       <div>
         <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Enrollment Protocols</h2>
-        <p class="text-sm text-slate-500 font-medium">Verify and authenticate new and renewal membership requests.</p>
+        <p class="text-base text-slate-500 font-medium">Verify and authenticate new and renewal membership requests.</p>
       </div>
       <button @click="getMembers" class="btn-outline-admin px-5">
         <LucideRefreshCw :size="14" :class="['mr-2', loading ? 'animate-spin' : '']" />
@@ -34,7 +34,7 @@
     <!-- Queue Table -->
     <div v-else class="admin-table-container">
        <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-white rounded-t-3xl">
-          <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+          <h3 class="font-bold text-slate-800 text-base flex items-center gap-2">
             <LucideShieldCheck :size="18" class="text-brand-cyan" />
             Verification queue
           </h3>
@@ -59,7 +59,7 @@
                          {{ member.fullName?.charAt(0) || 'M' }}
                       </div>
                       <div>
-                         <p class="font-bold text-slate-800 text-sm">{{ member.fullName }}</p>
+                         <p class="font-bold text-slate-800 text-base">{{ member.fullName }}</p>
                          <p class="text-[10px] text-slate-400 font-bold">{{ member.email }}</p>
                       </div>
                    </div>

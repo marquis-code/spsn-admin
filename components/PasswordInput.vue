@@ -30,7 +30,7 @@ const validatePassword = (value: string) => {
 
 <template>
   <div class="relative mb-2">
-    <label class="block text-sm font-medium text-gray-700 mb-1.5">{{ label }}</label>
+    <label class="block text-base font-medium text-gray-700 mb-1.5">{{ label }}</label>
     <div class="relative">
       <input
         :type="showPassword ? 'text' : 'password'"

@@ -4,7 +4,7 @@
     <div class="flex justify-between items-center px-1">
       <div>
         <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Campaigns & Communications</h2>
-        <p class="text-sm text-slate-500 font-medium">Design and broadcast dynamic templates directly to all registered members.</p>
+        <p class="text-base text-slate-500 font-medium">Design and broadcast dynamic templates directly to all registered members.</p>
       </div>
       <button
         @click="broadcast"
@@ -65,7 +65,7 @@
            
            <div class="border-t border-slate-100 pt-6 mt-6">
              <div class="flex justify-between items-center mb-4">
-               <h4 class="font-bold text-slate-700 text-sm">Speakers</h4>
+               <h4 class="font-bold text-slate-700 text-base">Speakers</h4>
                <button @click="addSpeaker" class="text-xs text-[#003366] hover:underline flex items-center gap-1 font-bold">
                  <LucidePlus :size="14" /> Add Speaker
                </button>
@@ -104,7 +104,7 @@
            <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-[#3f7ab8] rounded-full blur-2xl opacity-50"></div>
            
            <div class="relative z-10">
-             <p class="text-sm font-black tracking-widest text-[#93bfe8] mb-2 uppercase drop-shadow-sm">Member Spotlight Feature</p>
+             <p class="text-base font-black tracking-widest text-[#93bfe8] mb-2  drop-shadow-sm">Member Spotlight Feature</p>
              <h3 class="text-4xl font-black mb-8 leading-tight tracking-tight shadow-slate-900 drop-shadow-md">MEET OUR<br/>MEMBER</h3>
              
              <div class="mx-auto w-48 h-48 rounded-full border-4 border-white overflow-hidden shadow-xl mb-6 relative">
@@ -114,7 +114,7 @@
              <h4 class="text-xl font-bold mb-1">{{ forms.spotlight.name || 'Dr. Member Name' }}</h4>
              <p class="text-xs text-[#93bfe8] font-bold tracking-wide">{{ forms.spotlight.designation || 'Professional Designation' }}</p>
              
-             <p v-if="forms.spotlight.bio" class="mt-6 text-sm italic text-slate-200 border-t border-[#3f7ab8] pt-6 leading-relaxed">
+             <p v-if="forms.spotlight.bio" class="mt-6 text-base italic text-slate-200 border-t border-[#3f7ab8] pt-6 leading-relaxed">
                "{{ forms.spotlight.bio }}"
              </p>
            </div>
@@ -123,21 +123,21 @@
         <!-- Webinar Preview -->
         <div v-if="activeTab === 'webinar'" class="w-full max-w-[500px] bg-white rounded-xl overflow-hidden shadow-2xl flex flex-col md:flex-row text-slate-800 border border-slate-200">
            <div class="w-full md:w-2/3 p-6 flex flex-col relative z-10">
-              <h2 class="text-2xl font-black text-slate-200 uppercase tracking-tighter leading-none mb-6">SCPSN<br/>Monthly<br/>Webinar</h2>
+              <h2 class="text-2xl font-black text-slate-200  tracking-tighter leading-none mb-6">SCPSN<br/>Monthly<br/>Webinar</h2>
               <div class="bg-[#6d28d9] text-white p-5 -ml-6 mr-6 rounded-r-3xl mb-6 shadow-md relative z-20 transform translate-x-2">
-                 <h3 class="text-base font-black uppercase mb-2 leading-tight shadow-sm">{{ forms.webinar.theme || 'Webinar Theme' }}</h3>
+                 <h3 class="text-base font-black  mb-2 leading-tight shadow-sm">{{ forms.webinar.theme || 'Webinar Theme' }}</h3>
                  <p class="text-xs text-[#ddd6fe] leading-snug">Subtheme: {{ forms.webinar.subtheme || 'Enter a subtheme here' }}</p>
               </div>
               <div class="flex gap-4 mb-6">
-                 <div class="flex items-center gap-2 font-bold text-sm text-slate-700 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">
+                 <div class="flex items-center gap-2 font-bold text-base text-slate-700 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">
                    <LucideCalendar class="text-[#6d28d9]" :size="16"/> {{ forms.webinar.date || 'Date' }}
                  </div>
-                 <div class="flex items-center gap-2 font-bold text-sm text-slate-700 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">
+                 <div class="flex items-center gap-2 font-bold text-base text-slate-700 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">
                    <LucideClock class="text-[#6d28d9]" :size="16"/> {{ forms.webinar.time || 'Time' }}
                  </div>
               </div>
               <div class="mt-auto">
-                 <div class="inline-flex items-center gap-2 bg-[#6d28d9] text-white px-5 py-2.5 rounded-full text-xs font-black tracking-wider uppercase shadow-md shadow-[#6d28d9]/30">
+                 <div class="inline-flex items-center gap-2 bg-[#6d28d9] text-white px-5 py-2.5 rounded-full text-xs font-black tracking-wider  shadow-md shadow-[#6d28d9]/30">
                     <LucideMapPin :size="14" /> VENUE: {{ forms.webinar.venue || 'Location' }}
                  </div>
               </div>
@@ -146,7 +146,7 @@
            <div class="w-full md:w-1/3 bg-[#fdf4ff] border-l border-slate-100 flex flex-col items-center relative overflow-hidden pb-4">
               <div class="absolute -top-10 -right-10 w-24 h-24 bg-[#e879f9] opacity-10 rounded-full blur-xl"></div>
               
-              <div class="bg-[#6d28d9] text-white w-full text-center py-2.5 rounded-b-2xl font-black text-[10px] tracking-widest uppercase mb-6 shadow-sm z-10 relative">
+              <div class="bg-[#6d28d9] text-white w-full text-center py-2.5 rounded-b-2xl font-black text-[10px] tracking-widest  mb-6 shadow-sm z-10 relative">
                  The Speakers
               </div>
               
@@ -159,10 +159,10 @@
               </div>
               
               <div class="mt-8 bg-[#6d28d9] text-white w-[90%] rounded-xl p-3 text-[9px] text-center shadow-lg relative z-10">
-                 <span class="opacity-70 font-bold uppercase tracking-wider block mb-1">Chief Host:</span> 
+                 <span class="opacity-70 font-bold  tracking-wider block mb-1">Chief Host:</span> 
                  <span class="font-black">{{ forms.webinar.chiefHost || 'President' }}</span>
                  <div class="h-px bg-white/20 my-2"></div>
-                 <span class="opacity-70 font-bold uppercase tracking-wider block mb-1">Host:</span> 
+                 <span class="opacity-70 font-bold  tracking-wider block mb-1">Host:</span> 
                  <span class="font-black">{{ forms.webinar.host || 'Publicity Team' }}</span>
               </div>
            </div>
@@ -180,7 +180,7 @@
               </div>
               
               <h4 class="text-2xl font-black mb-3 leading-tight tracking-tight text-white drop-shadow-md">{{ forms.new_month.title || 'Welcome to a Vibrant New Month Ahead!' }}</h4>
-              <p class="text-sm font-medium opacity-90 leading-relaxed drop-shadow-sm">{{ forms.new_month.message || 'Join us as we celebrate the start of a new month. Let us embark on a month full of growth and discovery.' }}</p>
+              <p class="text-base font-medium opacity-90 leading-relaxed drop-shadow-sm">{{ forms.new_month.message || 'Join us as we celebrate the start of a new month. Let us embark on a month full of growth and discovery.' }}</p>
               
               <div class="mt-8 bg-[#0f172a] text-center py-4 rounded-xl shadow-lg border border-white/10 transform hover:scale-[1.02] transition-transform">
                  <span class="font-black text-white tracking-wide">{{ forms.new_month.tagline || 'Fresh month, fresh energy' }}</span>

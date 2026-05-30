@@ -35,7 +35,7 @@
              <p class="text-[11px] text-slate-400 font-bold mt-1">Start typing to search across the entire registry.</p>
              
              <div class="mt-8 max-w-sm mx-auto text-left">
-                <h5 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Quick Navigation</h5>
+                <h5 class="text-[10px] font-bold text-slate-400  mb-3">Quick Navigation</h5>
                 <div class="space-y-1">
                    <button @click="navigate('/dashboard/members')" class="w-full flex items-center gap-3 p-3 hover:bg-white rounded-xl text-slate-600 hover:text-[#003366] transition-all font-bold text-xs border border-transparent hover:border-slate-100 hover:shadow-sm">
                       <LucideUsers :size="16" class="text-slate-400" /> Member Directory
@@ -50,7 +50,7 @@
              </div>
           </div>
           <div v-else-if="filteredResults.length > 0" class="space-y-1">
-            <h5 class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 px-3 mt-2">Search Results</h5>
+            <h5 class="text-[10px] font-bold text-slate-400  mb-3 px-3 mt-2">Search Results</h5>
             <button 
               v-for="res in filteredResults" 
               :key="res.id"
@@ -77,7 +77,7 @@
         </div>
         
         <div class="px-6 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between shrink-0">
-           <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2"><LucideCommand :size="10" /> SCPSN Global Search</span>
+           <span class="text-[9px] font-bold text-slate-400  flex items-center gap-2"><LucideCommand :size="10" /> SCPSN Global Search</span>
            <span class="text-[9px] font-bold text-slate-400">Press Esc to close</span>
         </div>
       </div>
@@ -88,10 +88,7 @@
 </template>
 
 <script setup>
-import { 
-  LucideSearch, LucideX, LucideUsers, LucideCreditCard, LucideSettings, 
-  LucideArrowRight, LucideSearchX, LucideCommand, LucideFileText, LucideMessageCircle, LucideShieldCheck 
-} from 'lucide-vue-next'
+
 import { ref, watch, nextTick, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -127,12 +124,12 @@ watch(() => props.modelValue, (val) => {
 
 // Mock global search data
 const searchableItems = [
-  { id: 1, title: 'Manage Member Directory', description: 'View, filter and update all registered members.', to: '/dashboard/members', icon: LucideUsers },
-  { id: 2, title: 'Pending Enrollments', description: 'Verify new member applications.', to: '/dashboard/enrollments', icon: LucideShieldCheck },
-  { id: 3, title: 'Financial Ledger', description: 'Audit all incoming transaction logs and dues.', to: '/dashboard/payments', icon: LucideCreditCard },
-  { id: 4, title: 'Live Support Nexus', description: 'Respond to incoming member chat transmissions.', to: '/dashboard/chat', icon: LucideMessageCircle },
-  { id: 5, title: 'Publications & News', description: 'Draft or edit scientific articles.', to: '/dashboard/blogs', icon: LucideFileText },
-  { id: 6, title: 'Global System Settings', description: 'Update institutional preferences and platform config.', to: '/dashboard/settings', icon: LucideSettings }
+  { id: 1, title: 'Manage Member Directory', description: 'View, filter and update all registered members.', to: '/dashboard/members', icon: 'LucideUsers' },
+  { id: 2, title: 'Pending Enrollments', description: 'Verify new member applications.', to: '/dashboard/enrollments', icon: 'LucideShieldCheck' },
+  { id: 3, title: 'Financial Ledger', description: 'Audit all incoming transaction logs and dues.', to: '/dashboard/payments', icon: 'LucideCreditCard' },
+  { id: 4, title: 'Live Support Nexus', description: 'Respond to incoming member chat transmissions.', to: '/dashboard/chat', icon: 'LucideMessageCircle' },
+  { id: 5, title: 'Publications & News', description: 'Draft or edit scientific articles.', to: '/dashboard/blogs', icon: 'LucideFileText' },
+  { id: 6, title: 'Global System Settings', description: 'Update institutional preferences and platform config.', to: '/dashboard/settings', icon: 'LucideSettings' }
 ]
 
 const filteredResults = computed(() => {

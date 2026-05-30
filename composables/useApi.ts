@@ -93,6 +93,8 @@ export const useApi = () => {
       import: (formData: FormData) => call('/payments/import', { method: 'POST', body: formData }),
       export: () => download('/payments/export', 'payments.xlsx'),
       downloadTemplate: () => downloadCSV(['Amount', 'Reference', 'Status', 'Payment Method', 'Member'], 'payments_template.csv'),
+      approve: (id: string) => call(`/payments/${id}/approve`, { method: 'PATCH' }),
+      reject: (id: string, reason: string) => call(`/payments/${id}/reject`, { method: 'PATCH', body: { reason } }),
     },
     forms: {
       getAll: () => call('/forms'),

@@ -4,7 +4,7 @@
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 px-1">
       <div>
         <h2 class="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">Appointment Management</h2>
-        <p class="text-sm text-slate-500 font-medium">Review and confirm pathology consultation requests.</p>
+        <p class="text-base text-slate-500 font-medium">Review and confirm pathology consultation requests.</p>
       </div>
       <div class="flex gap-2 sm:gap-3 flex-wrap">
         <button @click="triggerExport" class="btn-outline-admin px-4 sm:px-5">
@@ -65,7 +65,7 @@
               <tr v-for="appointment in paginatedAppointments" :key="appointment._id" class="group hover:bg-slate-50 transition-colors">
                 <td class="py-5">
                   <div class="flex flex-col gap-0.5">
-                    <span class="font-bold text-slate-800 text-sm group-hover:text-[#003366] transition-colors">{{ appointment.name }}</span>
+                    <span class="font-bold text-slate-800 text-base group-hover:text-[#003366] transition-colors">{{ appointment.name }}</span>
                     <span class="text-[11px] text-slate-400 font-medium truncate max-w-[180px]">{{ appointment.email }}</span>
                   </div>
                 </td>

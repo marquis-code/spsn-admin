@@ -49,7 +49,7 @@
               <!-- Information Grid -->
               <div class="space-y-6">
                 <div>
-                  <h5 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 border-b border-slate-100 pb-2">Professional Identity</h5>
+                  <h5 class="text-[10px] font-black text-slate-400  mb-3 border-b border-slate-100 pb-2">Professional Identity</h5>
                   <div class="grid grid-cols-2 gap-4">
                     <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
                       <p class="text-[10px] font-bold text-slate-400 mb-1">Membership ID</p>
@@ -67,7 +67,7 @@
                 </div>
 
                 <div>
-                  <h5 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 border-b border-slate-100 pb-2">Contact & Operations</h5>
+                  <h5 class="text-[10px] font-black text-slate-400  mb-3 border-b border-slate-100 pb-2">Contact & Operations</h5>
                   <div class="space-y-3">
                     <div class="flex items-center gap-3">
                       <div class="w-8 h-8 rounded-lg bg-[#003366]/5 text-[#003366] flex items-center justify-center shrink-0">
@@ -91,7 +91,7 @@
                 </div>
 
                 <div v-if="member.isBoardMember">
-                  <h5 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 border-b border-slate-100 pb-2">Leadership Status</h5>
+                  <h5 class="text-[10px] font-black text-slate-400  mb-3 border-b border-slate-100 pb-2">Leadership Status</h5>
                   <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl flex items-start gap-3">
                     <LucideAward :size="18" class="text-amber-600 mt-0.5 shrink-0" />
                     <div>

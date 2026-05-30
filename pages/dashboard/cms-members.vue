@@ -4,7 +4,7 @@
     <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 px-1">
       <div>
         <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Member Portal CMS</h2>
-        <p class="text-sm text-slate-500 font-medium">Manage the internal experience for all registered practitioners.</p>
+        <p class="text-base text-slate-500 font-medium">Manage the internal experience for all registered practitioners.</p>
       </div>
       <div class="flex gap-3">
         <button @click="resetForm" class="btn-outline-admin px-5">
@@ -26,12 +26,12 @@
       <!-- Section Navigation -->
       <div class="lg:col-span-3">
         <div class="bg-white rounded-3xl border border-slate-100 p-2 sm:p-4 sticky top-8">
-          <h3 class="hidden sm:block text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4 mb-3">Portal Sections</h3>
+          <h3 class="hidden sm:block text-[10px] font-bold text-slate-400  px-4 mb-3">Portal Sections</h3>
           <div class="flex lg:flex-col gap-1.5 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 scrollbar-hide">
             <button 
               v-for="section in sections" :key="section.id"
               @click="activeSection = section.id" 
-              :class="['flex-shrink-0 flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap', activeSection === section.id ? 'bg-[#003366] text-white' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 border border-transparent']"
+              :class="['flex-shrink-0 flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-base font-bold transition-all whitespace-nowrap', activeSection === section.id ? 'bg-[#003366] text-white' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 border border-transparent']"
             >
               <component :is="section.icon" :size="16" class="sm:w-[18px] sm:h-[18px]" />
               {{ section.label }}

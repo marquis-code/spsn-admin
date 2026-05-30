@@ -25,8 +25,8 @@
               <Icon name="lucide:shopping-bag" size="20" />
             </div>
             <div>
-              <div class="text-sm font-black text-gray-900">Orders</div>
-              <div class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">0906 001 2295</div>
+              <div class="text-base font-black text-gray-900">Orders</div>
+              <div class="text-[10px] text-gray-400 font-bold  tracking-wider">0906 001 2295</div>
             </div>
           </a>
           <a 
@@ -39,8 +39,8 @@
               <Icon name="lucide:headphones" size="20" />
             </div>
             <div>
-              <div class="text-sm font-black text-gray-900">Help Line</div>
-              <div class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">0703 698 9975</div>
+              <div class="text-base font-black text-gray-900">Help Line</div>
+              <div class="text-[10px] text-gray-400 font-bold  tracking-wider">0703 698 9975</div>
             </div>
           </a>
         </div>

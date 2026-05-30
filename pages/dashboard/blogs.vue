@@ -4,7 +4,7 @@
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 px-1">
       <div>
         <h2 class="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">News & Publications</h2>
-        <p class="text-sm text-slate-500 font-medium">Manage association news, journals and research publications.</p>
+        <p class="text-base text-slate-500 font-medium">Manage association news, journals and research publications.</p>
       </div>
       <div class="flex gap-2 sm:gap-3 flex-wrap">
         <button @click="triggerExport" class="btn-outline-admin px-4 sm:px-5">
@@ -115,8 +115,8 @@
 
       <template #footer>
         <div class="flex gap-3 justify-end w-full">
-          <button @click="showSlideOver = false" class="px-5 py-2.5 text-sm font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-all">Cancel</button>
-          <button @click="savePost" :disabled="saving" class="px-5 py-2.5 text-sm font-bold text-white bg-[#003366] hover:bg-[#002855] rounded-xl transition-all flex items-center gap-2">
+          <button @click="showSlideOver = false" class="px-5 py-2.5 text-base font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-all">Cancel</button>
+          <button @click="savePost" :disabled="saving" class="px-5 py-2.5 text-base font-bold text-white bg-[#003366] hover:bg-[#002855] rounded-xl transition-all flex items-center gap-2">
             <LucideLoader2 v-if="saving" class="w-4 h-4 animate-spin" />
             <LucideSave v-else class="w-4 h-4" />
             Save Publication

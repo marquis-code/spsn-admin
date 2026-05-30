@@ -4,7 +4,7 @@
     <div class="flex justify-between items-center px-1">
       <div>
         <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Conference Management</h2>
-        <p class="text-sm text-slate-500 font-medium">Schedule and manage association conferences and seminars.</p>
+        <p class="text-base text-slate-500 font-medium">Schedule and manage association conferences and seminars.</p>
       </div>
       <div class="flex gap-3">
         <button @click="triggerExport" class="btn-outline-admin px-5">
@@ -102,8 +102,8 @@
 
       <template #footer>
         <div class="flex gap-3 justify-end w-full">
-          <button @click="showSlideOver = false" class="px-5 py-2.5 text-sm font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-all">Cancel</button>
-          <button @click="saveConference" :disabled="saving" class="px-5 py-2.5 text-sm font-bold text-white bg-[#003366] hover:bg-[#002855] rounded-xl transition-all flex items-center gap-2">
+          <button @click="showSlideOver = false" class="px-5 py-2.5 text-base font-bold text-slate-500 hover:bg-slate-100 rounded-xl transition-all">Cancel</button>
+          <button @click="saveConference" :disabled="saving" class="px-5 py-2.5 text-base font-bold text-white bg-[#003366] hover:bg-[#002855] rounded-xl transition-all flex items-center gap-2">
             <LucideLoader2 v-if="saving" class="w-4 h-4 animate-spin" />
             <LucideSave v-else class="w-4 h-4" />
             Save Conference

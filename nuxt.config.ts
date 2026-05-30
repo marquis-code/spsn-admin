@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
+  ssr: false,
   devtools: { enabled: true },
   devServer: {
     port: 3001
@@ -10,15 +11,14 @@ export default defineNuxtConfig({
       apiBase: process.env.VITE_BASE_URL || 'https://spsn-backend.onrender.com'
     }
   },
-  nitro: {
-    devProxy: {
-      '/socket.io': {
-        target: 'http://localhost:3000/socket.io',
-        ws: true
+  modules: ['@nuxtjs/tailwindcss', '@vueuse/nuxt', '@nuxt/icon', 'lucide-nuxt'],
+  vite: {
+    server: {
+      hmr: {
+        port: 24679
       }
     }
   },
-  modules: ['@nuxtjs/tailwindcss', '@vueuse/nuxt', '@nuxt/icon'],
   build: {
     transpile: ['lucide-vue-next']
   },

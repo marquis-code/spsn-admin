@@ -4,7 +4,7 @@
     <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 px-1">
       <div>
         <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Website Management</h2>
-        <p class="text-sm text-slate-500 font-medium">End-to-end control of website content, navigation, images, and social presence.</p>
+        <p class="text-base text-slate-500 font-medium">End-to-end control of website content, navigation, images, and social presence.</p>
       </div>
       <div class="flex gap-3">
         <button @click="resetForm" class="btn-outline-admin px-5">
@@ -26,12 +26,12 @@
       <!-- Section Navigation -->
       <div class="lg:col-span-3">
         <div class="bg-white rounded-3xl border border-slate-100 p-2 sm:p-4 sticky top-8">
-          <h3 class="hidden sm:block text-[10px] font-bold text-slate-400 uppercase tracking-widest px-4 mb-3">Content Categories</h3>
+          <h3 class="hidden sm:block text-[10px] font-bold text-slate-400  px-4 mb-3">Content Categories</h3>
           <div class="flex lg:flex-col gap-1.5 overflow-x-auto lg:overflow-x-visible pb-2 lg:pb-0 scrollbar-hide">
             <button 
               v-for="section in sections" :key="section.id"
               @click="activeSection = section.id" 
-              :class="['flex-shrink-0 flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap', activeSection === section.id ? 'bg-[#003366] text-white' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 border border-transparent']"
+              :class="['flex-shrink-0 flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-base font-bold transition-all whitespace-nowrap', activeSection === section.id ? 'bg-[#003366] text-white' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 border border-transparent']"
             >
               <component :is="section.icon" :size="16" class="sm:w-[18px] sm:h-[18px]" />
               {{ section.label }}
@@ -121,12 +121,12 @@
             </div>
             <div class="space-y-8">
               <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 space-y-6">
-                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Pillars Section</p>
+                <p class="text-[10px] font-black text-slate-400 ">Pillars Section</p>
                 <AnimatedInput v-model="formData.public.home.homeHeaders.pillarsTitle" label="Main Pillars Headline" />
                 <AnimatedInput v-model="formData.public.home.homeHeaders.pillarsSubtitle" label="Pillars Supportive Text" type="textarea" :rows="2" />
               </div>
               <div class="p-6 bg-slate-50 rounded-3xl border border-slate-100 space-y-6">
-                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Initiatives Section</p>
+                <p class="text-[10px] font-black text-slate-400 ">Initiatives Section</p>
                 <AnimatedInput v-model="formData.public.home.homeHeaders.initiativesTitle" label="Initiatives Headline" />
                 <AnimatedInput v-model="formData.public.home.homeHeaders.initiativesSubtitle" label="Initiatives Supportive Text" type="textarea" :rows="2" />
               </div>

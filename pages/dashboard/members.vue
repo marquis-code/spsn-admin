@@ -11,7 +11,7 @@
           <LucideDownload :size="15" class="mr-2" />
           Export
         </button>
-        <button @click="triggerDownloadTemplate" class="text-slate-600 hover:text-[#003366] hover:bg-slate-50 border border-slate-200 rounded-xl px-5 flex items-center gap-2 transition-all text-sm font-semibold">
+        <button @click="triggerDownloadTemplate" class="text-slate-600 hover:text-[#003366] hover:bg-slate-50 border border-slate-200 rounded-xl px-5 flex items-center gap-2 transition-all text-base font-semibold">
           <LucideFileSpreadsheet :size="15" />
           Template
         </button>
@@ -44,7 +44,7 @@
       <!-- Loading State -->
       <div v-if="loading" class="flex-1 flex flex-col items-center justify-center py-24 gap-4">
         <div class="animate-spin rounded-full h-10 w-10 border-2 border-slate-100 border-t-[#003366]"></div>
-        <p class="text-sm font-medium text-slate-400">Loading members...</p>
+        <p class="text-base font-medium text-slate-400">Loading members...</p>
       </div>
 
       <!-- Members Table -->
@@ -70,7 +70,7 @@
                       {{ getInitials(getMemberName(member)) }}
                     </div>
                     <div class="min-w-0">
-                      <p class="font-semibold text-slate-800 text-sm">{{ getMemberName(member) }}</p>
+                      <p class="font-semibold text-slate-800 text-base">{{ getMemberName(member) }}</p>
                       <p class="text-xs text-slate-400 font-normal">{{ member.email }}</p>
                     </div>
                   </div>
@@ -79,13 +79,13 @@
                   <span class="font-mono text-xs font-semibold text-slate-500 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-100">{{ member.membershipId || 'Pending' }}</span>
                 </td>
                 <td>
-                  <span class="font-semibold text-slate-700 text-sm">{{ member.role || 'Member' }}</span>
+                  <span class="font-semibold text-slate-700 text-base">{{ member.role || 'Member' }}</span>
                 </td>
                 <td class="hidden lg:table-cell">
-                  <span class="text-sm text-slate-400 font-medium">{{ member.organization || member.category || 'General' }}</span>
+                  <span class="text-base text-slate-400 font-medium">{{ member.organization || member.category || 'General' }}</span>
                 </td>
                 <td class="hidden md:table-cell">
-                  <span class="text-sm text-slate-400 font-medium">{{ formatDate(member.enrollmentInfo?.enrollmentDate || member.createdAt) }}</span>
+                  <span class="text-base text-slate-400 font-medium">{{ formatDate(member.enrollmentInfo?.enrollmentDate || member.createdAt) }}</span>
                 </td>
                 <td>
                   <span :class="['badge-premium', member.isActive !== false ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100']">

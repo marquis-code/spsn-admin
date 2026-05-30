@@ -4,7 +4,7 @@
     <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 px-1">
       <div>
         <h2 class="text-xl sm:text-2xl font-bold text-slate-800 tracking-tight">Scientific Abstracts</h2>
-        <p class="text-sm text-slate-500 font-medium">Review and manage research submissions for upcoming congresses.</p>
+        <p class="text-base text-slate-500 font-medium">Review and manage research submissions for upcoming congresses.</p>
       </div>
       <div class="flex gap-2 sm:gap-3 flex-wrap">
         <button @click="triggerExport" class="btn-outline-admin px-4 sm:px-5">
@@ -60,7 +60,7 @@
           <tr v-for="abstract in paginatedAbstracts" :key="abstract._id" class="group hover:bg-slate-50 transition-colors">
             <td class="py-5">
               <div class="max-w-xs sm:max-w-md space-y-1">
-                <p class="font-bold text-slate-800 text-sm line-clamp-1 group-hover:text-[#003366] transition-colors">{{ abstract.title }}</p>
+                <p class="font-bold text-slate-800 text-base line-clamp-1 group-hover:text-[#003366] transition-colors">{{ abstract.title }}</p>
                 <p class="text-[11px] text-slate-400 font-bold truncate">{{ abstract.primaryAuthor }} <span class="mx-1.5 opacity-30">|</span> {{ abstract.email }}</p>
               </div>
             </td>
@@ -69,7 +69,7 @@
             </td>
             <td class="hidden lg:table-cell">
               <div class="flex flex-wrap gap-1">
-                <span v-for="kw in (abstract.keywords || []).slice(0, 2)" :key="kw" class="px-2 py-0.5 bg-slate-100 text-slate-500 rounded text-[9px] font-bold uppercase tracking-widest border border-slate-200">
+                <span v-for="kw in (abstract.keywords || []).slice(0, 2)" :key="kw" class="px-2 py-0.5 bg-slate-100 text-slate-500 rounded text-[9px] font-bold  border border-slate-200">
                   {{ kw }}
                 </span>
                 <span v-if="abstract.keywords && abstract.keywords.length > 2" class="text-[9px] text-slate-400 font-bold">

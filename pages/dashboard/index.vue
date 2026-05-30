@@ -51,7 +51,7 @@
           <div class="overflow-x-auto">
             <div v-if="appointmentsLoading" class="p-12 flex flex-col items-center justify-center gap-4">
               <div class="w-10 h-10 border-2 border-slate-100 border-t-[#003366] rounded-full animate-spin"></div>
-              <p class="text-sm font-medium text-slate-400">Loading appointments...</p>
+              <p class="text-base font-medium text-slate-400">Loading appointments...</p>
             </div>
             
             <table v-else-if="recentAppointments.length > 0" class="admin-table">
@@ -70,14 +70,14 @@
                       <div class="member-avatar-sm bg-slate-50 text-[#003366]">
                         {{ getInitials(appointment.name) }}
                       </div>
-                      <span class="font-semibold text-slate-700 text-sm">{{ appointment.name }}</span>
+                      <span class="font-semibold text-slate-700 text-base">{{ appointment.name }}</span>
                     </div>
                   </td>
                   <td>
-                    <span class="text-sm font-medium text-slate-500">{{ appointment.category || 'General' }}</span>
+                    <span class="text-base font-medium text-slate-500">{{ appointment.category || 'General' }}</span>
                   </td>
                   <td>
-                    <span class="text-sm font-medium text-slate-600">{{ formatDate(appointment.date) }}</span>
+                    <span class="text-base font-medium text-slate-600">{{ formatDate(appointment.date) }}</span>
                   </td>
                   <td>
                     <span :class="['badge-premium', getStatusClass(appointment.status)]">
@@ -92,7 +92,7 @@
               v-else 
               title="No Appointments" 
               message="No appointments found in the system."
-              :icon="LucideCalendar"
+              icon="LucideCalendar"
             />
           </div>
         </div>
@@ -115,10 +115,10 @@
                   <div v-for="enquiry in recentEnquiries" :key="enquiry._id" class="p-4 bg-white border border-slate-100 rounded-xl hover:border-[#003366] transition-all cursor-pointer group">
                      <div class="space-y-3">
                         <div class="flex justify-between items-start">
-                           <p class="text-sm font-semibold text-slate-800 truncate">{{ enquiry.subject }}</p>
+                           <p class="text-base font-semibold text-slate-800 truncate">{{ enquiry.subject }}</p>
                            <LucideMessageCircle :size="14" class="text-slate-300 group-hover:text-[#003366] shrink-0" />
                         </div>
-                        <p class="text-sm text-slate-400 font-normal line-clamp-2 leading-relaxed">{{ enquiry.message }}</p>
+                        <p class="text-base text-slate-400 font-normal line-clamp-2 leading-relaxed">{{ enquiry.message }}</p>
                         <div class="flex justify-between items-center pt-2 border-t border-slate-50">
                            <span class="text-xs font-semibold text-[#003366]">{{ enquiry.status || 'New' }}</span>
                            <span class="text-xs font-medium text-slate-300">Received</span>
@@ -131,7 +131,7 @@
                   v-else 
                   title="No Enquiries" 
                   message="No enquiries at the moment."
-                  :icon="LucideInbox"
+                  icon="LucideInbox"
                   class="py-10"
                />
             </div>
@@ -142,16 +142,7 @@
 </template>
 
 <script setup>
-import { 
-  LucideUsers, 
-  LucideCalendar, 
-  LucideFileText, 
-  LucideCreditCard,
-  LucideActivity,
-  LucideDownload,
-  LucideInbox,
-  LucideMessageCircle
-} from 'lucide-vue-next'
+
 import EmptyState from '@/components/core/EmptyState.vue'
 import { useGetMembers } from '@/composables/modules/members/useGetMembers'
 import { useGetAbstracts } from '@/composables/modules/abstracts/useGetAbstracts'
@@ -167,10 +158,10 @@ const { enquiries, getEnquiries, loading: enquiriesLoading } = useGetEnquiries()
 const anyLoading = computed(() => membersLoading.value || abstractsLoading.value || enquiriesLoading.value || appointmentsLoading.value)
 
 const computedStats = computed(() => [
-  { label: 'Total Members', value: members.value?.length || 0, icon: LucideUsers, trend: '+12%' },
-  { label: 'Pending Abstracts', value: abstracts.value?.filter(a => a.status === 'pending').length || 0, icon: LucideFileText, trend: '+3' },
-  { label: 'Enquiries', value: enquiries.value?.length || 0, icon: LucideInbox, trend: '+8' },
-  { label: 'Appointments', value: appointments.value?.length || 0, icon: LucideCalendar, trend: '+5' },
+  { label: 'Total Members', value: members.value?.length || 0, icon: 'LucideUsers', trend: '+12%' },
+  { label: 'Pending Abstracts', value: abstracts.value?.filter(a => a.status === 'pending').length || 0, icon: 'LucideFileText', trend: '+3' },
+  { label: 'Enquiries', value: enquiries.value?.length || 0, icon: 'LucideInbox', trend: '+8' },
+  { label: 'Appointments', value: appointments.value?.length || 0, icon: 'LucideCalendar', trend: '+5' },
 ])
 
 const recentAppointments = computed(() => appointments.value?.slice(0, 5) || [])

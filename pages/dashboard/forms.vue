@@ -4,7 +4,7 @@
     <div class="flex justify-between items-center px-1">
       <div>
         <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Custom Form Management</h2>
-        <p class="text-sm text-slate-500 font-medium">Create and manage dynamic forms for membership, congresses, or surveys.</p>
+        <p class="text-base text-slate-500 font-medium">Create and manage dynamic forms for membership, congresses, or surveys.</p>
       </div>
       <button 
         @click="showCreateDrawer = true"
@@ -25,7 +25,7 @@
       <div class="space-y-8">
         <!-- Basic Info -->
         <div class="space-y-4">
-          <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">General Information</p>
+          <p class="text-[10px] font-black text-slate-400 ">General Information</p>
           <AnimatedInput v-model="newForm.title" label="Form Title" placeholder="e.g. 2026 Congress Registration" />
           <AnimatedInput v-model="newForm.description" label="Form Description (Internal)" type="textarea" :rows="2" />
         </div>
@@ -33,7 +33,7 @@
         <!-- Field Builder -->
         <div class="space-y-6">
           <div class="flex items-center justify-between">
-            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Form Structure / Fields</p>
+            <p class="text-[10px] font-black text-slate-400 ">Form Structure / Fields</p>
             <button @click="addField" class="text-[10px] font-black text-[#003366] hover:underline flex items-center gap-1">
               <LucidePlus :size="12" /> Add Field
             </button>
@@ -78,7 +78,7 @@
                   >
                     <div class="w-3 h-3 bg-white rounded-full shadow-sm"></div>
                   </div>
-                  <span class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Mandatory Response</span>
+                  <span class="text-[11px] font-bold text-slate-500 ">Mandatory Response</span>
                 </div>
               </div>
 
@@ -86,13 +86,13 @@
               <div class="mt-4 p-5 bg-white rounded-[1.5rem] border border-slate-100 shadow-sm">
                 <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-50">
                   <p class="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Runtime Preview</p>
-                  <span v-if="field.required" class="text-[8px] font-black bg-rose-50 text-rose-500 px-2 py-0.5 rounded-full uppercase tracking-widest">Required</span>
+                  <span v-if="field.required" class="text-[8px] font-black bg-rose-50 text-rose-500 px-2 py-0.5 rounded-full ">Required</span>
                 </div>
                 
                 <div class="space-y-2.5">
                   <label class="text-[12px] font-bold text-slate-800 flex items-center gap-1.5">
                     {{ field.label || 'Unnamed Field' }}
-                    <span v-if="field.required" class="text-rose-500 text-sm">*</span>
+                    <span v-if="field.required" class="text-rose-500 text-base">*</span>
                   </label>
                   
                   <div v-if="field.type === 'text'" class="h-11 w-full bg-slate-50 border border-slate-100 rounded-xl px-4 flex items-center text-slate-300 text-[11px] italic">Enter text here...</div>

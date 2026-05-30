@@ -42,7 +42,7 @@
           active-class="!bg-slate-50 !text-[#003366] border border-slate-100"
         >
           <component :is="item.icon" :size="18" class="opacity-70 group-hover:opacity-100 shrink-0" />
-          <span class="text-sm truncate">{{ item.label }}</span>
+          <span class="text-base truncate">{{ item.label }}</span>
         </NuxtLink>
       </nav>
 
@@ -50,9 +50,9 @@
       <div class="p-5 lg:p-6 border-t border-slate-100 bg-slate-50/50 mt-auto">
         <div class="flex flex-col gap-1 mb-4">
           <p class="text-xs font-medium text-slate-400">Signed in as</p>
-          <p class="text-sm font-medium text-slate-800 truncate">{{ user?.name || 'Administrator' }}</p>
+          <p class="text-base font-medium text-slate-800 truncate">{{ user?.name || 'Administrator' }}</p>
         </div>
-        <button @click="showLogoutModal = true" class="w-full flex items-center justify-center gap-2 py-3 bg-white border border-slate-200 rounded-xl text-sm text-red-500 font-medium hover:bg-red-50 hover:border-red-100 transition-all">
+        <button @click="showLogoutModal = true" class="w-full flex items-center justify-center gap-2 py-3 bg-white border border-slate-200 rounded-xl text-base text-red-500 font-medium hover:bg-red-50 hover:border-red-100 transition-all">
           <LucidePower :size="12" />
           Logout
         </button>
@@ -83,7 +83,7 @@
           <button @click="showGlobalSearch = true" class="hidden sm:flex items-center justify-between gap-3 group max-w-md w-full ml-4 px-4 py-2 bg-slate-50 hover:bg-slate-100 rounded-xl transition-all border border-slate-100 focus:outline-none focus:ring-2 focus:ring-[#003366]/20">
             <div class="flex items-center gap-3 w-full">
               <LucideSearch :size="16" class="text-slate-400 group-hover:text-[#003366] transition-colors shrink-0" />
-              <span class="text-sm font-medium text-slate-400 group-hover:text-slate-600 transition-colors">Search anything...</span>
+              <span class="text-base font-medium text-slate-400 group-hover:text-slate-600 transition-colors">Search anything...</span>
             </div>
             <span class="text-xs font-medium text-slate-300 border border-slate-200 px-2 py-0.5 rounded bg-white shrink-0">⌘K</span>
           </button>
@@ -91,6 +91,8 @@
 
         <!-- Right: Actions -->
         <div class="flex items-center gap-3 lg:gap-6 shrink-0">
+
+
           <button @click="showGlobalSearch = true" class="sm:hidden p-2 text-slate-500 hover:bg-slate-50 rounded-lg transition-colors">
             <LucideSearch :size="18" />
           </button>
@@ -103,10 +105,10 @@
 
           <NuxtLink to="/dashboard/settings" class="flex items-center gap-3 cursor-pointer group">
             <div class="text-right hidden md:block">
-              <p class="text-sm font-medium text-slate-800">{{ user?.name || 'Admin user' }}</p>
+              <p class="text-base font-medium text-slate-800">{{ user?.name || 'Admin user' }}</p>
               <p class="text-xs text-[#003366] font-medium">Administrator</p>
             </div>
-            <div class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-[#003366] font-bold border border-slate-100 group-hover:bg-[#003366] group-hover:text-white transition-all text-sm">
+            <div class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-[#003366] font-bold border border-slate-100 group-hover:bg-[#003366] group-hover:text-white transition-all text-base">
               {{ user?.name ? user.name.charAt(0).toUpperCase() : 'A' }}
             </div>
           </NuxtLink>
@@ -129,32 +131,13 @@
 </template>
 
 <script setup>
-import {
-  LucideLayoutDashboard,
-  LucideUsers,
-  LucideFileText,
-  LucideCalendar,
-  LucideCheckSquare,
-  LucideMessageCircle,
-  LucideClipboardList,
-  LucideCreditCard,
-  LucideNewspaper,
-  LucideSearch,
-  LucideBell,
-  LucidePower,
-  LucideSettings,
-  LucideSend,
-  LucideMessagesSquare,
-  LucideMenu,
-  LucideShieldCheck,
-  LucideGlobe,
-  LucideX
-} from 'lucide-vue-next'
+
 import ConfirmModal from '@/components/core/ConfirmModal.vue'
 import GlobalSearchModal from '@/components/core/GlobalSearchModal.vue'
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useNotifications } from '@/composables/core/useNotifications'
+
 
 const { user, logout } = useAuth()
 const route = useRoute()
@@ -182,22 +165,26 @@ onUnmounted(() => {
 const isChatRoute = computed(() => route.path === '/dashboard/chat')
 
 const menuItems = [
-  { label: 'Dashboard', to: '/dashboard', icon: LucideLayoutDashboard },
-  { label: 'Members', to: '/dashboard/members', icon: LucideUsers },
-  { label: 'Enrollments', to: '/dashboard/enrollments', icon: LucideShieldCheck },
-  { label: 'Events', to: '/dashboard/conferences', icon: LucideCalendar },
-  { label: 'Abstracts', to: '/dashboard/abstracts', icon: LucideFileText },
-  { label: 'News', to: '/dashboard/blogs', icon: LucideNewspaper },
-  { label: 'Appointments', to: '/dashboard/appointments', icon: LucideCheckSquare },
-  { label: 'Enquiries', to: '/dashboard/enquiries', icon: LucideMessageCircle },
-  { label: 'Chat', to: '/dashboard/chat', icon: LucideMessagesSquare },
-  { label: 'Forms', to: '/dashboard/forms', icon: LucideClipboardList },
-  { label: 'Payments', to: '/dashboard/payments', icon: LucideCreditCard },
-  { label: 'Website CMS', to: '/dashboard/cms-website', icon: LucideGlobe },
-  { label: 'Member CMS', to: '/dashboard/cms-members', icon: LucideLayoutDashboard },
-  { label: 'Notifications', to: '/dashboard/notifications', icon: LucideBell },
-  { label: 'Campaigns', to: '/dashboard/campaigns', icon: LucideSend },
-  { label: 'Settings', to: '/dashboard/settings', icon: LucideSettings },
+  { label: 'Dashboard', to: '/dashboard', icon: 'LucideLayoutDashboard' },
+  { label: 'Members', to: '/dashboard/members', icon: 'LucideUsers' },
+  { label: 'Enrollments', to: '/dashboard/enrollments', icon: 'LucideShieldCheck' },
+  { label: 'Events', to: '/dashboard/conferences', icon: 'LucideCalendar' },
+  { label: 'Abstracts', to: '/dashboard/abstracts', icon: 'LucideFileText' },
+  { label: 'News', to: '/dashboard/blogs', icon: 'LucideNewspaper' },
+  { label: 'Appointments', to: '/dashboard/appointments', icon: 'LucideCheckSquare' },
+  { label: 'Enquiries', to: '/dashboard/enquiries', icon: 'LucideMessageCircle' },
+  { label: 'Chat', to: '/dashboard/chat', icon: 'LucideMessagesSquare' },
+  { label: 'Forms', to: '/dashboard/forms', icon: 'LucideClipboardList' },
+  { label: 'Payments', to: '/dashboard/payments', icon: 'LucideCreditCard' },
+  { label: 'Website CMS', to: '/dashboard/cms-website', icon: 'LucideGlobe' },
+  { label: 'Member CMS', to: '/dashboard/cms-members', icon: 'LucideLayoutDashboard' },
+  { label: 'Gallery', to: '/dashboard/gallery', icon: 'LucideImage' },
+  { label: 'Adverts', to: '/dashboard/adverts', icon: 'LucideGlobe' },
+  { label: 'Sponsors', to: '/dashboard/sponsors', icon: 'LucideGlobe' },
+  { label: 'Notifications', to: '/dashboard/notifications', icon: 'LucideBell' },
+  { label: 'Campaigns', to: '/dashboard/campaigns', icon: 'LucideSend' },
+  { label: 'Newsletters', to: '/newsletters', icon: 'LucideSend' },
+  { label: 'Settings', to: '/dashboard/settings', icon: 'LucideSettings' },
 ]
 
 const handleLogout = () => {

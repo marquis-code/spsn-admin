@@ -4,7 +4,7 @@
     <div class="flex justify-between items-center px-1">
       <div>
         <h2 class="text-2xl font-bold text-slate-800 tracking-tight">Global Platform Configuration</h2>
-        <p class="text-sm text-slate-500 font-medium">Centralized management for public-facing content and system parameters.</p>
+        <p class="text-base text-slate-500 font-medium">Centralized management for public-facing content and system parameters.</p>
       </div>
       <button
         @click="saveAllChanges"
@@ -66,7 +66,7 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
            <AnimatedInput v-model="config.siteName" label="Official organization name" />
-           <AnimatedInput v-model="config.logoUrl" label="Primary brand logo URL" />
+           <CoreImageUpload v-model="config.logoUrl" label="Primary brand logo" />
         </div>
         <AnimatedInput v-model="config.siteDescription" label="Platform metadescription (SEO)" type="textarea" />
       </div>
@@ -91,7 +91,7 @@
                <div class="space-y-6">
                  <AnimatedInput v-model="slide.tag" label="Header badge / classification" />
                  <AnimatedInput v-model="slide.title" label="Headline content" />
-                 <AnimatedInput v-model="slide.image" label="Background image URL" />
+                 <CoreImageUpload v-model="slide.image" label="Background image" />
                </div>
                <AnimatedInput v-model="slide.desc" label="Supporting narrative text" type="textarea" class="h-full" />
             </div>
@@ -297,12 +297,12 @@
         <div class="admin-card p-10 space-y-8">
            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
               <div class="space-y-6">
-                 <h4 class="text-sm font-bold text-slate-800 border-l-4 border-l-[#003366] pl-4">Organizational narrative</h4>
+                 <h4 class="text-base font-bold text-slate-800 border-l-4 border-l-[#003366] pl-4">Organizational narrative</h4>
                  <AnimatedInput v-model="config.membershipSettings.about" label="About SCPSN (Landing content)" type="textarea" />
               </div>
               <div class="space-y-6">
                  <div class="flex justify-between items-center">
-                    <h4 class="text-sm font-bold text-slate-800 border-l-4 border-l-[#003366] pl-4">Historical leadership</h4>
+                    <h4 class="text-base font-bold text-slate-800 border-l-4 border-l-[#003366] pl-4">Historical leadership</h4>
                     <button @click="addLeader" class="text-[11px] font-bold text-[#003366] hover:underline">Append leader</button>
                  </div>
                  <div class="grid grid-cols-1 gap-4">
@@ -319,19 +319,25 @@
         <!-- Financial & Protocol Registry -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
            <div class="admin-card p-10 space-y-6">
-              <h4 class="text-sm font-bold text-slate-800 border-l-4 border-l-brand-cyan pl-4">Fee structure</h4>
+              <h4 class="text-base font-bold text-slate-800 border-l-4 border-l-brand-cyan pl-4">Fee structure</h4>
               <AnimatedInput v-model="config.membershipSettings.newRegistrationFee" label="New registrant fee (₦)" type="number" />
               <AnimatedInput v-model="config.membershipSettings.renewalFee" label="Annual renewal fee (₦)" type="number" />
               <AnimatedInput v-model="config.membershipSettings.registrationDeadline" label="Enrollment deadline" type="date" />
            </div>
            <div class="admin-card p-10 space-y-6">
-              <h4 class="text-sm font-bold text-slate-800 border-l-4 border-l-brand-cyan pl-4">Banking credentials</h4>
-              <AnimatedInput v-model="config.membershipSettings.bankName" label="Financial institution" />
-              <AnimatedInput v-model="config.membershipSettings.accountNumber" label="Registry account number" />
-              <AnimatedInput v-model="config.membershipSettings.accountName" label="Account holder name" />
+              <h4 class="text-base font-bold text-slate-800 border-l-4 border-l-brand-cyan pl-4">Dues Credentials</h4>
+              <AnimatedInput v-model="config.membershipSettings.duesAccount.bankName" label="Financial institution (Dues)" />
+              <AnimatedInput v-model="config.membershipSettings.duesAccount.accountNumber" label="Registry account number (Dues)" />
+              <AnimatedInput v-model="config.membershipSettings.duesAccount.accountName" label="Account holder name (Dues)" />
            </div>
            <div class="admin-card p-10 space-y-6">
-              <h4 class="text-sm font-bold text-slate-800 border-l-4 border-l-brand-cyan pl-4">Communication vectors</h4>
+              <h4 class="text-base font-bold text-slate-800 border-l-4 border-l-brand-cyan pl-4">Conference Credentials</h4>
+              <AnimatedInput v-model="config.membershipSettings.conferenceAccount.bankName" label="Financial institution (Conf)" />
+              <AnimatedInput v-model="config.membershipSettings.conferenceAccount.accountNumber" label="Registry account number (Conf)" />
+              <AnimatedInput v-model="config.membershipSettings.conferenceAccount.accountName" label="Account holder name (Conf)" />
+           </div>
+           <div class="admin-card p-10 space-y-6">
+              <h4 class="text-base font-bold text-slate-800 border-l-4 border-l-brand-cyan pl-4">Communication vectors</h4>
               <div class="space-y-4">
                  <div v-for="(cp, i) in config.membershipSettings.contactPersons" :key="i" class="flex gap-4 items-center bg-slate-50 p-4 rounded-2xl border border-slate-100">
                     <AnimatedInput v-model="cp.name" label="Inquiry contact" />
@@ -347,7 +353,7 @@
         <!-- Enrollment Benefits -->
         <div class="admin-card p-10 space-y-6">
            <div class="flex justify-between items-center border-b border-slate-100 pb-4">
-              <h4 class="text-sm font-bold text-slate-800">Protocol benefits & strategic value</h4>
+              <h4 class="text-base font-bold text-slate-800">Protocol benefits & strategic value</h4>
               <button @click="addBenefit" class="bg-[#003366] text-white px-5 py-2 rounded-xl text-[11px] font-bold hover:brightness-110 transition-all">Add strategic value</button>
            </div>
            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -390,7 +396,7 @@
                       <LucideUser :size="20" />
                     </div>
                     <div>
-                      <p class="font-bold text-slate-800 text-sm">{{ member.fullName || member.name }}</p>
+                      <p class="font-bold text-slate-800 text-base">{{ member.fullName || member.name }}</p>
                       <p class="text-[11px] text-slate-400 font-bold">{{ member.email }}</p>
                     </div>
                   </div>
@@ -494,9 +500,8 @@ const config = reactive({
     benefits: [],
     newRegistrationFee: 20000,
     renewalFee: 10000,
-    bankName: '',
-    accountNumber: '',
-    accountName: '',
+    duesAccount: { bankName: '', accountNumber: '', accountName: '' },
+    conferenceAccount: { bankName: '', accountNumber: '', accountName: '' },
     registrationDeadline: '',
     contactPersons: [],
     telegramLink: ''
@@ -528,9 +533,8 @@ onMounted(async () => {
         benefits: [],
         newRegistrationFee: 20000,
         renewalFee: 10000,
-        bankName: '',
-        accountNumber: '',
-        accountName: '',
+        duesAccount: { bankName: '', accountNumber: '', accountName: '' },
+        conferenceAccount: { bankName: '', accountNumber: '', accountName: '' },
         registrationDeadline: '',
         contactPersons: [],
         telegramLink: ''

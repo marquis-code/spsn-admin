@@ -66,7 +66,7 @@
                 v-model="searchQuery"
                 type="text"
                 placeholder="Search..."
-                class="w-full pl-9 pr-3 py-3 border border-gray-100 rounded-xl focus:border-[#033958]/30 outline-none text-sm bg-gray-50"
+                class="w-full pl-9 pr-3 py-3 border border-gray-100 rounded-xl focus:border-[#033958]/30 outline-none text-base bg-gray-50"
                 @click.stop
               />
             </div>
@@ -78,7 +78,7 @@
               v-for="(option, index) in filteredOptions"
               :key="index"
               @click="selectOption(option)"
-              class="p-3 font-semibold hover:bg-gray-50 rounded-xl cursor-pointer transition-all text-sm text-gray-700 flex items-center justify-between group"
+              class="p-3 font-semibold hover:bg-gray-50 rounded-xl cursor-pointer transition-all text-base text-gray-700 flex items-center justify-between group"
             >
               <!-- Custom option slot -->
               <div class="flex-1">
@@ -94,7 +94,7 @@
             <!-- No results message -->
             <div 
               v-if="filteredOptions.length === 0" 
-              class="p-4 text-center text-sm text-gray-500"
+              class="p-4 text-center text-base text-gray-500"
             >
               No results found for "{{ searchQuery }}"
             </div>
@@ -103,7 +103,7 @@
       </div>
   
       <!-- Error message -->
-      <div v-if="errorMessage && showError" class="mt-2 flex items-center text-red-600 text-sm">
+      <div v-if="errorMessage && showError" class="mt-2 flex items-center text-red-600 text-base">
         <svg class="mr-2 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2"
              viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10"/>

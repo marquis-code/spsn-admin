@@ -35,7 +35,7 @@
                 </div>
                 <div class="flex-1 min-w-0">
                   <h3 class="text-lg font-bold text-slate-800 tracking-tight leading-tight">{{ title }}</h3>
-                  <p class="text-sm text-slate-500 font-medium mt-1.5 leading-relaxed">{{ message }}</p>
+                  <p class="text-base text-slate-500 font-medium mt-1.5 leading-relaxed">{{ message }}</p>
                 </div>
               </div>
             </div>

@@ -1,12 +1,12 @@
 <template>
   <div class="flex items-center justify-between border-t border-slate-100 bg-white px-4 py-3 sm:px-6 rounded-b-2xl mt-4">
     <div class="flex flex-1 justify-between sm:hidden">
-      <button @click="prevPage" :disabled="currentPage === 1" class="relative inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50">Previous</button>
-      <button @click="nextPage" :disabled="currentPage === totalPages" class="relative ml-3 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50">Next</button>
+      <button @click="prevPage" :disabled="currentPage === 1" class="relative inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-base font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50">Previous</button>
+      <button @click="nextPage" :disabled="currentPage === totalPages" class="relative ml-3 inline-flex items-center rounded-md border border-slate-300 bg-white px-4 py-2 text-base font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50">Next</button>
     </div>
     <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
       <div>
-        <p class="text-sm text-slate-700 font-medium">
+        <p class="text-base text-slate-700 font-medium">
           Showing <span class="font-bold text-[#003366]">{{ totalItems > 0 ? startIndex + 1 : 0 }}</span> to <span class="font-bold text-[#003366]">{{ Math.min(endIndex, totalItems) }}</span> of <span class="font-bold text-[#003366]">{{ totalItems }}</span> results
         </p>
       </div>
@@ -22,7 +22,7 @@
             :key="page"
             @click="goToPage(page)"
             :class="[
-              page === currentPage ? 'relative z-10 inline-flex items-center bg-[#003366] px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#003366]' : 'relative inline-flex items-center px-4 py-2 text-sm font-semibold text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus:z-20 focus:outline-offset-0'
+              page === currentPage ? 'relative z-10 inline-flex items-center bg-[#003366] px-4 py-2 text-base font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#003366]' : 'relative inline-flex items-center px-4 py-2 text-base font-semibold text-slate-900 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 focus:z-20 focus:outline-offset-0'
             ]"
           >
             {{ page }}

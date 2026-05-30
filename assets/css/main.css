@@ -18,31 +18,38 @@
     font-size: 15px;
   }
 
-  h1, h2, h3, h4, .font-heading {
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-heading {
     font-family: 'Outfit', sans-serif;
     letter-spacing: -0.01em;
   }
 
-  input, textarea, select {
+  input,
+  textarea,
+  select {
     @apply shadow-none !important;
     box-shadow: none !important;
   }
 }
 
 @layer components {
+
   /* ── Glass ──────────────────────────────────────── */
   .glass {
     @apply bg-white border border-slate-200;
     box-shadow: none !important;
   }
-  
+
   .glass-dark {
     @apply bg-white border border-slate-200;
   }
 
   /* ── Buttons ────────────────────────────────────── */
   .btn-premium {
-    @apply inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold rounded-xl transition-all duration-300 relative overflow-hidden active:scale-95 text-white bg-[#003366];
+    @apply inline-flex items-center text-[20px] justify-center px-6 py-3.5 font-semibold rounded-xl transition-all duration-300 relative overflow-hidden active:scale-95 text-white bg-[#003366];
     box-shadow: none !important;
   }
 
@@ -51,7 +58,7 @@
   }
 
   .btn-outline-admin {
-    @apply inline-flex items-center justify-center px-6 py-2.5 text-sm font-semibold rounded-xl border border-slate-200 bg-white text-slate-600 transition-all duration-300 hover:border-[#003366] hover:text-[#003366];
+    @apply inline-flex items-center justify-center px-6 py-2.5 text-base font-semibold rounded-xl border border-slate-200 bg-white text-slate-600 transition-all duration-300 hover:border-[#003366] hover:text-[#003366];
     box-shadow: none !important;
   }
 
@@ -84,7 +91,7 @@
   }
 
   .stat-card .stat-label {
-    @apply text-sm font-medium text-slate-500;
+    @apply text-base font-medium text-slate-500;
   }
 
   .stat-card .stat-value {
@@ -114,7 +121,7 @@
   }
 
   .admin-table td {
-    @apply px-6 py-4 text-sm border-b border-slate-100 text-slate-700 font-medium border-r border-slate-50 last:border-r-0;
+    @apply px-6 py-4 text-base border-b border-slate-100 text-slate-700 font-medium border-r border-slate-50 last:border-r-0;
   }
 
   .admin-table tr:last-child td {
@@ -128,7 +135,7 @@
 
   /* ── Member Avatar ──────────────────────────────── */
   .member-avatar {
-    @apply w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm border border-slate-100;
+    @apply w-10 h-10 rounded-xl flex items-center justify-center font-bold text-base border border-slate-100;
   }
 
   .member-avatar-sm {
@@ -141,7 +148,7 @@
   }
 
   .page-subtitle {
-    @apply text-sm text-slate-500 font-medium mt-1;
+    @apply text-base text-slate-500 font-medium mt-1;
   }
 
   /* ── Section Header ─────────────────────────────── */
@@ -162,9 +169,11 @@
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   @apply bg-slate-50;
 }
+
 ::-webkit-scrollbar-thumb {
   @apply bg-slate-200 rounded-full hover:bg-slate-300 transition-colors;
 }

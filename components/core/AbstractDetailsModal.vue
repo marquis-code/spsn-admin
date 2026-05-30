@@ -30,26 +30,26 @@
           <!-- Details Section -->
           <div class="space-y-8">
             <div class="space-y-6">
-              <h4 class="text-[10px] font-black uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-2">Author Information</h4>
+              <h4 class="text-[10px] font-black  text-slate-400 border-b border-slate-100 pb-2">Author Information</h4>
               
               <div class="space-y-4">
                  <div>
                    <p class="text-[10px] text-slate-400 font-bold mb-1">Lead Investigator</p>
-                   <p class="text-sm font-bold text-slate-800">{{ abstract?.primaryAuthor || 'N/A' }}</p>
+                   <p class="text-base font-bold text-slate-800">{{ abstract?.primaryAuthor || 'N/A' }}</p>
                  </div>
                  <div>
                    <p class="text-[10px] text-slate-400 font-bold mb-1">Email Address</p>
-                   <p class="text-sm font-bold text-[#003366]">{{ abstract?.email || 'N/A' }}</p>
+                   <p class="text-base font-bold text-[#003366]">{{ abstract?.email || 'N/A' }}</p>
                  </div>
                  <div>
                    <p class="text-[10px] text-slate-400 font-bold mb-1">Affiliation / Institution</p>
-                   <p class="text-sm font-medium text-slate-600 leading-relaxed">{{ abstract?.affiliation || 'N/A' }}</p>
+                   <p class="text-base font-medium text-slate-600 leading-relaxed">{{ abstract?.affiliation || 'N/A' }}</p>
                  </div>
               </div>
             </div>
 
             <div class="space-y-6">
-              <h4 class="text-[10px] font-black uppercase tracking-widest text-slate-400 border-b border-slate-100 pb-2">Submission Details</h4>
+              <h4 class="text-[10px] font-black  text-slate-400 border-b border-slate-100 pb-2">Submission Details</h4>
               
               <div class="space-y-4">
                  <div>
@@ -74,10 +74,10 @@
 
           <!-- Abstract Body Section -->
           <div class="space-y-6 bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-100">
-             <h4 class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Scientific Title</h4>
+             <h4 class="text-[10px] font-black  text-slate-400 mb-2">Scientific Title</h4>
              <h2 class="text-xl sm:text-2xl font-black text-slate-800 leading-tight mb-8">{{ abstract?.title || 'No Title Provided' }}</h2>
 
-             <h4 class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">Abstract Content</h4>
+             <h4 class="text-[10px] font-black  text-slate-400 mb-2">Abstract Content</h4>
              
              <div v-if="abstract?.fileUrl" class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
                 <div class="flex items-center gap-4">
@@ -85,7 +85,7 @@
                       <LucideFileText :size="24" />
                    </div>
                    <div>
-                      <h4 class="font-bold text-sm text-slate-800">Attached Document</h4>
+                      <h4 class="font-bold text-base text-slate-800">Attached Document</h4>
                       <p class="text-[11px] text-slate-500 font-medium">Click to view or download</p>
                    </div>
                 </div>

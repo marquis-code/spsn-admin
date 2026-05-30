@@ -4,7 +4,7 @@
     <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-4 px-1">
       <div>
         <h2 class="text-2xl font-bold text-slate-800 tracking-tight">System Alerts & Notifications</h2>
-        <p class="text-sm text-slate-500 font-medium">Review pending verification requests, payments, and system updates.</p>
+        <p class="text-base text-slate-500 font-medium">Review pending verification requests, payments, and system updates.</p>
       </div>
       <button @click="markAllAsRead" class="px-6 py-3 bg-white border border-slate-200 text-slate-600 rounded-xl text-[11px] font-bold hover:border-[#003366] hover:text-[#003366] transition-all">
         Mark all as read
@@ -42,7 +42,7 @@
               </div>
               <span class="text-[10px] sm:text-xs font-bold text-slate-400 shrink-0">{{ notif.time }}</span>
             </div>
-            <p class="text-[11px] sm:text-sm text-slate-500 leading-relaxed max-w-3xl">{{ notif.message }}</p>
+            <p class="text-[11px] sm:text-base text-slate-500 leading-relaxed max-w-3xl">{{ notif.message }}</p>
             
             <div class="pt-4 flex items-center gap-4">
                <button @click="markAsRead(notif.id)" v-if="!notif.read" class="text-[10px] font-black text-[#003366] hover:underline transition-all">Mark as read</button>
