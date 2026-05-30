@@ -2,7 +2,7 @@ import axios, { type AxiosResponse } from "axios";
 import { useCustomToast } from '@/composables/core/useCustomToast'
 
 
-const $GATEWAY_ENDPOINT = import.meta.env.VITE_BASE_URL || "http://localhost:3005/api";
+const $GATEWAY_ENDPOINT = import.meta.env.VITE_BASE_URL || "https://spsn-backend.onrender.com/api";
 
 export const GATEWAY_ENDPOINT = axios.create({
   baseURL: $GATEWAY_ENDPOINT,
