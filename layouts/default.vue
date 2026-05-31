@@ -34,7 +34,7 @@
       <!-- Navigation -->
       <nav class="flex-1 px-3 lg:px-4 space-y-1 overflow-y-auto custom-scrollbar">
         <NuxtLink
-          v-for="item in menuItems"
+          v-for="item in filteredMenuItems"
           :key="item.to"
           :to="item.to"
           @click="sidebarOpen = false"
@@ -137,9 +137,16 @@ import GlobalSearchModal from '@/components/core/GlobalSearchModal.vue'
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useNotifications } from '@/composables/core/useNotifications'
+import { 
+  LucideX, LucidePower, LucideMenu, LucideSearch, LucideBell,
+  LucideLayoutDashboard, LucideUsers, LucideShieldCheck, LucideCalendar,
+  LucideFileText, LucideNewspaper, LucideCheckSquare, LucideMessageCircle,
+  LucideMessagesSquare, LucideClipboardList, LucideCreditCard, LucideGlobe,
+  LucideImage, LucideSend, LucideBriefcase, LucideShield, LucideSettings
+} from 'lucide-vue-next'
 
 
-const { user, logout } = useAuth()
+const { user, logout, hasPermission } = useAuth()
 const route = useRoute()
 const { unreadCount } = useNotifications()
 
@@ -165,27 +172,38 @@ onUnmounted(() => {
 const isChatRoute = computed(() => route.path === '/dashboard/chat')
 
 const menuItems = [
-  { label: 'Dashboard', to: '/dashboard', icon: 'LucideLayoutDashboard' },
-  { label: 'Members', to: '/dashboard/members', icon: 'LucideUsers' },
-  { label: 'Enrollments', to: '/dashboard/enrollments', icon: 'LucideShieldCheck' },
-  { label: 'Events', to: '/dashboard/conferences', icon: 'LucideCalendar' },
-  { label: 'Abstracts', to: '/dashboard/abstracts', icon: 'LucideFileText' },
-  { label: 'News', to: '/dashboard/blogs', icon: 'LucideNewspaper' },
-  { label: 'Appointments', to: '/dashboard/appointments', icon: 'LucideCheckSquare' },
-  { label: 'Enquiries', to: '/dashboard/enquiries', icon: 'LucideMessageCircle' },
-  { label: 'Chat', to: '/dashboard/chat', icon: 'LucideMessagesSquare' },
-  { label: 'Forms', to: '/dashboard/forms', icon: 'LucideClipboardList' },
-  { label: 'Payments', to: '/dashboard/payments', icon: 'LucideCreditCard' },
-  { label: 'Website CMS', to: '/dashboard/cms-website', icon: 'LucideGlobe' },
-  { label: 'Member CMS', to: '/dashboard/cms-members', icon: 'LucideLayoutDashboard' },
-  { label: 'Gallery', to: '/dashboard/gallery', icon: 'LucideImage' },
-  { label: 'Adverts', to: '/dashboard/adverts', icon: 'LucideGlobe' },
-  { label: 'Sponsors', to: '/dashboard/sponsors', icon: 'LucideGlobe' },
-  { label: 'Notifications', to: '/dashboard/notifications', icon: 'LucideBell' },
-  { label: 'Campaigns', to: '/dashboard/campaigns', icon: 'LucideSend' },
-  { label: 'Newsletters', to: '/newsletters', icon: 'LucideSend' },
-  { label: 'Settings', to: '/dashboard/settings', icon: 'LucideSettings' },
+  { label: 'Dashboard', to: '/dashboard', icon: LucideLayoutDashboard, permissionKey: 'dashboard' },
+  { label: 'Members', to: '/dashboard/members', icon: LucideUsers, permissionKey: 'members' },
+  { label: 'Enrollments', to: '/dashboard/enrollments', icon: LucideShieldCheck, permissionKey: 'enrollments' },
+  { label: 'Events', to: '/dashboard/conferences', icon: LucideCalendar, permissionKey: 'events' },
+  { label: 'Abstracts', to: '/dashboard/abstracts', icon: LucideFileText, permissionKey: 'abstracts' },
+  { label: 'News', to: '/dashboard/blogs', icon: LucideNewspaper, permissionKey: 'blogs' },
+  { label: 'Appointments', to: '/dashboard/appointments', icon: LucideCheckSquare, permissionKey: 'appointments' },
+  { label: 'Enquiries', to: '/dashboard/enquiries', icon: LucideMessageCircle, permissionKey: 'enquiries' },
+  { label: 'Chat', to: '/dashboard/chat', icon: LucideMessagesSquare, permissionKey: 'chat' },
+  { label: 'Forms', to: '/dashboard/forms', icon: LucideClipboardList, permissionKey: 'forms' },
+  { label: 'Payments', to: '/dashboard/payments', icon: LucideCreditCard, permissionKey: 'payments' },
+  { label: 'Website CMS', to: '/dashboard/cms-website', icon: LucideGlobe, permissionKey: 'cms-website' },
+  { label: 'Member CMS', to: '/dashboard/cms-members', icon: LucideLayoutDashboard, permissionKey: 'cms-members' },
+  { label: 'Gallery', to: '/dashboard/gallery', icon: LucideImage, permissionKey: 'gallery' },
+  { label: 'Adverts', to: '/dashboard/adverts', icon: LucideGlobe, permissionKey: 'adverts' },
+  { label: 'Sponsors', to: '/dashboard/sponsors', icon: LucideGlobe, permissionKey: 'sponsors' },
+  { label: 'Notifications', to: '/dashboard/notifications', icon: LucideBell, permissionKey: 'notifications' },
+  { label: 'Campaigns', to: '/dashboard/campaigns', icon: LucideSend, permissionKey: 'campaigns' },
+  { label: 'Newsletters', to: '/newsletters', icon: LucideSend, permissionKey: 'newsletters' },
+  { label: 'Executives', to: '/dashboard/excos', icon: LucideBriefcase, permissionKey: 'excos' },
+  { label: 'Admin Management', to: '/dashboard/admins', icon: LucideShield, permissionKey: 'admins' },
+  { label: 'Settings', to: '/dashboard/settings', icon: LucideSettings, permissionKey: 'settings' },
 ]
+
+const filteredMenuItems = computed(() => {
+  return menuItems.filter(item => {
+    if (item.permissionKey === 'admins') {
+      return user.value?.role === 'super_admin'
+    }
+    return hasPermission(item.permissionKey)
+  })
+})
 
 const handleLogout = () => {
   showLogoutModal.value = false

@@ -32,54 +32,68 @@
     <!-- Loading State -->
     <Loader v-if="loading" message="Loading conferences..." />
 
-    <!-- Conferences Grid -->
-    <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <div v-for="conf in conferences" :key="conf._id" class="admin-card !p-0 overflow-hidden group hover:border-[#003366] transition-all duration-300">
-        <div class="h-48 overflow-hidden relative">
-          <img :src="conf.image || 'https://scpsn.org.ng/wp-content/uploads/2021/10/banner.jpg'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-          <div class="absolute top-4 right-4 px-3 py-1.5 bg-white/90 backdrop-blur-md text-[#003366] text-[10px] font-bold rounded-lg border border-white/20 shadow-sm">{{ conf.status || 'Active' }}</div>
-        </div>
-        
-        <div class="p-6 space-y-4">
-          <h4 class="font-bold text-slate-800 text-lg leading-tight group-hover:text-[#003366] transition-colors">{{ conf.title }}</h4>
-          
-          <div class="space-y-2.5">
-             <div class="flex items-center gap-2.5 text-xs text-slate-500 font-medium">
-                <LucideCalendar :size="14" class="text-[#003366]" />
-                {{ conf.date || 'To be announced' }}
-             </div>
-             <div class="flex items-center gap-2.5 text-xs text-slate-500 font-medium">
-                <LucideMapPin :size="14" class="text-[#003366]" />
-                {{ conf.location || 'Location pending' }}
-             </div>
-             <div class="flex items-center gap-2.5 text-xs text-slate-500 font-medium">
-                <LucideUsers :size="14" class="text-[#003366]" />
-                {{ conf.registeredCount || 0 }} registered participants
-             </div>
-          </div>
-          
-          <div class="pt-5 border-t border-slate-100 flex justify-between items-center">
-              <div class="flex gap-4">
-                <button @click="openSlideOver(conf)" class="text-xs font-bold text-[#003366] hover:text-[#004080] transition-colors p-1" title="Edit Conference">
-                   <LucideEdit :size="16" />
-                </button>
-                <div class="w-[1px] h-3 bg-slate-200 mt-1.5"></div>
-                <button class="text-xs font-bold text-slate-400 hover:text-slate-600 transition-colors p-1" title="Manage Abstracts">
-                   <LucideFileText :size="16" />
-                </button>
-             </div>
-             <button class="text-xs font-bold text-rose-500 hover:text-rose-600 transition-colors p-1" title="Archive">
-                <LucideArchive :size="16" />
-             </button>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Empty State -->
-      <div class="col-span-full" v-if="conferences.length === 0">
-        <EmptyState title="No conferences" message="No scheduled conferences were found in the database." :icon="LucideCalendar" />
-      </div>
+    <!-- Conferences Table -->
+    <div v-else class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+      <table class="w-full text-base text-left">
+        <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
+          <tr>
+            <th class="px-6 py-4 font-medium">Image</th>
+            <th class="px-6 py-4 font-medium">Title & Info</th>
+            <th class="px-6 py-4 font-medium">Date & Location</th>
+            <th class="px-6 py-4 font-medium">Status & Stats</th>
+            <th class="px-6 py-4 font-medium text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-slate-200">
+          <tr v-if="conferences.length === 0">
+            <td colspan="5" class="px-6 py-8 text-center text-slate-500">No conferences found in the database.</td>
+          </tr>
+          <tr v-for="conf in conferences" :key="conf._id" class="hover:bg-slate-50">
+            <td class="px-6 py-4">
+              <div class="w-24 h-16 rounded-lg overflow-hidden border border-slate-200 shadow-sm">
+                <img :src="conf.image || 'https://scpsn.org.ng/wp-content/uploads/2021/10/banner.jpg'" class="w-full h-full object-cover" />
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <p class="font-semibold text-slate-800 line-clamp-2 max-w-sm">{{ conf.title }}</p>
+            </td>
+            <td class="px-6 py-4">
+              <div class="space-y-1">
+                <div class="flex items-center gap-1.5 text-sm text-slate-600">
+                  <LucideCalendar :size="14" class="text-[#003366]" />
+                  {{ conf.date || 'To be announced' }}
+                </div>
+                <div class="flex items-center gap-1.5 text-xs text-slate-500">
+                  <LucideMapPin :size="14" class="text-[#003366]" />
+                  {{ conf.location || 'Location pending' }}
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4">
+              <div class="space-y-1.5">
+                <span class="inline-block px-2.5 py-1 bg-white border border-slate-200 text-[#003366] text-[10px] font-bold rounded-lg shadow-sm">
+                  {{ conf.status || 'Active' }}
+                </span>
+                <div class="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                  <LucideUsers :size="14" class="text-[#003366]" />
+                  {{ conf.registeredCount || 0 }} registered
+                </div>
+              </div>
+            </td>
+            <td class="px-6 py-4 text-right space-x-3">
+              <button @click="openSlideOver(conf)" class="text-xs font-bold text-[#003366] hover:text-[#004080] transition-colors" title="Edit Conference">
+                Edit
+              </button>
+              <button class="text-xs font-bold text-slate-500 hover:text-slate-700 transition-colors" title="Manage Abstracts">
+                Abstracts
+              </button>
+              <button class="text-xs font-bold text-rose-500 hover:text-rose-600 transition-colors" title="Archive">
+                Archive
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <!-- Slide Over for Create/Edit -->

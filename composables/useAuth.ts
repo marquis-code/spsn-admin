@@ -17,15 +17,21 @@ export const useAuth = () => {
   }
 
   const isAuthenticated = computed(() => {
-    // Check both the reactive token and the cookie directly if possible
     return !!token.value
   })
+
+  const hasPermission = (permissionKey: string) => {
+    if (!user.value) return false
+    if (user.value.role === 'super_admin') return true
+    return user.value.permissions?.includes(permissionKey)
+  }
 
   return {
     user,
     token,
     setUser,
     logout,
-    isAuthenticated
+    isAuthenticated,
+    hasPermission
   }
 }

@@ -9,8 +9,8 @@
       leave-from-class="opacity-100"
       leave-to-class="opacity-0"
     >
-      <div v-if="modelValue" class="fixed inset-0 z-[9999] flex items-center justify-end" @click.self="close">
-        <div class="absolute inset-0 bg-black/20 backdrop-blur-sm" @click="close"></div>
+      <div v-if="modelValue" class="fixed inset-0 z-[9999] flex items-center justify-end" @click.self="!persistent && close()">
+        <div class="absolute inset-0 bg-black/20 backdrop-blur-sm" @click="!persistent && close()"></div>
         
         <Transition
           enter-active-class="transition duration-300 ease-out transform"
@@ -57,7 +57,8 @@ const props = defineProps({
   modelValue: { type: Boolean, default: false },
   title: { type: String, required: true },
   subtitle: { type: String, default: '' },
-  size: { type: String, default: 'md' } // sm, md, lg, xl, full
+  size: { type: String, default: 'md' }, // sm, md, lg, xl, full
+  persistent: { type: Boolean, default: false }
 })
 
 const emit = defineEmits(['update:modelValue', 'close'])

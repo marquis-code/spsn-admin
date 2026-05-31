@@ -3,13 +3,29 @@ export const useApi = () => {
   const config = useRuntimeConfig()
   const baseUrl = config.public.apiBase || 'https://spsn-backend.onrender.com'
 
+  const getAdminToken = () => {
+    if (typeof document === 'undefined') return null;
+    const match = document.cookie.match(new RegExp('(^| )admin_token=([^;]+)'));
+    if (!match || !match[2]) return null;
+    let token = decodeURIComponent(match[2]);
+    // Nuxt's useCookie JSON-serializes strings, wrapping them in quotes
+    if (token.startsWith('"') && token.endsWith('"')) {
+      token = token.slice(1, -1);
+    }
+    return token;
+  };
+
   const call = async (endpoint: string, options: any = {}) => {
     try {
+      const token = getAdminToken();
+      const headers: any = { ...options.headers };
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
       const response = await $fetch(`${baseUrl}${endpoint}`, {
         ...options,
-        headers: {
-          ...options.headers,
-        }
+        headers
       })
       return { data: response, error: null }
     } catch (err: any) {
@@ -113,5 +129,17 @@ export const useApi = () => {
     campaigns: {
       broadcast: (payload: { type: string; data: any }) => call('/campaigns/broadcast', { method: 'POST', body: payload })
     },
+    excos: {
+      getAll: () => call('/excos'),
+      create: (data: any) => call('/excos', { method: 'POST', body: data }),
+      update: (id: string, data: any) => call(`/excos/${id}`, { method: 'PATCH', body: data }),
+      delete: (id: string) => call(`/excos/${id}`, { method: 'DELETE' }),
+    },
+    admins: {
+      getAll: () => call('/admins'),
+      create: (data: any) => call('/admins', { method: 'POST', body: data }),
+      update: (id: string, data: any) => call(`/admins/${id}`, { method: 'PATCH', body: data }),
+      delete: (id: string) => call(`/admins/${id}`, { method: 'DELETE' }),
+    }
   }
 }

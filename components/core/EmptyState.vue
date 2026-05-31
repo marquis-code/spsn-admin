@@ -10,6 +10,7 @@
 </template>
 
 <script setup>
+import { LucideInbox } from 'lucide-vue-next'
 
 defineProps({
   title: {
@@ -21,8 +22,8 @@ defineProps({
     default: 'The system has no data to display in this category at the moment.'
   },
   icon: {
-    type: [Object, String],
-    default: 'LucideInbox'
+    type: [Object, String, Function],
+    default: () => LucideInbox
   }
 })
 </script>

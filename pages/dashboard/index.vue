@@ -92,7 +92,7 @@
               v-else 
               title="No Appointments" 
               message="No appointments found in the system."
-              icon="LucideCalendar"
+              :icon="LucideCalendar"
             />
           </div>
         </div>
@@ -131,7 +131,7 @@
                   v-else 
                   title="No Enquiries" 
                   message="No enquiries at the moment."
-                  icon="LucideInbox"
+                  :icon="LucideInbox"
                   class="py-10"
                />
             </div>
@@ -149,6 +149,15 @@ import { useGetAbstracts } from '@/composables/modules/abstracts/useGetAbstracts
 import { useGetAppointments } from '@/composables/modules/appointments/useGetAppointments'
 import { useGetEnquiries } from '@/composables/modules/enquiries/useGetEnquiries'
 import { onMounted, computed } from 'vue'
+import { 
+  LucideActivity, 
+  LucideDownload, 
+  LucideUsers, 
+  LucideFileText, 
+  LucideInbox, 
+  LucideCalendar, 
+  LucideMessageCircle 
+} from 'lucide-vue-next'
 
 const { members, getMembers, loading: membersLoading } = useGetMembers()
 const { abstracts, getAbstracts, loading: abstractsLoading } = useGetAbstracts()
@@ -158,10 +167,10 @@ const { enquiries, getEnquiries, loading: enquiriesLoading } = useGetEnquiries()
 const anyLoading = computed(() => membersLoading.value || abstractsLoading.value || enquiriesLoading.value || appointmentsLoading.value)
 
 const computedStats = computed(() => [
-  { label: 'Total Members', value: members.value?.length || 0, icon: 'LucideUsers', trend: '+12%' },
-  { label: 'Pending Abstracts', value: abstracts.value?.filter(a => a.status === 'pending').length || 0, icon: 'LucideFileText', trend: '+3' },
-  { label: 'Enquiries', value: enquiries.value?.length || 0, icon: 'LucideInbox', trend: '+8' },
-  { label: 'Appointments', value: appointments.value?.length || 0, icon: 'LucideCalendar', trend: '+5' },
+  { label: 'Total Members', value: members.value?.length || 0, icon: LucideUsers, trend: '+12%' },
+  { label: 'Pending Abstracts', value: abstracts.value?.filter(a => a.status === 'pending').length || 0, icon: LucideFileText, trend: '+3' },
+  { label: 'Enquiries', value: enquiries.value?.length || 0, icon: LucideInbox, trend: '+8' },
+  { label: 'Appointments', value: appointments.value?.length || 0, icon: LucideCalendar, trend: '+5' },
 ])
 
 const recentAppointments = computed(() => appointments.value?.slice(0, 5) || [])

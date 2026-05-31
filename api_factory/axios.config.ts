@@ -16,7 +16,13 @@ export interface CustomAxiosResponse extends AxiosResponse {
 const getAdminToken = () => {
   if (typeof document === 'undefined') return null;
   const match = document.cookie.match(new RegExp('(^| )admin_token=([^;]+)'));
-  return match && match[2] ? decodeURIComponent(match[2]) : null;
+  if (!match || !match[2]) return null;
+  let token = decodeURIComponent(match[2]);
+  // Nuxt's useCookie JSON-serializes strings, wrapping them in quotes
+  if (token.startsWith('"') && token.endsWith('"')) {
+    token = token.slice(1, -1);
+  }
+  return token;
 };
 
 const clearAdminToken = () => {

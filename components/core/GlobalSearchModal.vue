@@ -91,6 +91,12 @@
 
 import { ref, watch, nextTick, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { 
+  LucideSearch, LucideX, LucideUsers, LucideCreditCard, 
+  LucideSettings, LucideArrowRight, LucideSearchX, 
+  LucideCommand, LucideShieldCheck, LucideMessageCircle, 
+  LucideFileText 
+} from 'lucide-vue-next'
 
 const props = defineProps({
   modelValue: Boolean
@@ -124,12 +130,12 @@ watch(() => props.modelValue, (val) => {
 
 // Mock global search data
 const searchableItems = [
-  { id: 1, title: 'Manage Member Directory', description: 'View, filter and update all registered members.', to: '/dashboard/members', icon: 'LucideUsers' },
-  { id: 2, title: 'Pending Enrollments', description: 'Verify new member applications.', to: '/dashboard/enrollments', icon: 'LucideShieldCheck' },
-  { id: 3, title: 'Financial Ledger', description: 'Audit all incoming transaction logs and dues.', to: '/dashboard/payments', icon: 'LucideCreditCard' },
-  { id: 4, title: 'Live Support Nexus', description: 'Respond to incoming member chat transmissions.', to: '/dashboard/chat', icon: 'LucideMessageCircle' },
-  { id: 5, title: 'Publications & News', description: 'Draft or edit scientific articles.', to: '/dashboard/blogs', icon: 'LucideFileText' },
-  { id: 6, title: 'Global System Settings', description: 'Update institutional preferences and platform config.', to: '/dashboard/settings', icon: 'LucideSettings' }
+  { id: 1, title: 'Manage Member Directory', description: 'View, filter and update all registered members.', to: '/dashboard/members', icon: LucideUsers },
+  { id: 2, title: 'Pending Enrollments', description: 'Verify new member applications.', to: '/dashboard/enrollments', icon: LucideShieldCheck },
+  { id: 3, title: 'Financial Ledger', description: 'Audit all incoming transaction logs and dues.', to: '/dashboard/payments', icon: LucideCreditCard },
+  { id: 4, title: 'Live Support Nexus', description: 'Respond to incoming member chat transmissions.', to: '/dashboard/chat', icon: LucideMessageCircle },
+  { id: 5, title: 'Publications & News', description: 'Draft or edit scientific articles.', to: '/dashboard/blogs', icon: LucideFileText },
+  { id: 6, title: 'Global System Settings', description: 'Update institutional preferences and platform config.', to: '/dashboard/settings', icon: LucideSettings }
 ]
 
 const filteredResults = computed(() => {

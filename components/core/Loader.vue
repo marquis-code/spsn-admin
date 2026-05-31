@@ -1,11 +1,13 @@
 <template>
   <div class="flex flex-col items-center justify-center py-24 gap-4">
-    <div class="animate-spin rounded-full h-10 w-10 border-2 border-slate-100 border-t-[#003366]"></div>
-    <p v-if="message" class="text-[11px] font-bold text-slate-400">{{ message }}</p>
+    <LucideLoader2 class="animate-spin text-[#003366]" :size="40" stroke-width="2" />
+    <p v-if="message" class="text-sm font-bold text-slate-500">{{ message }}</p>
   </div>
 </template>
 
 <script setup>
+import { LucideLoader2 } from 'lucide-vue-next'
+
 defineProps({
   message: {
     type: String,
