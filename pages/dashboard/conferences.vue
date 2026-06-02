@@ -71,9 +71,14 @@
             </td>
             <td class="px-6 py-4">
               <div class="space-y-1.5">
-                <span class="inline-block px-2.5 py-1 bg-white border border-slate-200 text-[#003366] text-[10px] font-bold rounded-lg shadow-sm">
-                  {{ conf.status || 'Active' }}
-                </span>
+                <div class="flex items-center gap-2">
+                  <span class="inline-block px-2.5 py-1 bg-white border border-slate-200 text-[#003366] text-[10px] font-bold rounded-lg shadow-sm">
+                    {{ conf.status || 'Active' }}
+                  </span>
+                  <span v-if="conf.isVisible === false" class="inline-block px-2.5 py-1 bg-rose-50 border border-rose-200 text-rose-600 text-[10px] font-bold rounded-lg shadow-sm">
+                    Hidden
+                  </span>
+                </div>
                 <div class="flex items-center gap-1.5 text-sm text-slate-500 font-medium">
                   <LucideUsers :size="14" class="text-[#003366]" />
                   {{ conf.registeredCount || 0 }} registered
@@ -116,6 +121,29 @@
         </div>
         <ImageUpload v-model="formData.bannerImage" label="Cover Image" />
         <AnimatedInput v-model="formData.description" label="Conference Description" type="textarea" :rows="4" />
+        
+        <div class="flex items-center gap-3 py-2">
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" v-model="formData.isVisible" class="sr-only peer">
+            <div class="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#003366]"></div>
+            <span class="ml-3 text-sm font-bold text-slate-700">Visible on Website</span>
+          </label>
+        </div>
+        
+        <div class="space-y-4">
+           <h4 class="text-sm font-bold text-slate-800">Event Gallery</h4>
+           <BatchImageUpload v-model="formData.galleryImages" />
+           <div v-if="formData.galleryImages && formData.galleryImages.length > 0" class="grid grid-cols-3 sm:grid-cols-4 gap-4 mt-4">
+             <div v-for="(img, idx) in formData.galleryImages" :key="idx" class="relative group aspect-square rounded-xl overflow-hidden shadow-sm border border-slate-200">
+               <img :src="img" class="w-full h-full object-cover" />
+               <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <button @click="formData.galleryImages.splice(idx, 1)" class="w-8 h-8 bg-rose-500 rounded-full text-white flex items-center justify-center hover:bg-rose-600 transition-colors">
+                    <LucideTrash :size="14" />
+                  </button>
+               </div>
+             </div>
+           </div>
+        </div>
       </div>
 
       <template #footer>
@@ -133,7 +161,7 @@
 </template>
 
 <script setup>
-import { LucidePlus, LucideCalendar, LucideMapPin, LucideUsers, LucideDownload, LucideUpload, LucideLoader2, LucideFileSpreadsheet, LucideEdit, LucideFileText, LucideArchive, LucideSave } from 'lucide-vue-next'
+import { LucidePlus, LucideCalendar, LucideMapPin, LucideUsers, LucideDownload, LucideUpload, LucideLoader2, LucideFileSpreadsheet, LucideEdit, LucideFileText, LucideArchive, LucideSave, LucideTrash } from 'lucide-vue-next'
 
 import SlideOver from '@/components/core/SlideOver.vue'
 import Loader from '@/components/core/Loader.vue'
@@ -141,6 +169,7 @@ import EmptyState from '@/components/core/EmptyState.vue'
 import AnimatedInput from '@/components/AnimatedInput.vue'
 import SelectInput from '@/components/SelectInput.vue'
 import ImageUpload from '@/components/core/ImageUpload.vue'
+import BatchImageUpload from '@/components/core/BatchImageUpload.vue'
 import { useGetConferences } from '@/composables/modules/conferences/useGetConferences'
 import { onMounted, ref, reactive } from 'vue'
 import { useCustomToast } from '@/composables/core/useCustomToast'
@@ -163,7 +192,9 @@ const formData = reactive({
   venue: '',
   status: 'upcoming',
   bannerImage: '',
-  description: ''
+  description: '',
+  galleryImages: [],
+  isVisible: true
 })
 
 const openSlideOver = (conf = null) => {
@@ -178,6 +209,8 @@ const openSlideOver = (conf = null) => {
     formData.status = conf.status || 'upcoming'
     formData.bannerImage = conf.bannerImage || ''
     formData.description = conf.description || ''
+    formData.galleryImages = conf.galleryImages || []
+    formData.isVisible = conf.isVisible !== false // Default to true if undefined
   } else {
     isEditing.value = false
     selectedConference.value = null
@@ -189,6 +222,8 @@ const openSlideOver = (conf = null) => {
     formData.status = 'upcoming'
     formData.bannerImage = ''
     formData.description = ''
+    formData.galleryImages = []
+    formData.isVisible = true
   }
   showSlideOver.value = true
 }
