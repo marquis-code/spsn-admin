@@ -14,7 +14,7 @@
 
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <table class="w-full text-base text-left">
-          <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
+          <thead class="text-sm text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
             <tr>
               <th class="px-6 py-4 font-medium">Image</th>
               <th class="px-6 py-4 font-medium">Title & Category</th>
@@ -34,7 +34,7 @@
               <td class="px-6 py-4">
                 <div class="w-20 h-20 bg-slate-100 rounded-lg flex items-center justify-center overflow-hidden border border-slate-200 shadow-sm">
                   <img v-if="item.imageUrl" :src="item.imageUrl" class="w-full h-full object-cover" />
-                  <span v-else class="text-xs text-slate-400">No Image</span>
+                  <span v-else class="text-sm text-slate-400">No Image</span>
                 </div>
               </td>
               <td class="px-6 py-4">
@@ -52,8 +52,8 @@
                 </span>
               </td>
               <td class="px-6 py-4 text-right">
-                <button @click="openModal(item)" class="text-blue-600 hover:underline text-xs font-medium mr-3">Edit</button>
-                <button @click="handleDelete(item._id)" class="text-red-600 hover:underline text-xs font-medium">Delete</button>
+                <button @click="openModal(item)" class="text-blue-600 hover:underline text-sm font-medium mr-3">Edit</button>
+                <button @click="handleDelete(item._id)" class="text-red-600 hover:underline text-sm font-medium">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -80,11 +80,11 @@
               </div>
               <div class="grid grid-cols-2 gap-4">
                 <div class="col-span-2">
-                  <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Caption (Optional)</label>
+                  <label class="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">Caption (Optional)</label>
                   <input v-model="singleForm.title" type="text" placeholder="Enter an optional caption..." class="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" />
                 </div>
                 <div>
-                  <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Category</label>
+                  <label class="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">Category</label>
                   <select v-model="singleForm.category" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all">
                     <option value="general">General</option>
                     <option value="conferences">Conferences</option>
@@ -94,7 +94,7 @@
                   </select>
                 </div>
                 <div>
-                  <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Display Order</label>
+                  <label class="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">Display Order</label>
                   <input v-model.number="singleForm.order" type="number" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" />
                 </div>
               </div>
@@ -135,7 +135,7 @@
                         </select>
                         <div class="flex items-center gap-1.5">
                           <input v-model="item.isActive" type="checkbox" :id="'active-'+index" class="w-3.5 h-3.5 text-blue-600 rounded border-slate-300">
-                          <label :for="'active-'+index" class="text-xs font-medium text-slate-600">Active</label>
+                          <label :for="'active-'+index" class="text-sm font-medium text-slate-600">Active</label>
                         </div>
                       </div>
                     </div>

@@ -14,7 +14,7 @@
           <p class="text-[11px] text-slate-400 font-bold mt-1">ID: {{ abstract?._id || 'N/A' }}</p>
         </div>
         <div class="flex items-center gap-3">
-           <span :class="['badge-premium text-[10px] px-3 py-1', getStatusClass(abstract?.status)]">
+           <span :class="['badge-premium text-sm px-3 py-1', getStatusClass(abstract?.status)]">
              {{ abstract?.status || 'Pending' }}
            </span>
            <button @click="close" class="p-2 bg-white border border-slate-200 text-slate-400 hover:text-slate-600 rounded-xl transition-all shadow-sm">
@@ -30,40 +30,40 @@
           <!-- Details Section -->
           <div class="space-y-8">
             <div class="space-y-6">
-              <h4 class="text-[10px] font-black  text-slate-400 border-b border-slate-100 pb-2">Author Information</h4>
+              <h4 class="text-sm font-black  text-slate-400 border-b border-slate-100 pb-2">Author Information</h4>
               
               <div class="space-y-4">
                  <div>
-                   <p class="text-[10px] text-slate-400 font-bold mb-1">Lead Investigator</p>
+                   <p class="text-sm text-slate-400 font-bold mb-1">Lead Investigator</p>
                    <p class="text-base font-bold text-slate-800">{{ abstract?.primaryAuthor || 'N/A' }}</p>
                  </div>
                  <div>
-                   <p class="text-[10px] text-slate-400 font-bold mb-1">Email Address</p>
+                   <p class="text-sm text-slate-400 font-bold mb-1">Email Address</p>
                    <p class="text-base font-bold text-[#003366]">{{ abstract?.email || 'N/A' }}</p>
                  </div>
                  <div>
-                   <p class="text-[10px] text-slate-400 font-bold mb-1">Affiliation / Institution</p>
+                   <p class="text-sm text-slate-400 font-bold mb-1">Affiliation / Institution</p>
                    <p class="text-base font-medium text-slate-600 leading-relaxed">{{ abstract?.affiliation || 'N/A' }}</p>
                  </div>
               </div>
             </div>
 
             <div class="space-y-6">
-              <h4 class="text-[10px] font-black  text-slate-400 border-b border-slate-100 pb-2">Submission Details</h4>
+              <h4 class="text-sm font-black  text-slate-400 border-b border-slate-100 pb-2">Submission Details</h4>
               
               <div class="space-y-4">
                  <div>
-                   <p class="text-[10px] text-slate-400 font-bold mb-1">Target Conference</p>
-                   <p class="text-xs font-bold text-slate-800">{{ abstract?.conference || 'N/A' }}</p>
+                   <p class="text-sm text-slate-400 font-bold mb-1">Target Conference</p>
+                   <p class="text-sm font-bold text-slate-800">{{ abstract?.conference || 'N/A' }}</p>
                  </div>
                  <div>
-                   <p class="text-[10px] text-slate-400 font-bold mb-1">Submitted On</p>
-                   <p class="text-xs font-bold text-slate-800">{{ formatDate(abstract?.createdAt) }}</p>
+                   <p class="text-sm text-slate-400 font-bold mb-1">Submitted On</p>
+                   <p class="text-sm font-bold text-slate-800">{{ formatDate(abstract?.createdAt) }}</p>
                  </div>
                  <div v-if="abstract?.keywords && abstract.keywords.length">
-                   <p class="text-[10px] text-slate-400 font-bold mb-2">Keywords</p>
+                   <p class="text-sm text-slate-400 font-bold mb-2">Keywords</p>
                    <div class="flex flex-wrap gap-2">
-                     <span v-for="kw in abstract.keywords" :key="kw" class="px-2 py-1 bg-slate-100 text-slate-600 rounded-md text-[10px] font-bold border border-slate-200">
+                     <span v-for="kw in abstract.keywords" :key="kw" class="px-2 py-1 bg-slate-100 text-slate-600 rounded-md text-sm font-bold border border-slate-200">
                        {{ kw }}
                      </span>
                    </div>
@@ -74,10 +74,10 @@
 
           <!-- Abstract Body Section -->
           <div class="space-y-6 bg-slate-50 p-6 sm:p-8 rounded-3xl border border-slate-100">
-             <h4 class="text-[10px] font-black  text-slate-400 mb-2">Scientific Title</h4>
+             <h4 class="text-sm font-black  text-slate-400 mb-2">Scientific Title</h4>
              <h2 class="text-xl sm:text-2xl font-black text-slate-800 leading-tight mb-8">{{ abstract?.title || 'No Title Provided' }}</h2>
 
-             <h4 class="text-[10px] font-black  text-slate-400 mb-2">Abstract Content</h4>
+             <h4 class="text-sm font-black  text-slate-400 mb-2">Abstract Content</h4>
              
              <div v-if="abstract?.fileUrl" class="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between">
                 <div class="flex items-center gap-4">
@@ -89,7 +89,7 @@
                       <p class="text-[11px] text-slate-500 font-medium">Click to view or download</p>
                    </div>
                 </div>
-                <a :href="abstract.fileUrl" target="_blank" class="px-4 py-2 bg-slate-50 hover:bg-indigo-50 text-indigo-600 font-bold text-xs rounded-lg transition-colors border border-slate-200">
+                <a :href="abstract.fileUrl" target="_blank" class="px-4 py-2 bg-slate-50 hover:bg-indigo-50 text-indigo-600 font-bold text-sm rounded-lg transition-colors border border-slate-200">
                    Download
                 </a>
              </div>
@@ -99,7 +99,7 @@
              </div>
              
              <div v-if="!abstract?.fileUrl" class="flex justify-end pt-4 mt-8 border-t border-slate-200 border-dashed">
-                <span class="text-[10px] font-bold text-slate-400">Word Count: {{ getWordCount(abstract?.abstractBody || abstract?.content) }}</span>
+                <span class="text-sm font-bold text-slate-400">Word Count: {{ getWordCount(abstract?.abstractBody || abstract?.content) }}</span>
              </div>
           </div>
 
@@ -108,12 +108,12 @@
 
       <!-- Footer Actions -->
       <div class="px-8 py-5 border-t border-slate-100 bg-white flex justify-between items-center shrink-0">
-         <button @click="close" class="px-5 py-2.5 text-slate-500 hover:bg-slate-50 font-bold text-xs rounded-xl transition-all">
+         <button @click="close" class="px-5 py-2.5 text-slate-500 hover:bg-slate-50 font-bold text-sm rounded-xl transition-all">
             Close
          </button>
          
          <div class="flex items-center gap-3">
-            <button @click="updateStatus('rejected')" :disabled="loading" class="px-6 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-xs rounded-xl transition-all border border-rose-100">
+            <button @click="updateStatus('rejected')" :disabled="loading" class="px-6 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 font-bold text-sm rounded-xl transition-all border border-rose-100">
                Decline
             </button>
             <button @click="updateStatus('accepted')" :disabled="loading" class="btn-premium px-8">

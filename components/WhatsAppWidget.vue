@@ -12,7 +12,7 @@
       <div v-if="showWhatsAppMenu" class="absolute bottom-20 right-0 w-64 bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden transform origin-bottom-right">
         <div class="bg-[#25D366] p-6 text-white">
           <h4 class="font-black text-lg leading-tight text-white mb-1">Contact Us</h4>
-          <p class="text-white/80 text-xs font-medium">Choose your vibe below!</p>
+          <p class="text-white/80 text-sm font-medium">Choose your vibe below!</p>
         </div>
         <div class="p-4 space-y-2">
           <a 

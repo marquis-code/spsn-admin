@@ -20,7 +20,7 @@
           <LucideUpload v-else :size="14" class="mr-2" />
           Import
         </button>
-        <button @click="openSlideOver()" class="bg-[#003366] hover:bg-[#004080] text-white px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-sm">
+        <button @click="openSlideOver()" class="bg-[#003366] hover:bg-[#004080] text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 shadow-sm">
           <LucidePlus :size="14" />
           New conference
         </button>
@@ -35,7 +35,7 @@
     <!-- Conferences Table -->
     <div v-else class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
       <table class="w-full text-base text-left">
-        <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
+        <thead class="text-sm text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
           <tr>
             <th class="px-6 py-4 font-medium">Image</th>
             <th class="px-6 py-4 font-medium">Title & Info</th>
@@ -63,7 +63,7 @@
                   <LucideCalendar :size="14" class="text-[#003366]" />
                   {{ conf.date || 'To be announced' }}
                 </div>
-                <div class="flex items-center gap-1.5 text-xs text-slate-500">
+                <div class="flex items-center gap-1.5 text-sm text-slate-500">
                   <LucideMapPin :size="14" class="text-[#003366]" />
                   {{ conf.location || 'Location pending' }}
                 </div>
@@ -74,20 +74,20 @@
                 <span class="inline-block px-2.5 py-1 bg-white border border-slate-200 text-[#003366] text-[10px] font-bold rounded-lg shadow-sm">
                   {{ conf.status || 'Active' }}
                 </span>
-                <div class="flex items-center gap-1.5 text-xs text-slate-500 font-medium">
+                <div class="flex items-center gap-1.5 text-sm text-slate-500 font-medium">
                   <LucideUsers :size="14" class="text-[#003366]" />
                   {{ conf.registeredCount || 0 }} registered
                 </div>
               </div>
             </td>
             <td class="px-6 py-4 text-right space-x-3">
-              <button @click="openSlideOver(conf)" class="text-xs font-bold text-[#003366] hover:text-[#004080] transition-colors" title="Edit Conference">
+              <button @click="openSlideOver(conf)" class="text-sm font-bold text-[#003366] hover:text-[#004080] transition-colors" title="Edit Conference">
                 Edit
               </button>
-              <button class="text-xs font-bold text-slate-500 hover:text-slate-700 transition-colors" title="Manage Abstracts">
+              <button class="text-sm font-bold text-slate-500 hover:text-slate-700 transition-colors" title="Manage Abstracts">
                 Abstracts
               </button>
-              <button class="text-xs font-bold text-rose-500 hover:text-rose-600 transition-colors" title="Archive">
+              <button class="text-sm font-bold text-rose-500 hover:text-rose-600 transition-colors" title="Archive">
                 Archive
               </button>
             </td>

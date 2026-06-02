@@ -7,7 +7,7 @@
         <p class="text-base text-slate-500 font-medium">Manage the executives (excos) of the association.</p>
       </div>
       <div class="flex gap-3">
-        <button @click="openSlideOver()" class="bg-[#003366] hover:bg-[#004080] text-white px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-sm">
+        <button @click="openSlideOver()" class="bg-[#003366] hover:bg-[#004080] text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 shadow-sm">
           <LucidePlus :size="14" />
           New Executive
         </button>
@@ -20,7 +20,7 @@
     <!-- Excos Table -->
     <div v-else class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
       <table class="w-full text-base text-left">
-        <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
+        <thead class="text-sm text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
           <tr>
             <th class="px-6 py-4 font-medium">Profile Picture</th>
             <th class="px-6 py-4 font-medium">Name</th>
@@ -45,7 +45,7 @@
               <p class="font-semibold text-slate-800">{{ exco.name }}</p>
             </td>
             <td class="px-6 py-4">
-              <span class="inline-block px-2.5 py-1 bg-blue-50 text-[#003366] text-xs font-bold rounded-md">
+              <span class="inline-block px-2.5 py-1 bg-blue-50 text-[#003366] text-sm font-bold rounded-md">
                 {{ exco.position }}
               </span>
             </td>
@@ -53,10 +53,10 @@
               <p class="text-sm text-slate-500 line-clamp-2 max-w-xs">{{ exco.bio || 'No bio provided' }}</p>
             </td>
             <td class="px-6 py-4 text-right space-x-3">
-              <button @click="openSlideOver(exco)" class="text-xs font-bold text-[#003366] hover:text-[#004080] transition-colors" title="Edit Exco">
+              <button @click="openSlideOver(exco)" class="text-sm font-bold text-[#003366] hover:text-[#004080] transition-colors" title="Edit Exco">
                 Edit
               </button>
-              <button @click="deleteExco(exco._id)" class="text-xs font-bold text-rose-500 hover:text-rose-600 transition-colors" title="Delete Exco">
+              <button @click="deleteExco(exco._id)" class="text-sm font-bold text-rose-500 hover:text-rose-600 transition-colors" title="Delete Exco">
                 Delete
               </button>
             </td>
@@ -99,7 +99,7 @@
                 <LucideImage class="text-[#003366]" :size="24" />
               </div>
               <p class="text-sm font-bold text-slate-700">Click to upload a picture</p>
-              <p class="text-xs text-slate-500 mt-1">PNG, JPG, JPEG (Max. 5MB)</p>
+              <p class="text-sm text-slate-500 mt-1">PNG, JPG, JPEG (Max. 5MB)</p>
             </template>
           </div>
         </div>

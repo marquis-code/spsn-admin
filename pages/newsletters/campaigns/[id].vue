@@ -9,9 +9,9 @@
           <div>
             <h1 class="text-2xl font-bold text-slate-800">{{ campaign.subject }}</h1>
             <p class="text-base text-slate-500 flex items-center gap-2">
-              <span class="px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-xs font-medium">{{ campaign.category?.title }}</span>
+              <span class="px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-sm font-medium">{{ campaign.category?.title }}</span>
               •
-              <span :class="['px-2 py-0.5 rounded text-xs font-medium', campaign.status === 'PUBLISHED' ? 'bg-green-100 text-green-700' : 'bg-slate-200 text-slate-700']">
+              <span :class="['px-2 py-0.5 rounded text-sm font-medium', campaign.status === 'PUBLISHED' ? 'bg-green-100 text-green-700' : 'bg-slate-200 text-slate-700']">
                 {{ campaign.status }}
               </span>
             </p>
@@ -30,7 +30,7 @@
 
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
         <div>
-          <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Email Subject</label>
+          <label class="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">Email Subject</label>
           <input v-model="campaign.subject" type="text" :disabled="campaign.status === 'PUBLISHED'" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all font-medium text-lg disabled:opacity-50" />
         </div>
         <div>
@@ -38,7 +38,7 @@
           <p class="text-[10px] text-slate-400 mt-1">Update the header banner image for this campaign.</p>
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2 flex justify-between">
+          <label class="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2 flex justify-between">
             <span>Email Content (HTML)</span>
             <span class="text-[10px] text-slate-400 font-normal normal-case">Use valid HTML. This will be sent directly to subscribers.</span>
           </label>
@@ -48,7 +48,7 @@
 
       <div class="bg-slate-800 rounded-2xl border border-slate-700 shadow-xl overflow-hidden mt-8">
         <div class="px-6 py-3 border-b border-slate-700 bg-slate-900 flex justify-between items-center">
-          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Preview (Raw Render)</span>
+          <span class="text-sm font-bold text-slate-400 uppercase tracking-wider">Preview (Raw Render)</span>
         </div>
         <div class="p-6 bg-white min-h-[400px]">
           <div v-html="campaign.htmlContent"></div>

@@ -39,7 +39,7 @@
                 </div>
                 <div>
                   <h4 class="text-xl font-bold text-slate-800">{{ member.fullName || member.name || member.email?.split('@')[0] }}</h4>
-                  <p class="text-xs font-bold text-slate-400 mt-1">{{ member.email }}</p>
+                  <p class="text-sm font-bold text-slate-400 mt-1">{{ member.email }}</p>
                   <span :class="['inline-block mt-2 badge-premium text-[9px]', member.isActive !== false ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100']">
                     {{ member.isActive !== false ? 'Active Account' : 'Inactive Account' }}
                   </span>
@@ -53,15 +53,15 @@
                   <div class="grid grid-cols-2 gap-4">
                     <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
                       <p class="text-[10px] font-bold text-slate-400 mb-1">Membership ID</p>
-                      <p class="text-xs font-bold text-slate-800 font-mono">{{ member.membershipId || 'Pending' }}</p>
+                      <p class="text-sm font-bold text-slate-800 font-mono">{{ member.membershipId || 'Pending' }}</p>
                     </div>
                     <div class="bg-slate-50 p-3 rounded-xl border border-slate-100">
                       <p class="text-[10px] font-bold text-slate-400 mb-1">Designation</p>
-                      <p class="text-xs font-bold text-slate-800">{{ member.role || 'Member' }}</p>
+                      <p class="text-sm font-bold text-slate-800">{{ member.role || 'Member' }}</p>
                     </div>
                     <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 col-span-2">
                       <p class="text-[10px] font-bold text-slate-400 mb-1">Organization / Category</p>
-                      <p class="text-xs font-bold text-slate-800">{{ member.organization || member.category || 'General Clinical Pharmacy' }}</p>
+                      <p class="text-sm font-bold text-slate-800">{{ member.organization || member.category || 'General Clinical Pharmacy' }}</p>
                     </div>
                   </div>
                 </div>
@@ -75,7 +75,7 @@
                       </div>
                       <div>
                         <p class="text-[10px] font-bold text-slate-400">Phone Number</p>
-                        <p class="text-xs font-bold text-slate-800">{{ member.phoneNumber || member.phone || 'Not provided' }}</p>
+                        <p class="text-sm font-bold text-slate-800">{{ member.phoneNumber || member.phone || 'Not provided' }}</p>
                       </div>
                     </div>
                     <div class="flex items-center gap-3">
@@ -84,7 +84,7 @@
                       </div>
                       <div>
                         <p class="text-[10px] font-bold text-slate-400">Enrollment Date</p>
-                        <p class="text-xs font-bold text-slate-800">{{ formatDate(member.enrollmentInfo?.enrollmentDate || member.createdAt) }}</p>
+                        <p class="text-sm font-bold text-slate-800">{{ formatDate(member.enrollmentInfo?.enrollmentDate || member.createdAt) }}</p>
                       </div>
                     </div>
                   </div>
@@ -95,7 +95,7 @@
                   <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl flex items-start gap-3">
                     <LucideAward :size="18" class="text-amber-600 mt-0.5 shrink-0" />
                     <div>
-                      <p class="text-xs font-bold text-amber-900">Scientific Board Member</p>
+                      <p class="text-sm font-bold text-amber-900">Scientific Board Member</p>
                       <p class="text-[10px] font-bold text-amber-700/70 mt-1">Designation: {{ member.designation || 'Board Member' }}</p>
                     </div>
                   </div>
@@ -106,7 +106,7 @@
 
             <!-- Footer Actions -->
             <div class="p-6 border-t border-slate-100 bg-slate-50/50 mt-auto">
-              <button @click="close" class="w-full py-3 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
+              <button @click="close" class="w-full py-3 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
                 Close details
               </button>
             </div>

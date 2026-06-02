@@ -7,7 +7,7 @@
         <p class="text-base text-slate-500 font-medium">Manage administrators and their specific module permissions.</p>
       </div>
       <div class="flex gap-3">
-        <button @click="openSlideOver()" class="bg-[#003366] hover:bg-[#004080] text-white px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-sm">
+        <button @click="openSlideOver()" class="bg-[#003366] hover:bg-[#004080] text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 shadow-sm">
           <LucidePlus :size="14" />
           New Admin
         </button>
@@ -20,7 +20,7 @@
     <!-- Admins Table -->
     <div v-else class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
       <table class="w-full text-base text-left">
-        <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
+        <thead class="text-sm text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
           <tr>
             <th class="px-6 py-4 font-medium">Profile</th>
             <th class="px-6 py-4 font-medium">Email</th>
@@ -48,7 +48,7 @@
               <span class="text-slate-600">{{ admin.email }}</span>
             </td>
             <td class="px-6 py-4">
-              <span class="inline-block px-2.5 py-1 text-xs font-bold rounded-md" :class="admin.role === 'super_admin' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'">
+              <span class="inline-block px-2.5 py-1 text-sm font-bold rounded-md" :class="admin.role === 'super_admin' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'">
                 {{ admin.role === 'super_admin' ? 'Super Admin' : 'Admin' }}
               </span>
             </td>
@@ -61,10 +61,10 @@
               </span>
             </td>
             <td class="px-6 py-4 text-right space-x-3">
-              <button @click="openSlideOver(admin)" class="text-xs font-bold text-[#003366] hover:text-[#004080] transition-colors" title="Edit Admin">
+              <button @click="openSlideOver(admin)" class="text-sm font-bold text-[#003366] hover:text-[#004080] transition-colors" title="Edit Admin">
                 Edit
               </button>
-              <button v-if="admin.role !== 'super_admin' && currentUser?.email !== admin.email" @click="deleteAdmin(admin._id)" class="text-xs font-bold text-rose-500 hover:text-rose-600 transition-colors" title="Delete Admin">
+              <button v-if="admin.role !== 'super_admin' && currentUser?.email !== admin.email" @click="deleteAdmin(admin._id)" class="text-sm font-bold text-rose-500 hover:text-rose-600 transition-colors" title="Delete Admin">
                 Delete
               </button>
             </td>

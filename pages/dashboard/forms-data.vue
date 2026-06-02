@@ -11,7 +11,7 @@
            <LucideDownload :size="14" class="mr-2" />
            Export data
          </button>
-         <button class="bg-[#003366] hover:bg-[#004080] text-white px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-sm">
+         <button class="bg-[#003366] hover:bg-[#004080] text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 shadow-sm">
            Update structure
          </button>
       </div>
@@ -53,7 +53,7 @@
                 </td>
                 <td class="text-slate-500 font-bold text-[11px]">{{ formatDate(response.createdAt) }}</td>
                 <td class="text-right !pr-8">
-                   <button class="text-[#003366] font-bold hover:underline text-xs flex items-center gap-1.5 ml-auto">
+                   <button class="text-[#003366] font-bold hover:underline text-sm flex items-center gap-1.5 ml-auto">
                      View complete response 
                      <LucideArrowRight :size="14" />
                    </button>

@@ -14,7 +14,7 @@
 
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <table class="w-full text-base text-left">
-          <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
+          <thead class="text-sm text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
             <tr>
               <th class="px-6 py-4 font-medium">Logo</th>
               <th class="px-6 py-4 font-medium">Name & Link</th>
@@ -34,16 +34,16 @@
               <td class="px-6 py-4">
                 <div class="w-16 h-16 bg-white rounded-lg flex items-center justify-center overflow-hidden border border-slate-200 p-2 shadow-sm">
                   <img v-if="sponsor.logoUrl" :src="sponsor.logoUrl" class="w-full h-full object-contain" />
-                  <span v-else class="text-xs text-slate-400">No Logo</span>
+                  <span v-else class="text-sm text-slate-400">No Logo</span>
                 </div>
               </td>
               <td class="px-6 py-4">
                 <p class="font-semibold text-slate-800">{{ sponsor.name }}</p>
-                <a v-if="sponsor.websiteUrl" :href="sponsor.websiteUrl" target="_blank" class="text-xs text-blue-600 hover:underline truncate max-w-[200px] block">{{ sponsor.websiteUrl }}</a>
-                <span v-else class="text-xs text-slate-400">No Link</span>
+                <a v-if="sponsor.websiteUrl" :href="sponsor.websiteUrl" target="_blank" class="text-sm text-blue-600 hover:underline truncate max-w-[200px] block">{{ sponsor.websiteUrl }}</a>
+                <span v-else class="text-sm text-slate-400">No Link</span>
               </td>
               <td class="px-6 py-4">
-                <span class="inline-block px-2.5 py-1 bg-amber-50 text-amber-700 border border-amber-200 text-xs font-bold rounded-md uppercase">
+                <span class="inline-block px-2.5 py-1 bg-amber-50 text-amber-700 border border-amber-200 text-sm font-bold rounded-md uppercase">
                   {{ sponsor.tier }}
                 </span>
               </td>
@@ -53,8 +53,8 @@
                 </span>
               </td>
               <td class="px-6 py-4 text-right">
-                <button @click="openModal(sponsor)" class="text-blue-600 hover:underline text-xs font-medium mr-3">Edit</button>
-                <button @click="handleDelete(sponsor._id)" class="text-red-600 hover:underline text-xs font-medium">Delete</button>
+                <button @click="openModal(sponsor)" class="text-blue-600 hover:underline text-sm font-medium mr-3">Edit</button>
+                <button @click="handleDelete(sponsor._id)" class="text-red-600 hover:underline text-sm font-medium">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -75,7 +75,7 @@
           <div class="p-6 overflow-y-auto flex-1">
             <form @submit.prevent="handleSubmit" class="space-y-4">
               <div>
-                <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Sponsor Name</label>
+                <label class="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">Sponsor Name</label>
                 <input v-model="form.name" type="text" required class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" />
               </div>
               <div>
@@ -83,11 +83,11 @@
                 <p class="text-[10px] text-slate-400 mt-1">Upload a transparent PNG or SVG for best results on the marquee.</p>
               </div>
               <div>
-                <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Website URL</label>
+                <label class="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">Website URL</label>
                 <input v-model="form.websiteUrl" type="url" placeholder="https://example.com" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" />
               </div>
               <div>
-                <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Sponsorship Tier</label>
+                <label class="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">Sponsorship Tier</label>
                 <select v-model="form.tier" required class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all">
                   <option value="PLATINUM">Platinum</option>
                   <option value="GOLD">Gold</option>

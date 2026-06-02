@@ -271,7 +271,7 @@
             <div class="flex flex-col items-center gap-3 pt-10">
               <div class="flex items-center gap-1.5 px-6 py-3">
                  <LucideLock :size="12" class="text-[#8696a0]" />
-                 <span class="text-xs text-[#8696a0]">End-to-end encrypted</span>
+                 <span class="text-sm text-[#8696a0]">End-to-end encrypted</span>
               </div>
             </div>
           </div>

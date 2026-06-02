@@ -25,7 +25,7 @@
             <div class="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50 shrink-0">
               <div>
                 <h3 class="font-black text-slate-800 text-lg">{{ title }}</h3>
-                <p v-if="subtitle" class="text-xs text-slate-500 font-medium mt-1">{{ subtitle }}</p>
+                <p v-if="subtitle" class="text-sm text-slate-500 font-medium mt-1">{{ subtitle }}</p>
               </div>
               <button @click="close" class="p-2 text-slate-400 hover:text-slate-600 hover:bg-white rounded-xl transition-all shadow-sm">
                 <LucideX :size="20" />

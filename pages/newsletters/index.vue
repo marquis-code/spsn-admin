@@ -58,7 +58,7 @@
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-base text-left">
-            <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
+            <thead class="text-sm text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
               <tr>
                 <th class="px-6 py-4 font-medium">Email</th>
                 <th class="px-6 py-4 font-medium">Categories</th>
@@ -77,13 +77,13 @@
               <tr v-for="sub in subscriptions.slice(0, 10)" :key="sub._id" class="hover:bg-slate-50 transition-colors">
                 <td class="px-6 py-4 font-medium text-slate-900">{{ sub.email }}</td>
                 <td class="px-6 py-4 text-slate-600">
-                  <span v-for="cat in sub.categories" :key="cat._id" class="inline-block px-2 py-1 bg-slate-100 text-xs rounded-md mr-2 mb-1">
+                  <span v-for="cat in sub.categories" :key="cat._id" class="inline-block px-2 py-1 bg-slate-100 text-sm rounded-md mr-2 mb-1">
                     {{ cat.title }}
                   </span>
                 </td>
                 <td class="px-6 py-4 font-medium">₦{{ sub.totalAmount.toLocaleString() }}</td>
                 <td class="px-6 py-4">
-                  <span :class="['px-2.5 py-1 rounded-full text-xs font-medium', sub.isPaid ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700']">
+                  <span :class="['px-2.5 py-1 rounded-full text-sm font-medium', sub.isPaid ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700']">
                     {{ sub.isPaid ? 'Paid' : 'Pending' }}
                   </span>
                 </td>

@@ -8,7 +8,7 @@
       </div>
       <button 
         @click="showCreateDrawer = true"
-        class="bg-[#003366] hover:bg-[#004080] text-white px-6 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-sm"
+        class="bg-[#003366] hover:bg-[#004080] text-white px-6 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 shadow-sm"
       >
          <LucidePlus :size="18" /> 
          Create new form
@@ -119,7 +119,7 @@
 
           <button v-if="newForm.fields.length === 0" @click="addField" class="w-full py-10 border-2 border-dashed border-slate-100 rounded-3xl flex flex-col items-center justify-center gap-2 text-slate-400 hover:text-[#003366] hover:border-[#003366]/20 transition-all">
             <LucidePlus :size="24" />
-            <span class="text-xs font-bold">Initialize first field</span>
+            <span class="text-sm font-bold">Initialize first field</span>
           </button>
         </div>
       </div>
@@ -130,7 +130,7 @@
           <button 
             @click="handleCreate" 
             :disabled="creating || !newForm.title || newForm.fields.length === 0"
-            class="bg-[#003366] hover:bg-[#004080] text-white flex-1 py-3 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2 shadow-sm disabled:opacity-50"
+            class="bg-[#003366] hover:bg-[#004080] text-white flex-1 py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-sm disabled:opacity-50"
           >
             <LucideLoader2 v-if="creating" class="w-4 h-4 animate-spin" />
             {{ creating ? 'Syncing Structure...' : 'Build Form' }}
@@ -166,7 +166,7 @@
                 </div>
                 <span class="text-[11px] font-bold text-[#003366]">{{ form.submissionsCount || 0 }} Total responses</span>
               </div>
-              <NuxtLink :to="`/dashboard/forms-data?id=${form._id}`" class="text-xs font-bold text-slate-400 hover:text-[#003366] hover:underline transition-colors flex items-center gap-1">
+              <NuxtLink :to="`/dashboard/forms-data?id=${form._id}`" class="text-sm font-bold text-slate-400 hover:text-[#003366] hover:underline transition-colors flex items-center gap-1">
                 View submission data management 
                 <LucideArrowRight :size="14" />
               </NuxtLink>
@@ -190,7 +190,7 @@
            
            <div class="space-y-3 relative z-10">
               <button @click="useTemplate(t)" v-for="t in templates" :key="t" class="w-full p-4 bg-white/5 hover:bg-white/15 rounded-xl text-left transition-all border border-white/10 group">
-                 <p class="text-xs font-bold text-white group-hover:translate-x-1 transition-transform">{{ t }}</p>
+                 <p class="text-sm font-bold text-white group-hover:translate-x-1 transition-transform">{{ t }}</p>
                  <p class="text-[10px] text-white/50 mt-1 font-medium tracking-wide">Ready-to-use professional fields</p>
               </button>
            </div>

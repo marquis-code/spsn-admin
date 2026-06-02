@@ -19,7 +19,7 @@
 
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <table class="w-full text-base text-left">
-          <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
+          <thead class="text-sm text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
             <tr>
               <th class="px-6 py-4 font-medium">Title</th>
               <th class="px-6 py-4 font-medium">Description</th>
@@ -40,13 +40,13 @@
               <td class="px-6 py-4 text-slate-600 max-w-xs truncate">{{ cat.description }}</td>
               <td class="px-6 py-4 font-medium text-brand-blue">{{ cat.price === 0 ? 'Free' : '₦' + cat.price.toLocaleString() }}</td>
               <td class="px-6 py-4">
-                <span :class="['px-2.5 py-1 rounded-full text-xs font-medium', cat.isActive ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-700']">
+                <span :class="['px-2.5 py-1 rounded-full text-sm font-medium', cat.isActive ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-700']">
                   {{ cat.isActive ? 'Active' : 'Inactive' }}
                 </span>
               </td>
               <td class="px-6 py-4 text-right">
-                <button @click="openModal(cat)" class="text-blue-600 hover:underline text-xs font-medium mr-3">Edit</button>
-                <button @click="handleDelete(cat._id)" class="text-red-600 hover:underline text-xs font-medium">Delete</button>
+                <button @click="openModal(cat)" class="text-blue-600 hover:underline text-sm font-medium mr-3">Edit</button>
+                <button @click="handleDelete(cat._id)" class="text-red-600 hover:underline text-sm font-medium">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -66,15 +66,15 @@
           </div>
           <form @submit.prevent="handleSubmit" class="p-6 space-y-4">
             <div>
-              <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Title</label>
+              <label class="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">Title</label>
               <input v-model="form.title" type="text" required class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" />
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Description</label>
+              <label class="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">Description</label>
               <textarea v-model="form.description" required rows="3" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"></textarea>
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Price (NGN) - 0 for Free</label>
+              <label class="block text-sm font-bold text-slate-600 uppercase tracking-wider mb-2">Price (NGN) - 0 for Free</label>
               <input v-model.number="form.price" type="number" min="0" required class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" />
             </div>
             <div class="flex items-center gap-3 mt-4">

@@ -45,7 +45,7 @@
               <button
                 @click="cancel"
                 :disabled="loading"
-                class="px-6 py-2.5 text-xs font-bold text-slate-500 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-all disabled:opacity-50"
+                class="px-6 py-2.5 text-sm font-bold text-slate-500 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-all disabled:opacity-50"
               >
                 {{ cancelText }}
               </button>
@@ -53,7 +53,7 @@
                 @click="confirm"
                 :disabled="loading"
                 :class="[
-                  'px-6 py-2.5 text-xs font-bold rounded-xl transition-all flex items-center gap-2 shadow-sm disabled:opacity-50 active:scale-95',
+                  'px-6 py-2.5 text-sm font-bold rounded-xl transition-all flex items-center gap-2 shadow-sm disabled:opacity-50 active:scale-95',
                   variant === 'danger' ? 'bg-rose-500 hover:bg-rose-600 text-white' : variant === 'warning' ? 'bg-amber-500 hover:bg-amber-600 text-white' : 'bg-[#003366] hover:bg-[#004080] text-white'
                 ]"
               >

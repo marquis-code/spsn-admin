@@ -27,7 +27,7 @@
         <div v-else class="flex flex-col items-center justify-center gap-3">
           <div class="flex items-center gap-2">
             <div class="w-5 h-5 border-2 border-slate-200 border-t-[#003366] rounded-full animate-spin"></div>
-            <span class="text-xs font-bold text-[#003366]">Uploading {{ totalToUpload }} files...</span>
+            <span class="text-sm font-bold text-[#003366]">Uploading {{ totalToUpload }} files...</span>
           </div>
           <div class="w-48 h-1.5 bg-slate-200 rounded-full overflow-hidden">
             <div class="h-full bg-[#003366] transition-all duration-300" :style="{ width: `${uploadProgress}%` }"></div>

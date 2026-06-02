@@ -71,7 +71,7 @@
                 <td class="font-bold text-slate-800 text-base group-hover:text-[#003366] transition-colors">
                   {{ payment.userEmail || payment.user?.email || 'System User' }}
                 </td>
-                <td class="text-xs font-bold text-slate-500">
+                <td class="text-sm font-bold text-slate-500">
                   {{ payment.paymentType || 'Institutional dues' }}
                 </td>
                 <td class="font-bold text-slate-800 text-base">
@@ -87,7 +87,7 @@
                    <button @click="viewPaymentDetails(payment)" class="text-slate-400 hover:text-[#003366] transition-colors p-2 rounded-lg hover:bg-slate-100" title="View Details">
                      <LucideEye :size="16" />
                    </button>
-                   <button v-if="payment.status === 'pending' && payment.receiptUrl" @click="openReviewModal(payment)" class="bg-amber-100 text-amber-600 hover:bg-amber-200 transition-colors px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap" title="Review Receipt">
+                   <button v-if="payment.status === 'pending' && payment.receiptUrl" @click="openReviewModal(payment)" class="bg-amber-100 text-amber-600 hover:bg-amber-200 transition-colors px-3 py-1.5 rounded-lg text-sm font-bold whitespace-nowrap" title="Review Receipt">
                      Review
                    </button>
                 </td>
@@ -134,7 +134,7 @@
            </div>
            
            <div v-if="rejecting" class="space-y-2">
-             <label class="text-xs font-bold text-slate-800">Reason for rejection (sent to member):</label>
+             <label class="text-sm font-bold text-slate-800">Reason for rejection (sent to member):</label>
              <textarea v-model="rejectReason" rows="3" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-base focus:outline-none focus:border-[#003366]"></textarea>
            </div>
         </div>

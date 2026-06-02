@@ -2,7 +2,7 @@ import axios, { type AxiosResponse } from "axios";
 import { useCustomToast } from '@/composables/core/useCustomToast'
 
 
-const $GATEWAY_ENDPOINT = import.meta.env.VITE_BASE_URL || "https://spsn-backend.onrender.com/api";
+const $GATEWAY_ENDPOINT = import.meta.env.VITE_BASE_URL || "http://localhost:3005/api";
 
 export const GATEWAY_ENDPOINT = axios.create({
   baseURL: $GATEWAY_ENDPOINT,
@@ -37,6 +37,15 @@ GATEWAY_ENDPOINT.interceptors.request.use((config: any) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
+  let lang = 'en';
+  if (typeof document !== 'undefined') {
+    const match = document.cookie.match(new RegExp('(^| )i18n_redirected=([^;]+)'));
+    if (match && match[2]) lang = decodeURIComponent(match[2]);
+    else lang = localStorage.getItem('app-lang') || 'en';
+  }
+  config.headers['x-lang'] = lang;
+
   return config;
 });
 

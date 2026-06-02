@@ -20,7 +20,7 @@
           <LucideUpload v-else :size="14" class="mr-2" />
           Import
         </button>
-        <button class="bg-white border border-slate-200 text-slate-700 px-4 sm:px-5 py-2.5 rounded-xl text-xs font-bold shadow-sm flex items-center gap-1.5 hover:bg-slate-50 transition-all">
+        <button class="bg-white border border-slate-200 text-slate-700 px-4 sm:px-5 py-2.5 rounded-xl text-sm font-bold shadow-sm flex items-center gap-1.5 hover:bg-slate-50 transition-all">
           <LucideFilter :size="14" />
           Filter
         </button>
@@ -32,7 +32,7 @@
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
       <div v-for="s in summary" :key="s.label" class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 hover:shadow-md hover:border-slate-300 transition-all duration-300 flex flex-col justify-center">
         <div class="flex items-center justify-between mb-3">
-          <p class="text-xs font-bold text-slate-500 uppercase tracking-wider">{{ s.label }}</p>
+          <p class="text-sm font-bold text-slate-500 uppercase tracking-wider">{{ s.label }}</p>
           <div class="w-2 h-2 rounded-full" :class="s.dotClass"></div>
         </div>
         <div class="flex items-baseline gap-2">

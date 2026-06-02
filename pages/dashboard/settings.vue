@@ -9,7 +9,7 @@
       <button
         @click="saveAllChanges"
         :disabled="saving"
-        class="bg-[#003366] hover:bg-[#004080] text-white px-8 py-3 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-lg shadow-[#003366]/20 disabled:opacity-50"
+        class="bg-[#003366] hover:bg-[#004080] text-white px-8 py-3 rounded-xl font-bold text-sm transition-all flex items-center gap-2 shadow-lg shadow-[#003366]/20 disabled:opacity-50"
       >
         <LucideLoader2 v-if="saving" class="w-4 h-4 animate-spin" />
         <LucideSave v-else class="w-4 h-4" />
@@ -75,7 +75,7 @@
       <div v-if="activeTab === 'hero'" class="space-y-8 animate-in fade-in slide-in-from-bottom-2">
         <div class="flex justify-between items-center px-1">
           <h3 class="text-lg font-bold text-slate-800">Frontline visual assets</h3>
-          <button @click="addSlide" class="text-xs font-bold text-[#003366] hover:bg-slate-50 px-4 py-2 rounded-lg border border-slate-100 transition-all flex items-center gap-2">
+          <button @click="addSlide" class="text-sm font-bold text-[#003366] hover:bg-slate-50 px-4 py-2 rounded-lg border border-slate-100 transition-all flex items-center gap-2">
             <LucidePlus :size="16" /> Append visual slide
           </button>
         </div>
@@ -106,7 +106,7 @@
       <div v-if="activeTab === 'stats'" class="space-y-8 animate-in fade-in slide-in-from-bottom-2">
         <div class="flex justify-between items-center px-1">
           <h3 class="text-lg font-bold text-slate-800">Public performance metrics</h3>
-          <button @click="addStat" class="text-xs font-bold text-[#003366] hover:bg-slate-50 px-4 py-2 rounded-lg border border-slate-100 transition-all flex items-center gap-2">
+          <button @click="addStat" class="text-sm font-bold text-[#003366] hover:bg-slate-50 px-4 py-2 rounded-lg border border-slate-100 transition-all flex items-center gap-2">
             <LucidePlus :size="16" /> Add metric entry
           </button>
         </div>
@@ -127,7 +127,7 @@
       <div v-if="activeTab === 'pillars'" class="space-y-8 animate-in fade-in slide-in-from-bottom-2">
         <div class="flex justify-between items-center px-1">
           <h3 class="text-lg font-bold text-slate-800">Operational excellence pillars</h3>
-          <button @click="addPillar" class="text-xs font-bold text-[#003366] hover:bg-slate-50 px-4 py-2 rounded-lg border border-slate-100 transition-all flex items-center gap-2">
+          <button @click="addPillar" class="text-sm font-bold text-[#003366] hover:bg-slate-50 px-4 py-2 rounded-lg border border-slate-100 transition-all flex items-center gap-2">
             <LucidePlus :size="16" /> Add strategic pillar
           </button>
         </div>
@@ -155,7 +155,7 @@
       <div v-if="activeTab === 'initiatives'" class="space-y-8 animate-in fade-in slide-in-from-bottom-2">
         <div class="flex justify-between items-center px-1">
           <h3 class="text-lg font-bold text-slate-800">Strategic objectives & campaigns</h3>
-          <button @click="addInitiative" class="text-xs font-bold text-[#003366] hover:bg-slate-50 px-4 py-2 rounded-lg border border-slate-100 transition-all flex items-center gap-2">
+          <button @click="addInitiative" class="text-sm font-bold text-[#003366] hover:bg-slate-50 px-4 py-2 rounded-lg border border-slate-100 transition-all flex items-center gap-2">
             <LucidePlus :size="16" /> Initialize new campaign
           </button>
         </div>
@@ -226,9 +226,9 @@
         <div class="flex justify-between items-center px-1">
           <div>
             <h3 class="text-lg font-bold text-slate-800">Advanced AI knowledge engineering</h3>
-            <p class="text-xs text-slate-400 font-medium">Fine-tune the intelligence parameters for automated member support.</p>
+            <p class="text-sm text-slate-400 font-medium">Fine-tune the intelligence parameters for automated member support.</p>
           </div>
-          <button @click="addKnowledge" class="text-xs font-bold text-[#003366] hover:bg-slate-50 px-4 py-2 rounded-lg border border-slate-100 transition-all flex items-center gap-2">
+          <button @click="addKnowledge" class="text-sm font-bold text-[#003366] hover:bg-slate-50 px-4 py-2 rounded-lg border border-slate-100 transition-all flex items-center gap-2">
             <LucidePlus :size="16" /> Inject knowledge fact
           </button>
         </div>
@@ -250,9 +250,9 @@
         <div class="flex justify-between items-center px-1">
           <div>
              <h3 class="text-lg font-bold text-slate-800">Operational content templates</h3>
-             <p class="text-xs text-slate-400 font-medium">Predefined communicative assets for rapid response protocols.</p>
+             <p class="text-sm text-slate-400 font-medium">Predefined communicative assets for rapid response protocols.</p>
           </div>
-          <button @click="addQuickReply" class="bg-[#003366] text-white px-6 py-2.5 rounded-xl font-bold text-xs hover:bg-[#004080] transition-all shadow-md flex items-center gap-2">
+          <button @click="addQuickReply" class="bg-[#003366] text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-[#004080] transition-all shadow-md flex items-center gap-2">
             <LucidePlus :size="16" /> Create new asset
           </button>
         </div>
@@ -279,7 +279,7 @@
           </div>
           <div class="space-y-2">
              <p class="font-bold text-slate-800">No content templates available</p>
-             <p class="text-xs text-slate-400 font-medium">Initialize a new template to streamline communications</p>
+             <p class="text-sm text-slate-400 font-medium">Initialize a new template to streamline communications</p>
           </div>
         </div>
       </div>
@@ -289,7 +289,7 @@
         <div class="flex justify-between items-center px-1">
           <div>
             <h3 class="text-lg font-bold text-slate-800">Enrollment protocol configuration</h3>
-            <p class="text-xs text-slate-400 font-medium">Manage how potential members interact with the membership digitalization protocol.</p>
+            <p class="text-sm text-slate-400 font-medium">Manage how potential members interact with the membership digitalization protocol.</p>
           </div>
         </div>
 
@@ -371,7 +371,7 @@
         <div class="flex justify-between items-center px-1">
           <div>
             <h3 class="text-lg font-bold text-slate-800">Scientific board appointments</h3>
-            <p class="text-xs text-slate-400 font-medium">Elevate registered members to the official public-facing scientific board.</p>
+            <p class="text-sm text-slate-400 font-medium">Elevate registered members to the official public-facing scientific board.</p>
           </div>
         </div>
 

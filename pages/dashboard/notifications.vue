@@ -40,7 +40,7 @@
                 <h4 class="text-[13px] sm:text-base font-bold text-slate-800 truncate">{{ notif.title }}</h4>
                 <span v-if="!notif.read" class="px-2 py-0.5 bg-[#003366] text-white text-[9px] font-black rounded-full tracking-widest uppercase">New</span>
               </div>
-              <span class="text-[10px] sm:text-xs font-bold text-slate-400 shrink-0">{{ notif.time }}</span>
+              <span class="text-[10px] sm:text-sm font-bold text-slate-400 shrink-0">{{ notif.time }}</span>
             </div>
             <p class="text-[11px] sm:text-base text-slate-500 leading-relaxed max-w-3xl">{{ notif.message }}</p>
             

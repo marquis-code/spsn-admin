@@ -11,7 +11,7 @@
           <LucideRotateCcw :size="14" class="mr-2" />
           Discard changes
         </button>
-        <button @click="handleSave" :disabled="saving" class="bg-[#003366] hover:bg-[#004080] text-white px-6 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-sm disabled:opacity-50">
+        <button @click="handleSave" :disabled="saving" class="bg-[#003366] hover:bg-[#004080] text-white px-6 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 shadow-sm disabled:opacity-50">
           <LucideLoader2 v-if="saving" class="w-4 h-4 animate-spin" />
           <LucideSave v-else :size="14" />
           Publish changes
@@ -31,7 +31,7 @@
             <button 
               v-for="section in sections" :key="section.id"
               @click="activeSection = section.id" 
-              :class="['flex-shrink-0 flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-base font-bold transition-all whitespace-nowrap', activeSection === section.id ? 'bg-[#003366] text-white' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 border border-transparent']"
+              :class="['flex-shrink-0 flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-2xl text-sm sm:text-base font-bold transition-all whitespace-nowrap', activeSection === section.id ? 'bg-[#003366] text-white' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 border border-transparent']"
             >
               <component :is="section.icon" :size="16" class="sm:w-[18px] sm:h-[18px]" />
               {{ section.label }}
@@ -52,7 +52,7 @@
               </div>
               <div>
                 <h3 class="text-xl font-bold text-slate-800">Identity & Logo</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Control your global brand assets.</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Control your global brand assets.</p>
               </div>
             </div>
             <div class="space-y-6">
@@ -68,7 +68,7 @@
               </div>
               <div>
                 <h3 class="text-xl font-bold text-slate-800">Social Presence</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Manage end-to-end social media connectivity.</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Manage end-to-end social media connectivity.</p>
               </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -89,7 +89,7 @@
               </div>
               <div>
                 <h3 class="text-xl font-bold text-slate-800">Main Navbar</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Control website navigation structure.</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Control website navigation structure.</p>
               </div>
             </div>
             <div class="space-y-4">
@@ -98,7 +98,7 @@
                 <AnimatedInput v-model="item.to" label="Path" class="flex-1" />
                 <button @click="formData.global.navigation.main.splice(i, 1)" class="text-slate-300 hover:text-rose-500 transition-colors p-2 mt-4"><LucideTrash2 :size="18" /></button>
               </div>
-              <button @click="formData.global.navigation.main.push({ label: '', to: '' })" class="w-full py-4 border-2 border-dashed border-slate-100 rounded-2xl text-slate-400 hover:text-[#003366] hover:border-[#003366]/20 transition-all text-xs font-bold flex items-center justify-center gap-2">
+              <button @click="formData.global.navigation.main.push({ label: '', to: '' })" class="w-full py-4 border-2 border-dashed border-slate-100 rounded-2xl text-slate-400 hover:text-[#003366] hover:border-[#003366]/20 transition-all text-sm font-bold flex items-center justify-center gap-2">
                 <LucidePlus :size="14" /> Add Navigation Link
               </button>
             </div>
@@ -116,7 +116,7 @@
               </div>
               <div class="flex-1">
                 <h3 class="text-xl font-bold text-slate-800">Section Headers</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Control the main headlines and descriptions across the landing page.</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Control the main headlines and descriptions across the landing page.</p>
               </div>
             </div>
             <div class="space-y-8">
@@ -139,7 +139,7 @@
               </div>
               <div class="flex-1">
                 <h3 class="text-xl font-bold text-slate-800">Hero Carousel</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Manage the cinematic slides on the home page.</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Manage the cinematic slides on the home page.</p>
               </div>
               <button @click="formData.public.home.slides.push({ tag: '', title: '', desc: '', image: '' })" class="p-2 bg-slate-50 text-[#003366] rounded-xl hover:bg-[#003366] hover:text-white transition-all">
                 <LucidePlus :size="18" />
@@ -170,7 +170,7 @@
               </div>
               <div class="flex-1">
                 <h3 class="text-xl font-bold text-slate-800">Institutional Pillars</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Control the 4 main value blocks (Standardization, etc).</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Control the 4 main value blocks (Standardization, etc).</p>
               </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -190,7 +190,7 @@
               </div>
               <div class="flex-1">
                 <h3 class="text-xl font-bold text-slate-800">Scientific Initiatives</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Manage the strategic growth projects.</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Manage the strategic growth projects.</p>
               </div>
             </div>
             <div class="space-y-6">
@@ -210,7 +210,7 @@
               </div>
               <div class="flex-1">
                 <h3 class="text-xl font-bold text-slate-800">Membership Tiers</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Define membership categories and pricing.</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Define membership categories and pricing.</p>
               </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -229,7 +229,7 @@
               </div>
               <div class="flex-1">
                 <h3 class="text-xl font-bold text-slate-800">Impact Metrics</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Control the statistical indicators shown to the public.</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Control the statistical indicators shown to the public.</p>
               </div>
             </div>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -251,7 +251,7 @@
               </div>
               <div>
                 <h3 class="text-xl font-bold text-slate-800">Organization profile</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Manage end-to-end institutional values.</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Manage end-to-end institutional values.</p>
               </div>
             </div>
             <div class="space-y-6">
@@ -272,7 +272,7 @@
               </div>
               <div>
                 <h3 class="text-xl font-bold text-slate-800">Connection Points</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Manage how users contact the secretariat.</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Manage how users contact the secretariat.</p>
               </div>
             </div>
             <div class="space-y-6">

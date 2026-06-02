@@ -11,7 +11,7 @@
           <LucideRotateCcw :size="14" class="mr-2" />
           Reset Draft
         </button>
-        <button @click="handleSave" :disabled="saving" class="bg-[#003366] hover:bg-[#004080] text-white px-6 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-sm disabled:opacity-50">
+        <button @click="handleSave" :disabled="saving" class="bg-[#003366] hover:bg-[#004080] text-white px-6 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-2 shadow-sm disabled:opacity-50">
           <LucideLoader2 v-if="saving" class="w-4 h-4 animate-spin" />
           <LucideSave v-else :size="14" />
           Push to Portal
@@ -31,7 +31,7 @@
             <button 
               v-for="section in sections" :key="section.id"
               @click="activeSection = section.id" 
-              :class="['flex-shrink-0 flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-base font-bold transition-all whitespace-nowrap', activeSection === section.id ? 'bg-[#003366] text-white' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 border border-transparent']"
+              :class="['flex-shrink-0 flex items-center gap-3 px-4 py-2.5 sm:py-3 rounded-2xl text-sm sm:text-base font-bold transition-all whitespace-nowrap', activeSection === section.id ? 'bg-[#003366] text-white' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 border border-transparent']"
             >
               <component :is="section.icon" :size="16" class="sm:w-[18px] sm:h-[18px]" />
               {{ section.label }}
@@ -52,7 +52,7 @@
               </div>
               <div>
                 <h3 class="text-xl font-bold text-slate-800">Member Hero</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Control the greeting and main banner on the dashboard.</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Control the greeting and main banner on the dashboard.</p>
               </div>
             </div>
             <div class="space-y-6">
@@ -70,7 +70,7 @@
               </div>
               <div>
                 <h3 class="text-xl font-bold text-slate-800">In-Portal Announcements</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Broadcast critical alerts to all members.</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Broadcast critical alerts to all members.</p>
               </div>
             </div>
             <div class="space-y-6">
@@ -90,7 +90,7 @@
               </div>
               <div>
                 <h3 class="text-xl font-bold text-slate-800">Identity & Navigation</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Manage portal name, initials and sidebar branding.</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Manage portal name, initials and sidebar branding.</p>
               </div>
             </div>
             <div class="space-y-6">
@@ -112,7 +112,7 @@
               </div>
               <div>
                 <h3 class="text-xl font-bold text-slate-800">{{ key }} Page</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Control content for the {{ key }} section.</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Control content for the {{ key }} section.</p>
               </div>
             </div>
             <div class="space-y-6">
@@ -132,7 +132,7 @@
               </div>
               <div>
                 <h3 class="text-xl font-bold text-slate-800">Support Resources</h3>
-                <p class="text-xs text-slate-400 font-medium mt-0.5">Manage help desk content and guidelines.</p>
+                <p class="text-sm text-slate-400 font-medium mt-0.5">Manage help desk content and guidelines.</p>
               </div>
             </div>
             <div class="space-y-6">

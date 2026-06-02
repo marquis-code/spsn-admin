@@ -34,16 +34,16 @@
           <p class="text-[10px] font-bold opacity-70 mb-2">Today's schedule</p>
           <div class="flex items-baseline gap-2">
             <p class="text-3xl lg:text-4xl font-bold">{{ appointments.length }}</p>
-            <span class="text-xs opacity-60 font-medium">Bookings</span>
+            <span class="text-sm opacity-60 font-medium">Bookings</span>
           </div>
         </div>
 
         <div class="admin-card p-5 lg:p-6 border-slate-200 col-span-2 lg:col-span-1">
-          <h3 class="text-xs font-bold text-slate-400 mb-4">Quick filters</h3>
+          <h3 class="text-sm font-bold text-slate-400 mb-4">Quick filters</h3>
           <div class="space-y-2">
-            <button class="w-full text-left px-4 py-2 bg-slate-50 text-[#003366] font-bold text-xs rounded-lg border border-slate-100">All appointments</button>
-            <button class="w-full text-left px-4 py-2 text-slate-500 font-bold text-xs rounded-lg hover:bg-slate-50 transition-all">Pending approval</button>
-            <button class="w-full text-left px-4 py-2 text-slate-500 font-bold text-xs rounded-lg hover:bg-slate-50 transition-all">Confirmed sessions</button>
+            <button class="w-full text-left px-4 py-2 bg-slate-50 text-[#003366] font-bold text-sm rounded-lg border border-slate-100">All appointments</button>
+            <button class="w-full text-left px-4 py-2 text-slate-500 font-bold text-sm rounded-lg hover:bg-slate-50 transition-all">Pending approval</button>
+            <button class="w-full text-left px-4 py-2 text-slate-500 font-bold text-sm rounded-lg hover:bg-slate-50 transition-all">Confirmed sessions</button>
           </div>
         </div>
       </div>
@@ -74,7 +74,7 @@
                 </td>
                 <td class="hidden sm:table-cell">
                   <div class="flex flex-col gap-0.5">
-                    <span class="font-bold text-slate-700 text-xs">{{ formatDate(appointment.date) }}</span>
+                    <span class="font-bold text-slate-700 text-sm">{{ formatDate(appointment.date) }}</span>
                     <span class="text-[11px] text-[#003366] font-bold">{{ appointment.time || '09:00 AM' }}</span>
                   </div>
                 </td>

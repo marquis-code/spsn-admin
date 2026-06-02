@@ -71,12 +71,12 @@
                     </div>
                     <div class="min-w-0">
                       <p class="font-semibold text-slate-800 text-base">{{ getMemberName(member) }}</p>
-                      <p class="text-xs text-slate-400 font-normal">{{ member.email }}</p>
+                      <p class="text-sm text-slate-400 font-normal">{{ member.email }}</p>
                     </div>
                   </div>
                 </td>
                 <td>
-                  <span class="font-mono text-xs font-semibold text-slate-500 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-100">{{ member.membershipId || 'Pending' }}</span>
+                  <span class="font-mono text-sm font-semibold text-slate-500 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-100">{{ member.membershipId || 'Pending' }}</span>
                 </td>
                 <td>
                   <span class="font-semibold text-slate-700 text-base">{{ member.role || 'Member' }}</span>

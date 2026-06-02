@@ -20,7 +20,7 @@
           <LucideUpload v-else :size="14" class="mr-2" />
           Import
         </button>
-        <button @click="openSlideOver" class="bg-[#003366] hover:bg-[#004080] text-white px-4 sm:px-5 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-1.5 shadow-sm">
+        <button @click="openSlideOver" class="bg-[#003366] hover:bg-[#004080] text-white px-4 sm:px-5 py-2.5 rounded-xl font-bold text-sm transition-all flex items-center gap-1.5 shadow-sm">
           <LucidePlus :size="14" />
           <span class="hidden xs:inline">New post</span>
         </button>
@@ -45,7 +45,7 @@
               <span class="text-[10px] text-slate-400 font-bold">{{ formatDate(blog.createdAt) }}</span>
             </div>
             <h4 class="font-bold text-slate-800 text-base sm:text-lg mb-2 leading-tight group-hover:text-[#003366] transition-colors line-clamp-1">{{ blog.title }}</h4>
-            <p class="text-xs text-slate-500 font-medium line-clamp-2 mb-4 sm:mb-5 leading-relaxed overflow-hidden">{{ blog.excerpt || blog.content?.substring(0, 140) }}...</p>
+            <p class="text-sm text-slate-500 font-medium line-clamp-2 mb-4 sm:mb-5 leading-relaxed overflow-hidden">{{ blog.excerpt || blog.content?.substring(0, 140) }}...</p>
 
             <div class="flex flex-wrap items-center gap-3 sm:gap-5 text-[10px] font-bold">
               <button @click="openSlideOver(blog)" class="text-[#003366] hover:text-[#004080] p-1 transition-colors" title="Edit"><LucideEdit :size="16" /></button>
@@ -71,15 +71,15 @@
           </h3>
           <div class="space-y-4 lg:space-y-5">
             <div class="flex justify-between items-center p-3 lg:p-4 bg-slate-50 rounded-xl border border-slate-100">
-              <span class="text-xs text-slate-500 font-bold">Total publications</span>
+              <span class="text-sm text-slate-500 font-bold">Total publications</span>
               <span class="text-xl font-bold text-[#003366]">{{ blogs.length }}</span>
             </div>
             <div class="flex justify-between items-center p-3 lg:p-4 bg-slate-50 rounded-xl border border-slate-100">
-              <span class="text-xs text-slate-500 font-bold">Scientific papers</span>
+              <span class="text-sm text-slate-500 font-bold">Scientific papers</span>
               <span class="text-xl font-bold text-slate-800">{{ blogs.filter(b => b.category === 'Paper').length }}</span>
             </div>
             <div class="flex justify-between items-center p-3 lg:p-4 bg-slate-50 rounded-xl border border-slate-100 opacity-50">
-              <span class="text-xs text-slate-500 font-bold">Drafts pending</span>
+              <span class="text-sm text-slate-500 font-bold">Drafts pending</span>
               <span class="text-xl font-bold text-slate-800">0</span>
             </div>
           </div>

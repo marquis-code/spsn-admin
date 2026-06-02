@@ -69,7 +69,7 @@
                       {{ member.enrollmentInfo?.membershipType || 'Standard' }}
                    </span>
                 </td>
-                <td class="text-xs font-bold text-slate-500">
+                <td class="text-sm font-bold text-slate-500">
                    {{ member.enrollmentInfo?.institution || 'General' }}
                 </td>
                 <td>

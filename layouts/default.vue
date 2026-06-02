@@ -49,7 +49,7 @@
       <!-- Sidebar Footer -->
       <div class="p-5 lg:p-6 border-t border-slate-100 bg-slate-50/50 mt-auto">
         <div class="flex flex-col gap-1 mb-4">
-          <p class="text-xs font-medium text-slate-400">Signed in as</p>
+          <p class="text-sm font-medium text-slate-400">Signed in as</p>
           <p class="text-base font-medium text-slate-800 truncate">{{ user?.name || 'Administrator' }}</p>
         </div>
         <button @click="showLogoutModal = true" class="w-full flex items-center justify-center gap-2 py-3 bg-white border border-slate-200 rounded-xl text-base text-red-500 font-medium hover:bg-red-50 hover:border-red-100 transition-all">
@@ -85,13 +85,13 @@
               <LucideSearch :size="16" class="text-slate-400 group-hover:text-[#003366] transition-colors shrink-0" />
               <span class="text-base font-medium text-slate-400 group-hover:text-slate-600 transition-colors">Search anything...</span>
             </div>
-            <span class="text-xs font-medium text-slate-300 border border-slate-200 px-2 py-0.5 rounded bg-white shrink-0">⌘K</span>
+            <span class="text-sm font-medium text-slate-300 border border-slate-200 px-2 py-0.5 rounded bg-white shrink-0">⌘K</span>
           </button>
         </div>
 
         <!-- Right: Actions -->
         <div class="flex items-center gap-3 lg:gap-6 shrink-0">
-
+          <LanguageSwitcher />
 
           <button @click="showGlobalSearch = true" class="sm:hidden p-2 text-slate-500 hover:bg-slate-50 rounded-lg transition-colors">
             <LucideSearch :size="18" />
@@ -106,7 +106,7 @@
           <NuxtLink to="/dashboard/settings" class="flex items-center gap-3 cursor-pointer group">
             <div class="text-right hidden md:block">
               <p class="text-base font-medium text-slate-800">{{ user?.name || 'Admin user' }}</p>
-              <p class="text-xs text-[#003366] font-medium">Administrator</p>
+              <p class="text-sm text-[#003366] font-medium">Administrator</p>
             </div>
             <div class="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-[#003366] font-bold border border-slate-100 group-hover:bg-[#003366] group-hover:text-white transition-all text-base">
               {{ user?.name ? user.name.charAt(0).toUpperCase() : 'A' }}
@@ -134,6 +134,7 @@
 
 import ConfirmModal from '@/components/core/ConfirmModal.vue'
 import GlobalSearchModal from '@/components/core/GlobalSearchModal.vue'
+import LanguageSwitcher from '@/components/core/LanguageSwitcher.vue'
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useNotifications } from '@/composables/core/useNotifications'

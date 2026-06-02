@@ -9,7 +9,7 @@
       <button
         @click="broadcast"
         :disabled="sending"
-        class="bg-[#003366] hover:bg-[#004080] text-white px-8 py-3 rounded-xl font-bold text-xs transition-all flex items-center gap-2 shadow-lg shadow-[#003366]/20 disabled:opacity-50"
+        class="bg-[#003366] hover:bg-[#004080] text-white px-8 py-3 rounded-xl font-bold text-sm transition-all flex items-center gap-2 shadow-lg shadow-[#003366]/20 disabled:opacity-50"
       >
         <LucideLoader2 v-if="sending" class="w-4 h-4 animate-spin" />
         <LucideSend v-else class="w-4 h-4" />
@@ -66,7 +66,7 @@
            <div class="border-t border-slate-100 pt-6 mt-6">
              <div class="flex justify-between items-center mb-4">
                <h4 class="font-bold text-slate-700 text-base">Speakers</h4>
-               <button @click="addSpeaker" class="text-xs text-[#003366] hover:underline flex items-center gap-1 font-bold">
+               <button @click="addSpeaker" class="text-sm text-[#003366] hover:underline flex items-center gap-1 font-bold">
                  <LucidePlus :size="14" /> Add Speaker
                </button>
              </div>
@@ -112,7 +112,7 @@
              </div>
              
              <h4 class="text-xl font-bold mb-1">{{ forms.spotlight.name || 'Dr. Member Name' }}</h4>
-             <p class="text-xs text-[#93bfe8] font-bold tracking-wide">{{ forms.spotlight.designation || 'Professional Designation' }}</p>
+             <p class="text-sm text-[#93bfe8] font-bold tracking-wide">{{ forms.spotlight.designation || 'Professional Designation' }}</p>
              
              <p v-if="forms.spotlight.bio" class="mt-6 text-base italic text-slate-200 border-t border-[#3f7ab8] pt-6 leading-relaxed">
                "{{ forms.spotlight.bio }}"
@@ -126,7 +126,7 @@
               <h2 class="text-2xl font-black text-slate-200  tracking-tighter leading-none mb-6">SCPSN<br/>Monthly<br/>Webinar</h2>
               <div class="bg-[#6d28d9] text-white p-5 -ml-6 mr-6 rounded-r-3xl mb-6 shadow-md relative z-20 transform translate-x-2">
                  <h3 class="text-base font-black  mb-2 leading-tight shadow-sm">{{ forms.webinar.theme || 'Webinar Theme' }}</h3>
-                 <p class="text-xs text-[#ddd6fe] leading-snug">Subtheme: {{ forms.webinar.subtheme || 'Enter a subtheme here' }}</p>
+                 <p class="text-sm text-[#ddd6fe] leading-snug">Subtheme: {{ forms.webinar.subtheme || 'Enter a subtheme here' }}</p>
               </div>
               <div class="flex gap-4 mb-6">
                  <div class="flex items-center gap-2 font-bold text-base text-slate-700 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200 shadow-sm">
@@ -137,7 +137,7 @@
                  </div>
               </div>
               <div class="mt-auto">
-                 <div class="inline-flex items-center gap-2 bg-[#6d28d9] text-white px-5 py-2.5 rounded-full text-xs font-black tracking-wider  shadow-md shadow-[#6d28d9]/30">
+                 <div class="inline-flex items-center gap-2 bg-[#6d28d9] text-white px-5 py-2.5 rounded-full text-sm font-black tracking-wider  shadow-md shadow-[#6d28d9]/30">
                     <LucideMapPin :size="14" /> VENUE: {{ forms.webinar.venue || 'Location' }}
                  </div>
               </div>

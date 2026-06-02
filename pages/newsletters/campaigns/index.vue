@@ -19,7 +19,7 @@
 
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <table class="w-full text-base text-left">
-          <thead class="text-xs text-slate-500  bg-slate-50 border-b border-slate-200">
+          <thead class="text-sm text-slate-500  bg-slate-50 border-b border-slate-200">
             <tr>
               <th class="px-6 py-4 font-medium">Subject</th>
               <th class="px-6 py-4 font-medium">Category</th>
@@ -38,21 +38,21 @@
             <tr v-for="camp in campaigns" :key="camp._id" class="hover:bg-slate-50">
               <td class="px-6 py-4 font-semibold text-slate-800">{{ camp.subject }}</td>
               <td class="px-6 py-4 text-slate-600">
-                <span class="inline-block px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-md">
+                <span class="inline-block px-2 py-1 bg-blue-50 text-blue-700 text-sm rounded-md">
                   {{ camp.category?.title || 'Unknown' }}
                 </span>
               </td>
               <td class="px-6 py-4">
-                <span :class="['px-2.5 py-1 rounded-full text-xs font-medium  tracking-wider', camp.status === 'PUBLISHED' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-700']">
+                <span :class="['px-2.5 py-1 rounded-full text-sm font-medium  tracking-wider', camp.status === 'PUBLISHED' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-700']">
                   {{ camp.status }}
                 </span>
               </td>
               <td class="px-6 py-4 text-slate-500">{{ new Date(camp.createdAt).toLocaleDateString() }}</td>
               <td class="px-6 py-4 text-right">
-                <NuxtLink :to="`/newsletters/campaigns/${camp._id}`" class="text-blue-600 hover:underline text-xs font-medium mr-3">
+                <NuxtLink :to="`/newsletters/campaigns/${camp._id}`" class="text-blue-600 hover:underline text-sm font-medium mr-3">
                   {{ camp.status === 'PUBLISHED' ? 'View' : 'Edit' }}
                 </NuxtLink>
-                <button v-if="camp.status !== 'PUBLISHED'" @click="handleDelete(camp._id)" class="text-red-600 hover:underline text-xs font-medium">Delete</button>
+                <button v-if="camp.status !== 'PUBLISHED'" @click="handleDelete(camp._id)" class="text-red-600 hover:underline text-sm font-medium">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -72,11 +72,11 @@
           </div>
           <form @submit.prevent="handleCreate" class="p-6 space-y-4">
             <div>
-              <label class="block text-xs font-bold text-slate-600  tracking-wider mb-2">Subject</label>
+              <label class="block text-sm font-bold text-slate-600  tracking-wider mb-2">Subject</label>
               <input v-model="form.subject" type="text" required class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" />
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-600  tracking-wider mb-2">Target Category</label>
+              <label class="block text-sm font-bold text-slate-600  tracking-wider mb-2">Target Category</label>
               <select v-model="form.category" required class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all">
                 <option value="" disabled>Select a category</option>
                 <option v-for="cat in categories" :key="cat._id" :value="cat._id">{{ cat.title }}</option>

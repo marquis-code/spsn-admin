@@ -37,13 +37,13 @@
              <div class="mt-8 max-w-sm mx-auto text-left">
                 <h5 class="text-[10px] font-bold text-slate-400  mb-3">Quick Navigation</h5>
                 <div class="space-y-1">
-                   <button @click="navigate('/dashboard/members')" class="w-full flex items-center gap-3 p-3 hover:bg-white rounded-xl text-slate-600 hover:text-[#003366] transition-all font-bold text-xs border border-transparent hover:border-slate-100 hover:shadow-sm">
+                   <button @click="navigate('/dashboard/members')" class="w-full flex items-center gap-3 p-3 hover:bg-white rounded-xl text-slate-600 hover:text-[#003366] transition-all font-bold text-sm border border-transparent hover:border-slate-100 hover:shadow-sm">
                       <LucideUsers :size="16" class="text-slate-400" /> Member Directory
                    </button>
-                   <button @click="navigate('/dashboard/payments')" class="w-full flex items-center gap-3 p-3 hover:bg-white rounded-xl text-slate-600 hover:text-[#003366] transition-all font-bold text-xs border border-transparent hover:border-slate-100 hover:shadow-sm">
+                   <button @click="navigate('/dashboard/payments')" class="w-full flex items-center gap-3 p-3 hover:bg-white rounded-xl text-slate-600 hover:text-[#003366] transition-all font-bold text-sm border border-transparent hover:border-slate-100 hover:shadow-sm">
                       <LucideCreditCard :size="16" class="text-slate-400" /> Financial Ledger
                    </button>
-                   <button @click="navigate('/dashboard/settings')" class="w-full flex items-center gap-3 p-3 hover:bg-white rounded-xl text-slate-600 hover:text-[#003366] transition-all font-bold text-xs border border-transparent hover:border-slate-100 hover:shadow-sm">
+                   <button @click="navigate('/dashboard/settings')" class="w-full flex items-center gap-3 p-3 hover:bg-white rounded-xl text-slate-600 hover:text-[#003366] transition-all font-bold text-sm border border-transparent hover:border-slate-100 hover:shadow-sm">
                       <LucideSettings :size="16" class="text-slate-400" /> System Preferences
                    </button>
                 </div>

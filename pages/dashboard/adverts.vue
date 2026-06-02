@@ -14,7 +14,7 @@
 
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
         <table class="w-full text-base text-left">
-          <thead class="text-xs text-slate-500  bg-slate-50 border-b border-slate-200">
+          <thead class="text-sm text-slate-500  bg-slate-50 border-b border-slate-200">
             <tr>
               <th class="px-6 py-4 font-medium">Preview</th>
               <th class="px-6 py-4 font-medium">Title & Link</th>
@@ -34,15 +34,15 @@
               <td class="px-6 py-4">
                 <div class="w-24 h-12 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
                   <img v-if="ad.imageUrl" :src="ad.imageUrl" class="w-full h-full object-cover" />
-                  <span v-else class="text-xs text-slate-400 flex items-center justify-center h-full">No Img</span>
+                  <span v-else class="text-sm text-slate-400 flex items-center justify-center h-full">No Img</span>
                 </div>
               </td>
               <td class="px-6 py-4">
                 <p class="font-semibold text-slate-800">{{ ad.title }}</p>
-                <a :href="ad.targetUrl" target="_blank" class="text-xs text-blue-600 hover:underline truncate max-w-[200px] block">{{ ad.targetUrl || 'No Link' }}</a>
+                <a :href="ad.targetUrl" target="_blank" class="text-sm text-blue-600 hover:underline truncate max-w-[200px] block">{{ ad.targetUrl || 'No Link' }}</a>
               </td>
               <td class="px-6 py-4">
-                <span class="inline-block px-2.5 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-md">
+                <span class="inline-block px-2.5 py-1 bg-indigo-50 text-indigo-700 text-sm font-bold rounded-md">
                   {{ ad.section }}
                 </span>
               </td>
@@ -51,12 +51,12 @@
                   <span :class="['px-2.5 py-0.5 rounded-full text-[10px] font-bold  tracking-wider w-fit', ad.isActive ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-700']">
                     {{ ad.isActive ? 'Active' : 'Hidden' }}
                   </span>
-                  <span class="text-xs font-medium text-slate-500">{{ ad.clicks }} Clicks</span>
+                  <span class="text-sm font-medium text-slate-500">{{ ad.clicks }} Clicks</span>
                 </div>
               </td>
               <td class="px-6 py-4 text-right">
-                <button @click="openModal(ad)" class="text-blue-600 hover:underline text-xs font-medium mr-3">Edit</button>
-                <button @click="handleDelete(ad._id)" class="text-red-600 hover:underline text-xs font-medium">Delete</button>
+                <button @click="openModal(ad)" class="text-blue-600 hover:underline text-sm font-medium mr-3">Edit</button>
+                <button @click="handleDelete(ad._id)" class="text-red-600 hover:underline text-sm font-medium">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -78,11 +78,11 @@
             <form @submit.prevent="handleSubmit" class="space-y-4">
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-xs font-bold text-slate-600  tracking-wider mb-2">Advert Title *</label>
+                  <label class="block text-sm font-bold text-slate-600  tracking-wider mb-2">Advert Title *</label>
                   <input v-model="form.title" type="text" required class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" />
                 </div>
                 <div>
-                  <label class="block text-xs font-bold text-slate-600  tracking-wider mb-2">Target Link URL</label>
+                  <label class="block text-sm font-bold text-slate-600  tracking-wider mb-2">Target Link URL</label>
                   <input v-model="form.targetUrl" type="url" placeholder="https://example.com" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" />
                 </div>
               </div>
@@ -94,22 +94,22 @@
 
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-xs font-bold text-slate-600  tracking-wider mb-2">Company Name</label>
+                  <label class="block text-sm font-bold text-slate-600  tracking-wider mb-2">Company Name</label>
                   <input v-model="form.companyName" type="text" placeholder="e.g. Gemrook Laboratories" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" />
                 </div>
                 <div>
-                  <label class="block text-xs font-bold text-slate-600  tracking-wider mb-2">Contact Phone</label>
+                  <label class="block text-sm font-bold text-slate-600  tracking-wider mb-2">Contact Phone</label>
                   <input v-model="form.contactPhone" type="text" placeholder="e.g. +1 234 567 8900" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" />
                 </div>
               </div>
 
               <div class="grid grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-xs font-bold text-slate-600  tracking-wider mb-2">Contact Email</label>
+                  <label class="block text-sm font-bold text-slate-600  tracking-wider mb-2">Contact Email</label>
                   <input v-model="form.contactEmail" type="email" placeholder="e.g. contact@example.com" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" />
                 </div>
                 <div>
-                  <label class="block text-xs font-bold text-slate-600  tracking-wider mb-2">Landing Page Placement</label>
+                  <label class="block text-sm font-bold text-slate-600  tracking-wider mb-2">Landing Page Placement</label>
                   <select v-model="form.section" required class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all">
                     <option value="BELOW_HERO">Below Hero (Top)</option>
                     <option value="IN_CONTENT_1">In Content (Middle)</option>
@@ -119,27 +119,27 @@
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-slate-600  tracking-wider mb-2">Contact Address</label>
+                <label class="block text-sm font-bold text-slate-600  tracking-wider mb-2">Contact Address</label>
                 <input v-model="form.contactAddress" type="text" placeholder="e.g. 123 Science Way, Lab City" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all" />
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-slate-600  tracking-wider mb-2">Services (Comma separated)</label>
+                <label class="block text-sm font-bold text-slate-600  tracking-wider mb-2">Services (Comma separated)</label>
                 <textarea v-model="servicesText" rows="2" placeholder="Cytology, Histology, Molecular" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"></textarea>
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-slate-600  tracking-wider mb-2">Benefits (Comma separated)</label>
+                <label class="block text-sm font-bold text-slate-600  tracking-wider mb-2">Benefits (Comma separated)</label>
                 <textarea v-model="benefitsText" rows="2" placeholder="Rapid turnaround times, Easily accessible" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"></textarea>
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-slate-600  tracking-wider mb-2">Target Audience (Comma separated)</label>
+                <label class="block text-sm font-bold text-slate-600  tracking-wider mb-2">Target Audience (Comma separated)</label>
                 <textarea v-model="targetAudienceText" rows="2" placeholder="Hospitals, Laboratories, Universities" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"></textarea>
               </div>
 
               <div>
-                <label class="block text-xs font-bold text-slate-600  tracking-wider mb-2">Optional Description</label>
+                <label class="block text-sm font-bold text-slate-600  tracking-wider mb-2">Optional Description</label>
                 <textarea v-model="form.description" rows="2" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"></textarea>
               </div>
               <div class="flex items-center gap-3 pt-2">

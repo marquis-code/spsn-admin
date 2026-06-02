@@ -120,8 +120,8 @@
                         </div>
                         <p class="text-base text-slate-400 font-normal line-clamp-2 leading-relaxed">{{ enquiry.message }}</p>
                         <div class="flex justify-between items-center pt-2 border-t border-slate-50">
-                           <span class="text-xs font-semibold text-[#003366]">{{ enquiry.status || 'New' }}</span>
-                           <span class="text-xs font-medium text-slate-300">Received</span>
+                           <span class="text-sm font-semibold text-[#003366]">{{ enquiry.status || 'New' }}</span>
+                           <span class="text-sm font-medium text-slate-300">Received</span>
                         </div>
                      </div>
                   </div>
