@@ -51,7 +51,7 @@
           <tr v-for="conf in conferences" :key="conf._id" class="hover:bg-slate-50">
             <td class="px-6 py-4">
               <div class="w-24 h-16 rounded-lg overflow-hidden border border-slate-200 shadow-sm">
-                <img :src="conf.image || 'https://scpsn.org.ng/wp-content/uploads/2021/10/banner.jpg'" class="w-full h-full object-cover" />
+                <img :src="conf.bannerImage || 'https://scpsn.org.ng/wp-content/uploads/2021/10/banner.jpg'" class="w-full h-full object-cover" />
               </div>
             </td>
             <td class="px-6 py-4">
@@ -61,7 +61,7 @@
               <div class="space-y-1">
                 <div class="flex items-center gap-1.5 text-sm text-slate-600">
                   <LucideCalendar :size="14" class="text-[#003366]" />
-                  {{ conf.date || 'To be announced' }}
+                  {{ conf.startDate ? new Date(conf.startDate).toLocaleDateString() : 'To be announced' }}
                 </div>
                 <div class="flex items-center gap-1.5 text-sm text-slate-500">
                   <LucideMapPin :size="14" class="text-[#003366]" />
@@ -105,12 +105,16 @@
     >
       <div class="space-y-6">
         <AnimatedInput v-model="formData.title" label="Conference Title" />
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <AnimatedInput v-model="formData.date" label="Date" type="date" />
-           <SelectInput v-model="formData.status" label="Status" :options="['Active', 'Upcoming', 'Completed', 'Cancelled']" />
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+           <AnimatedInput v-model="formData.startDate" label="Start Date" type="date" />
+           <AnimatedInput v-model="formData.endDate" label="End Date" type="date" />
+           <SelectInput v-model="formData.status" label="Status" :options="['upcoming', 'ongoing', 'completed', 'cancelled']" />
         </div>
-        <AnimatedInput v-model="formData.location" label="Location / Venue" />
-        <ImageUpload v-model="formData.image" label="Cover Image" />
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+           <AnimatedInput v-model="formData.location" label="Location" />
+           <AnimatedInput v-model="formData.venue" label="Venue" />
+        </div>
+        <ImageUpload v-model="formData.bannerImage" label="Cover Image" />
         <AnimatedInput v-model="formData.description" label="Conference Description" type="textarea" :rows="4" />
       </div>
 
@@ -153,10 +157,12 @@ const saving = ref(false)
 const selectedConference = ref(null)
 const formData = reactive({
   title: '',
-  date: '',
+  startDate: '',
+  endDate: '',
   location: '',
-  status: 'Active',
-  image: '',
+  venue: '',
+  status: 'upcoming',
+  bannerImage: '',
   description: ''
 })
 
@@ -165,19 +171,23 @@ const openSlideOver = (conf = null) => {
     isEditing.value = true
     selectedConference.value = conf
     formData.title = conf.title || ''
-    formData.date = conf.date || ''
+    formData.startDate = conf.startDate ? conf.startDate.split('T')[0] : ''
+    formData.endDate = conf.endDate ? conf.endDate.split('T')[0] : ''
     formData.location = conf.location || ''
-    formData.status = conf.status || 'Active'
-    formData.image = conf.image || ''
+    formData.venue = conf.venue || ''
+    formData.status = conf.status || 'upcoming'
+    formData.bannerImage = conf.bannerImage || ''
     formData.description = conf.description || ''
   } else {
     isEditing.value = false
     selectedConference.value = null
     formData.title = ''
-    formData.date = ''
+    formData.startDate = ''
+    formData.endDate = ''
     formData.location = ''
-    formData.status = 'Active'
-    formData.image = ''
+    formData.venue = ''
+    formData.status = 'upcoming'
+    formData.bannerImage = ''
     formData.description = ''
   }
   showSlideOver.value = true
