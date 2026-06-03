@@ -37,6 +37,7 @@
       <table class="w-full text-base text-left">
         <thead class="text-sm text-slate-500 uppercase bg-slate-50 border-b border-slate-200">
           <tr>
+            <th class="px-6 py-4 font-medium w-10"></th>
             <th class="px-6 py-4 font-medium">Image</th>
             <th class="px-6 py-4 font-medium">Title & Info</th>
             <th class="px-6 py-4 font-medium">Date & Location</th>
@@ -46,9 +47,19 @@
         </thead>
         <tbody class="divide-y divide-slate-200">
           <tr v-if="conferences.length === 0">
-            <td colspan="5" class="px-6 py-8 text-center text-slate-500">No conferences found in the database.</td>
+            <td colspan="6" class="px-6 py-8 text-center text-slate-500">No conferences found in the database.</td>
           </tr>
-          <tr v-for="conf in conferences" :key="conf._id" class="hover:bg-slate-50">
+          <tr v-for="(conf, index) in conferences" :key="conf._id" 
+              class="hover:bg-slate-50 transition-colors"
+              :class="{'opacity-50': draggedIndex === index}"
+              draggable="true" 
+              @dragstart="onDragStart($event, index)" 
+              @dragover.prevent 
+              @dragenter.prevent 
+              @drop="onDrop($event, index)">
+            <td class="px-4 py-4 cursor-move text-slate-400 hover:text-slate-600 transition-colors">
+              <LucideGripVertical :size="18" />
+            </td>
             <td class="px-6 py-4">
               <div class="w-24 h-16 rounded-lg overflow-hidden border border-slate-200 shadow-sm">
                 <img :src="conf.bannerImage || 'https://scpsn.org.ng/wp-content/uploads/2021/10/banner.jpg'" class="w-full h-full object-cover" />
@@ -161,7 +172,7 @@
 </template>
 
 <script setup>
-import { LucidePlus, LucideCalendar, LucideMapPin, LucideUsers, LucideDownload, LucideUpload, LucideLoader2, LucideFileSpreadsheet, LucideEdit, LucideFileText, LucideArchive, LucideSave, LucideTrash } from 'lucide-vue-next'
+import { LucidePlus, LucideCalendar, LucideMapPin, LucideUsers, LucideDownload, LucideUpload, LucideLoader2, LucideFileSpreadsheet, LucideEdit, LucideFileText, LucideArchive, LucideSave, LucideTrash, LucideGripVertical } from 'lucide-vue-next'
 
 import SlideOver from '@/components/core/SlideOver.vue'
 import Loader from '@/components/core/Loader.vue'
@@ -179,6 +190,9 @@ const { showToast } = useCustomToast()
 const api = useApi()
 const importing = ref(false)
 const fileInput = ref(null)
+
+const draggedIndex = ref(null)
+const reordering = ref(false)
 
 const showSlideOver = ref(false)
 const isEditing = ref(false)
@@ -278,6 +292,34 @@ const handleFileUpload = async (event) => {
   } finally {
     importing.value = false
     if (fileInput.value) fileInput.value.value = ''
+  }
+}
+
+const onDragStart = (e, index) => {
+  draggedIndex.value = index
+  e.dataTransfer.effectAllowed = 'move'
+}
+
+const onDrop = async (e, dropIndex) => {
+  if (draggedIndex.value === null || draggedIndex.value === dropIndex) return
+  
+  const item = conferences.value.splice(draggedIndex.value, 1)[0]
+  conferences.value.splice(dropIndex, 0, item)
+  
+  reordering.value = true
+  try {
+    const updates = conferences.value.map((conf, index) => ({
+      id: conf._id,
+      order: index
+    }))
+    await api.conferences.reorder(updates)
+    showToast({ title: 'Success', message: 'Conferences reordered.', toastType: 'success' })
+  } catch (err) {
+    showToast({ title: 'Error', message: 'Failed to reorder conferences.', toastType: 'error' })
+    getConferences() // Revert state
+  } finally {
+    reordering.value = false
+    draggedIndex.value = null
   }
 }
 

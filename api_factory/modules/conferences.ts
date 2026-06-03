@@ -6,4 +6,5 @@ export const conferences_api = {
     create: (payload: any) => GATEWAY_ENDPOINT.post('/conferences', payload),
     update: (id: string, payload: any) => GATEWAY_ENDPOINT.patch(`/conferences/${id}`, payload),
     delete: (id: string) => GATEWAY_ENDPOINT.delete(`/conferences/${id}`),
+    reorder: (payload: { id: string; order: number }[]) => GATEWAY_ENDPOINT.patch('/conferences/reorder', payload),
 }
