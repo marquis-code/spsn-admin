@@ -89,6 +89,21 @@ export const useApi = () => {
       import: (formData: FormData) => call('/conferences/import', { method: 'POST', body: formData }),
       export: () => download('/conferences/export', 'conferences.xlsx'),
       downloadTemplate: () => downloadCSV(['Title', 'Description', 'Start Date', 'End Date', 'Location', 'Image', 'Is Active'], 'conferences_template.csv'),
+      reorder: async (updates: any) => {
+        const res = await call('/conferences/reorder', { method: 'PATCH', body: updates })
+        if (res.error) {
+          // Fallback to individual updates if the bulk endpoint is not yet deployed
+          try {
+            for (const update of updates) {
+              await call(`/conferences/${update.id}`, { method: 'PATCH', body: { order: update.order } })
+            }
+            return { data: true, error: null }
+          } catch (fallbackErr) {
+            return { data: null, error: fallbackErr }
+          }
+        }
+        return res
+      },
     },
     enquiries: {
       getAll: () => call('/enquiries'),

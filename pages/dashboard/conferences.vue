@@ -50,14 +50,16 @@
             <td colspan="6" class="px-6 py-8 text-center text-slate-500">No conferences found in the database.</td>
           </tr>
           <tr v-for="(conf, index) in conferences" :key="conf._id" 
-              class="hover:bg-slate-50 transition-colors"
-              :class="{'opacity-50': draggedIndex === index}"
+              class="hover:bg-slate-50 transition-all duration-200"
+              :class="{'opacity-30 bg-slate-100': draggedIndex === index, 'border-t-2 border-[#003366] shadow-lg': dragOverIndex === index}"
               draggable="true" 
               @dragstart="onDragStart($event, index)" 
-              @dragover.prevent 
-              @dragenter.prevent 
+              @dragover.prevent="dragOverIndex = index" 
+              @dragenter.prevent="dragOverIndex = index" 
+              @dragleave="dragOverIndex === index ? dragOverIndex = null : null"
+              @dragend="onDragEnd"
               @drop="onDrop($event, index)">
-            <td class="px-4 py-4 cursor-move text-slate-400 hover:text-slate-600 transition-colors">
+            <td class="px-4 py-4 cursor-move text-slate-400 hover:text-[#003366] transition-colors" title="Drag to reorder">
               <LucideGripVertical :size="18" />
             </td>
             <td class="px-6 py-4">
@@ -192,6 +194,7 @@ const importing = ref(false)
 const fileInput = ref(null)
 
 const draggedIndex = ref(null)
+const dragOverIndex = ref(null)
 const reordering = ref(false)
 
 const showSlideOver = ref(false)
@@ -298,9 +301,16 @@ const handleFileUpload = async (event) => {
 const onDragStart = (e, index) => {
   draggedIndex.value = index
   e.dataTransfer.effectAllowed = 'move'
+  e.dataTransfer.setData('text/plain', index.toString())
+}
+
+const onDragEnd = () => {
+  draggedIndex.value = null
+  dragOverIndex.value = null
 }
 
 const onDrop = async (e, dropIndex) => {
+  dragOverIndex.value = null
   if (draggedIndex.value === null || draggedIndex.value === dropIndex) return
   
   const item = conferences.value.splice(draggedIndex.value, 1)[0]
@@ -312,10 +322,11 @@ const onDrop = async (e, dropIndex) => {
       id: conf._id,
       order: index
     }))
-    await api.conferences.reorder(updates)
+    const res = await api.conferences.reorder(updates)
+    if (res?.error) throw new Error(res.error.message || res.error)
     showToast({ title: 'Success', message: 'Conferences reordered.', toastType: 'success' })
   } catch (err) {
-    showToast({ title: 'Error', message: 'Failed to reorder conferences.', toastType: 'error' })
+    showToast({ title: 'Error', message: err.message || 'Failed to reorder conferences.', toastType: 'error' })
     getConferences() // Revert state
   } finally {
     reordering.value = false
