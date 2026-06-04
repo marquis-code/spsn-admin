@@ -39,7 +39,7 @@
               </td>
               <td class="px-6 py-4">
                 <p class="font-semibold text-slate-800">{{ item.title || 'No Caption' }}</p>
-                <span class="inline-block mt-1 px-2.5 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 text-[10px] font-bold rounded-md uppercase tracking-wider">
+                <span class="inline-block mt-1 px-2.5 py-0.5 bg-blue-50 text-[#1d4e89] border border-blue-200 text-[10px] font-bold rounded-md uppercase tracking-wider">
                   {{ item.category }}
                 </span>
               </td>
@@ -147,7 +147,7 @@
           
           <div class="p-6 border-t border-slate-100 bg-white shrink-0 flex justify-end gap-3">
             <button type="button" @click="closeModal" class="px-5 py-2.5 text-base font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">Cancel</button>
-            <button type="button" @click="handleSubmit" :disabled="loading || (!isEditMode && batchItems.length === 0)" class="px-5 py-2.5 text-base font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors shadow-sm disabled:opacity-50 flex items-center gap-2">
+            <button type="button" @click="handleSubmit" :disabled="loading || (!isEditMode && batchItems.length === 0)" class="px-5 py-2.5 text-base font-medium text-white bg-blue-600 hover:bg-[#1d4e89] rounded-lg transition-colors shadow-sm disabled:opacity-50 flex items-center gap-2">
               <span v-if="loading" class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
               {{ isEditMode ? 'Save Changes' : (batchItems.length > 0 ? `Upload ${batchItems.length} Images` : 'Upload Images') }}
             </button>

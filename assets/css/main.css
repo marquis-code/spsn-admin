@@ -16,6 +16,8 @@
     @apply font-sans antialiased bg-slate-50 text-slate-800;
     scroll-behavior: smooth;
     font-size: 15px;
+    -webkit-user-select: none;
+    user-select: none;
   }
 
   h1,
@@ -32,6 +34,8 @@
   select {
     @apply shadow-none !important;
     box-shadow: none !important;
+    -webkit-user-select: auto;
+    user-select: auto;
   }
 }
 

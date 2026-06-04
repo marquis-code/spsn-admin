@@ -9,7 +9,7 @@
           <div>
             <h1 class="text-2xl font-bold text-slate-800">{{ campaign.subject }}</h1>
             <p class="text-base text-slate-500 flex items-center gap-2">
-              <span class="px-2 py-0.5 bg-blue-50 text-blue-700 rounded text-sm font-medium">{{ campaign.category?.title }}</span>
+              <span class="px-2 py-0.5 bg-blue-50 text-[#1d4e89] rounded text-sm font-medium">{{ campaign.category?.title }}</span>
               •
               <span :class="['px-2 py-0.5 rounded text-sm font-medium', campaign.status === 'PUBLISHED' ? 'bg-green-100 text-green-700' : 'bg-slate-200 text-slate-700']">
                 {{ campaign.status }}
@@ -99,7 +99,7 @@ const handlePublish = async () => {
 
 <style scoped>
 .btn-primary {
-  @apply px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm disabled:opacity-50;
+  @apply px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-[#1d4e89] transition-colors shadow-sm disabled:opacity-50;
 }
 .btn-outline-primary {
   @apply px-4 py-2 bg-white text-blue-600 border border-blue-200 font-medium rounded-lg hover:bg-blue-50 transition-colors disabled:opacity-50;

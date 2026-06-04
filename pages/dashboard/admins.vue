@@ -48,7 +48,7 @@
               <span class="text-slate-600">{{ admin.email }}</span>
             </td>
             <td class="px-6 py-4">
-              <span class="inline-block px-2.5 py-1 text-sm font-bold rounded-md" :class="admin.role === 'super_admin' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'">
+              <span class="inline-block px-2.5 py-1 text-sm font-bold rounded-md" :class="admin.role === 'super_admin' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-[#1d4e89]'">
                 {{ admin.role === 'super_admin' ? 'Super Admin' : 'Admin' }}
               </span>
             </td>
