@@ -97,7 +97,7 @@
         <div class="visual-text">
           <div class="slide-tag">H&amp;E Stain · ×40 · Slide SPN-2024</div>
           <h2>Pathology<br><em>Intelligence</em></h2>
-          <p>Next-generation platform management for the Society of Clinical Pathologists of Nigeria.</p>
+          <p>Next-generation platform management for the Society for Cellular Pathology Scientists of Nigeria.</p>
         </div>
 
         <!-- Stats -->

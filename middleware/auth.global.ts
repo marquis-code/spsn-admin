@@ -41,6 +41,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
       '/dashboard/gallery': 'gallery',
       '/dashboard/adverts': 'adverts',
       '/dashboard/sponsors': 'sponsors',
+      '/dashboard/digests': 'digests',
       '/dashboard/notifications': 'notifications',
       '/dashboard/campaigns': 'campaigns',
       '/newsletters': 'newsletters',

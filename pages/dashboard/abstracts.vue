@@ -137,7 +137,7 @@ import { useRuntimeConfig } from '#app'
 const { loading, abstracts, getAbstracts } = useGetAbstracts()
 const { showToast } = useCustomToast()
 const config = useRuntimeConfig()
-const apiBase = config.public.apiBase || 'https://spsn-backend.onrender.com'
+const apiBase = config.public.apiBase || 'https://spsn-backend.onrender.com/api'
 
 const importing = ref(false)
 const fileInput = ref(null)

@@ -22,7 +22,7 @@ bun install
 
 ## Development Server
 
-Start the development server on `https://spsn-backend.onrender.com`:
+Start the development server on `https://spsn-backend.onrender.com/api`:
 
 ```bash
 # npm

@@ -143,7 +143,8 @@ import {
   LucideLayoutDashboard, LucideUsers, LucideShieldCheck, LucideCalendar,
   LucideFileText, LucideNewspaper, LucideCheckSquare, LucideMessageCircle,
   LucideMessagesSquare, LucideClipboardList, LucideCreditCard, LucideGlobe,
-  LucideImage, LucideSend, LucideBriefcase, LucideShield, LucideSettings
+  LucideImage, LucideSend, LucideBriefcase, LucideShield, LucideSettings,
+  LucideBookOpen
 } from 'lucide-vue-next'
 
 
@@ -189,6 +190,7 @@ const menuItems = [
   { label: 'Gallery', to: '/dashboard/gallery', icon: LucideImage, permissionKey: 'gallery' },
   { label: 'Adverts', to: '/dashboard/adverts', icon: LucideGlobe, permissionKey: 'adverts' },
   { label: 'Sponsors', to: '/dashboard/sponsors', icon: LucideGlobe, permissionKey: 'sponsors' },
+  { label: 'Digests', to: '/dashboard/digests', icon: LucideBookOpen, permissionKey: 'digests' },
   { label: 'Notifications', to: '/dashboard/notifications', icon: LucideBell, permissionKey: 'notifications' },
   { label: 'Campaigns', to: '/dashboard/campaigns', icon: LucideSend, permissionKey: 'campaigns' },
   { label: 'Newsletters', to: '/newsletters', icon: LucideSend, permissionKey: 'newsletters' },

@@ -8,7 +8,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBase: process.env.VITE_BASE_URL || 'https://spsn-backend.onrender.com'
+      apiBase: process.env.VITE_BASE_URL || 'https://spsn-backend.onrender.com/api'
     }
   },
   modules: ['@nuxtjs/tailwindcss', '@vueuse/nuxt', '@nuxt/icon', 'lucide-nuxt', '@nuxtjs/i18n'],
